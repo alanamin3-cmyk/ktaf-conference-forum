@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 620" role="img" aria-label="KTAF logo with tagline">
+<rect width="1600" height="620" fill="#FFFFFF"/>
+<g transform="translate(22 4) scale(0.92)">
+<path d="M66 438 C140 418 152 334 205 290 C255 248 316 257 360 208 C398 166 397 110 452 68" fill="none" stroke="#E63946" stroke-width="6" stroke-linecap="round" stroke-dasharray="18 15" opacity="1"/>
+<path d="M44 410 C116 390 139 316 185 270 C232 223 303 231 342 181 C378 136 384 92 432 50" fill="none" stroke="#1E63B6" stroke-width="5" stroke-linecap="round" opacity="1"/>
+<path d="M83 470 C157 444 177 360 225 322 C273 284 329 298 381 250 C423 210 419 160 470 122" fill="none" stroke="#0D2B45" stroke-width="7" stroke-linecap="round" opacity="1"/>
+<path d="M116 482 C188 454 211 389 258 352 C311 310 364 325 414 282 C448 252 455 213 489 184" fill="none" stroke="#72B6E6" stroke-width="5" stroke-linecap="round" stroke-dasharray="16 14" opacity="1"/>
+<path d="M18 454 C91 430 106 350 158 303 C211 255 267 264 309 218 C353 170 352 120 407 76" fill="none" stroke="#E63946" stroke-width="4" stroke-linecap="round" opacity="0.92"/>
+<path d="M99 430 C165 402 184 336 232 295 C276 258 333 264 374 218 C411 177 414 135 458 100" fill="none" stroke="#72B6E6" stroke-width="4" stroke-linecap="round" opacity="0.9"/>
+<path d="M142 478 C208 444 228 392 276 356 C323 321 377 328 425 292 C457 267 472 238 502 208" fill="none" stroke="#1E63B6" stroke-width="4" stroke-linecap="round" stroke-dasharray="18 16" opacity="0.95"/>
+<circle cx="116" cy="394" r="14" fill="#0D2B45"/>
+<circle cx="112.1" cy="389.5" r="2.5" fill="#FFFFFF" opacity="0.55"/>
+<circle cx="174" cy="328" r="8" fill="#1E63B6"/>
+<circle cx="171.8" cy="325.4" r="1.5" fill="#FFFFFF" opacity="0.55"/>
+<circle cx="212" cy="292" r="12" fill="#72B6E6"/>
+<circle cx="208.6" cy="288.2" r="2.2" fill="#FFFFFF" opacity="0.55"/>
+<circle cx="270" cy="269" r="8" fill="#1E63B6"/>
+<circle cx="267.8" cy="266.4" r="1.5" fill="#FFFFFF" opacity="0.55"/>
+<circle cx="331" cy="242" r="12" fill="#0D2B45"/>
+<circle cx="327.6" cy="238.2" r="2.2" fill="#FFFFFF" opacity="0.55"/>
+<circle cx="380" cy="201" r="9" fill="#E63946"/>
+<circle cx="377.5" cy="198.1" r="1.6" fill="#FFFFFF" opacity="0.55"/>
+<circle cx="411" cy="145" r="12" fill="#72B6E6"/>
+<circle cx="407.6" cy="141.2" r="2.2" fill="#FFFFFF" opacity="0.55"/>
+<circle cx="438" cy="88" r="10" fill="#1E63B6"/>
+<circle cx="435.2" cy="84.8" r="1.8" fill="#FFFFFF" opacity="0.55"/>
+<circle cx="198" cy="405" r="8" fill="#1E63B6"/>
+<circle cx="195.8" cy="402.4" r="1.5" fill="#FFFFFF" opacity="0.55"/>
+<circle cx="291" cy="347" r="11" fill="#E63946"/>
+<circle cx="287.9" cy="343.5" r="2.0" fill="#FFFFFF" opacity="0.55"/>
+<circle cx="405" cy="279" r="8" fill="#1E63B6"/>
+<circle cx="402.8" cy="276.4" r="1.5" fill="#FFFFFF" opacity="0.55"/>
+</g>
+<line x1="530" y1="92" x2="530" y2="428" stroke="#E6E9EF" stroke-width="3"/>
+<g font-family="Montserrat, Inter, Arial, sans-serif">
+  <text x="590" y="162" fill="#0D2B45" font-size="74" font-weight="600" letter-spacing="12">KURDISTAN</text>
+  <text x="590" y="248" fill="#E63946" font-size="62" font-weight="600" letter-spacing="4">THROMBOSIS &amp;</text>
+  <text x="590" y="326" fill="#E63946" font-size="62" font-weight="600" letter-spacing="4">ANTICOAGULATION</text>
+  <text x="590" y="410" fill="#0D2B45" font-size="54" font-weight="600" letter-spacing="12">FORUM — KTAF</text>
+  <line x1="590" y1="484" x2="690" y2="484" stroke="#E6E9EF" stroke-width="3"/>
+  <text x="720" y="498" fill="#0D2B45" font-size="26" font-weight="500" letter-spacing="7">ADVANCING SCIENCE. IMPROVING OUTCOMES.</text>
+</g>
+</svg>

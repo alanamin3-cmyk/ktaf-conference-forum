@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" role="img" aria-label="KTAF vascular-flow pattern">
+<path d="M-120 980 C240 900 310 540 610 420 C950 280 1120 410 1380 220 C1600 60 1700 -120 2020 -180" fill="none" stroke="#E63946" stroke-width="5" stroke-linecap="round" stroke-dasharray="22 18" opacity="1.0"/>
+<path d="M-80 1030 C270 950 360 620 660 500 C980 370 1160 465 1440 290 C1690 130 1780 -50 2100 -90" fill="none" stroke="#1E63B6" stroke-width="5" stroke-linecap="round" opacity="1.0"/>
+<path d="M40 1110 C390 1010 470 690 790 570 C1090 455 1260 540 1530 380 C1770 240 1900 80 2160 20" fill="none" stroke="#0D2B45" stroke-width="7" stroke-linecap="round" opacity="1.0"/>
+<path d="M180 1160 C500 1050 620 760 920 655 C1200 560 1390 620 1640 480 C1870 350 2010 210 2260 150" fill="none" stroke="#72B6E6" stroke-width="5" stroke-linecap="round" stroke-dasharray="18 16" opacity="1.0"/>
+<path d="M-160 1110 C170 1015 260 710 540 575 C850 425 1030 515 1290 345 C1510 200 1640 30 1940 -40" fill="none" stroke="#E63946" stroke-width="4" stroke-linecap="round" opacity="0.9"/>
+<path d="M110 1060 C430 955 530 665 830 545 C1110 430 1300 510 1550 350 C1760 215 1880 90 2120 20" fill="none" stroke="#72B6E6" stroke-width="4" stroke-linecap="round" opacity="0.85"/>
+<path d="M300 1200 C610 1080 750 820 1040 720 C1310 625 1490 680 1730 560 C1940 455 2070 340 2320 280" fill="none" stroke="#1E63B6" stroke-width="4" stroke-linecap="round" stroke-dasharray="22 18" opacity="0.95"/>
+<circle cx="380" cy="795" r="20" fill="#0D2B45" opacity="1.0"/>
+<circle cx="375.0" cy="789.0" r="3.4" fill="#FFFFFF" opacity="0.55"/>
+<circle cx="520" cy="630" r="12" fill="#1E63B6" opacity="1.0"/>
+<circle cx="517.0" cy="626.4" r="2.0" fill="#FFFFFF" opacity="0.55"/>
+<circle cx="680" cy="520" r="17" fill="#72B6E6" opacity="1.0"/>
+<circle cx="675.8" cy="514.9" r="2.9" fill="#FFFFFF" opacity="0.55"/>
+<circle cx="860" cy="476" r="11" fill="#1E63B6" opacity="1.0"/>
+<circle cx="857.2" cy="472.7" r="2.0" fill="#FFFFFF" opacity="0.55"/>
+<circle cx="1090" cy="470" r="18" fill="#0D2B45" opacity="1.0"/>
+<circle cx="1085.5" cy="464.6" r="3.1" fill="#FFFFFF" opacity="0.55"/>
+<circle cx="1310" cy="350" r="13" fill="#E63946" opacity="1.0"/>
+<circle cx="1306.8" cy="346.1" r="2.2" fill="#FFFFFF" opacity="0.55"/>
+<circle cx="1510" cy="260" r="18" fill="#72B6E6" opacity="1.0"/>
+<circle cx="1505.5" cy="254.6" r="3.1" fill="#FFFFFF" opacity="0.55"/>
+<circle cx="1710" cy="120" r="15" fill="#1E63B6" opacity="1.0"/>
+<circle cx="1706.2" cy="115.5" r="2.6" fill="#FFFFFF" opacity="0.55"/>
+<circle cx="760" cy="820" r="12" fill="#1E63B6" opacity="1.0"/>
+<circle cx="757.0" cy="816.4" r="2.0" fill="#FFFFFF" opacity="0.55"/>
+<circle cx="1130" cy="650" r="16" fill="#E63946" opacity="1.0"/>
+<circle cx="1126.0" cy="645.2" r="2.7" fill="#FFFFFF" opacity="0.55"/>
+<circle cx="1610" cy="490" r="12" fill="#1E63B6" opacity="1.0"/>
+<circle cx="1607.0" cy="486.4" r="2.0" fill="#FFFFFF" opacity="0.55"/>
+<circle cx="1900" cy="330" r="16" fill="#72B6E6" opacity="1.0"/>
+<circle cx="1896.0" cy="325.2" r="2.7" fill="#FFFFFF" opacity="0.55"/>
+</svg>
