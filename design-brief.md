@@ -9,6 +9,7 @@
 - **Design mode:** Brand-led editorial with digital-campaign treatment
 - **Hero reference:** 1920 × 800 px composition; responsive implementation
 - **Official assets:** `public/brand/ktaf-horizontal.svg`, `public/brand/ktaf-compact.svg`, `public/brand/ktaf-flow-pattern.svg`, `public/brand/ktaf-monochrome-white.svg`, `public/brand/ktaf-app-icon.svg`
+- **Sponsor asset:** `public/brand/sponsors/denk-pharma-logo.png`, rendered directly from the supplied official Denk Pharma PDF without visual alteration
 - **Typography:** Montserrat with Inter and Arial fallbacks
 - **Palette:** KTAF Navy `#0D2B45`, Scientific Blue `#1E63B6`, Oxygen Blue `#72B6E6`, Anticoagulant Red `#E63946`, Clinical Gray `#E6E9EF`, White `#FFFFFF`
 - **Required source:** Editable React/TypeScript and CSS
@@ -23,6 +24,8 @@
 **Mission:** To connect multidisciplinary expertise, advance evidence-based dialogue, and translate emerging scientific evidence and clinical guidelines into practical, patient-centered decisions across thrombosis and anticoagulation care.
 
 **Goal:** To translate emerging evidence and guideline updates into practical, patient-centered decisions across thrombosis and anticoagulation care.
+
+**Exclusive sponsor:** Denk Pharma
 
 ## Open items
 

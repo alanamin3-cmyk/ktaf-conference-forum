@@ -282,6 +282,30 @@ export default function Home() {
             </dl>
           </div>
         </section>
+
+        <section className="sponsor-section" id="sponsor" aria-labelledby="sponsor-title">
+          <div className="shell sponsor-grid">
+            <div className="sponsor-copy">
+              <p className="section-label">Conference partnership</p>
+              <h2 id="sponsor-title">Exclusive sponsor</h2>
+              <p className="sponsor-name">Denk Pharma</p>
+            </div>
+
+            <figure className="sponsor-mark">
+              <img
+                src="/brand/sponsors/denk-pharma-logo.png"
+                alt="Denk Pharma"
+                width="1679"
+                height="1679"
+                loading="lazy"
+              />
+              <figcaption>
+                <strong>Denk Pharma</strong>
+                <span>Exclusive sponsor</span>
+              </figcaption>
+            </figure>
+          </div>
+        </section>
       </main>
 
       <footer className="site-footer">
@@ -306,6 +330,7 @@ export default function Home() {
             <a href="#purpose">Purpose</a>
             <a href="#focus">Scientific focus</a>
             <a href="#updates">Conference information</a>
+            <a href="#sponsor">Sponsor</a>
           </nav>
 
           <p className="footer-note">Conference details are subject to confirmation.</p>

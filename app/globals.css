@@ -776,6 +776,74 @@ p {
   font-weight: 600;
 }
 
+.sponsor-section {
+  border-bottom: 1px solid var(--gray);
+  background: var(--white);
+  padding-block: clamp(82px, 8vw, 116px);
+}
+
+.sponsor-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.62fr);
+  align-items: center;
+  gap: 96px;
+}
+
+.sponsor-copy h2 {
+  margin-bottom: 18px;
+  color: var(--navy);
+  font-size: clamp(2rem, 3.8vw, 3.8rem);
+  font-weight: 620;
+  letter-spacing: -0.042em;
+  line-height: 1.08;
+}
+
+.sponsor-name {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 1rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.sponsor-mark {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  align-items: center;
+  gap: 30px;
+  margin: 0;
+  border-left: 1px solid var(--gray);
+  padding-left: 52px;
+}
+
+.sponsor-mark img {
+  width: 190px;
+  height: 190px;
+  object-fit: contain;
+}
+
+.sponsor-mark figcaption {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sponsor-mark strong {
+  color: var(--navy);
+  font-size: 1.08rem;
+  font-weight: 700;
+}
+
+.sponsor-mark span {
+  color: var(--blue);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 .site-footer {
   background: var(--navy-deep);
   color: var(--white);
@@ -884,7 +952,8 @@ p {
 
   .intro-grid,
   .translation-grid,
-  .updates-grid {
+  .updates-grid,
+  .sponsor-grid {
     gap: 64px;
   }
 
@@ -966,7 +1035,8 @@ p {
 
   .intro-grid,
   .translation-grid,
-  .updates-grid {
+  .updates-grid,
+  .sponsor-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1011,6 +1081,23 @@ p {
 
   .updates-grid {
     gap: 50px;
+  }
+
+  .sponsor-grid {
+    gap: 46px;
+  }
+
+  .sponsor-mark {
+    grid-template-columns: 170px minmax(0, 1fr);
+    border-top: 1px solid var(--gray);
+    border-left: 0;
+    padding-top: 38px;
+    padding-left: 0;
+  }
+
+  .sponsor-mark img {
+    width: 170px;
+    height: 170px;
   }
 
   .footer-grid {
@@ -1105,6 +1192,10 @@ p {
     padding-block: 76px;
   }
 
+  .sponsor-section {
+    padding-block: 68px;
+  }
+
   .continuum li {
     min-height: 82px;
     grid-template-columns: 38px 1fr;
@@ -1124,6 +1215,16 @@ p {
 
   .details-grid > div {
     min-height: 120px;
+  }
+
+  .sponsor-mark {
+    grid-template-columns: 124px minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .sponsor-mark img {
+    width: 124px;
+    height: 124px;
   }
 
   .footer-brand img {
