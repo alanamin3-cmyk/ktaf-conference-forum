@@ -809,7 +809,7 @@ p {
 
 .sponsor-mark {
   display: grid;
-  grid-template-columns: 190px minmax(0, 1fr);
+  grid-template-columns: 160px minmax(0, 1fr);
   align-items: center;
   gap: 30px;
   margin: 0;
@@ -818,8 +818,8 @@ p {
 }
 
 .sponsor-mark img {
-  width: 190px;
-  height: 190px;
+  width: 160px;
+  height: 160px;
   object-fit: contain;
 }
 
@@ -1088,7 +1088,7 @@ p {
   }
 
   .sponsor-mark {
-    grid-template-columns: 170px minmax(0, 1fr);
+    grid-template-columns: 145px minmax(0, 1fr);
     border-top: 1px solid var(--gray);
     border-left: 0;
     padding-top: 38px;
@@ -1096,8 +1096,8 @@ p {
   }
 
   .sponsor-mark img {
-    width: 170px;
-    height: 170px;
+    width: 145px;
+    height: 145px;
   }
 
   .footer-grid {
@@ -1218,13 +1218,13 @@ p {
   }
 
   .sponsor-mark {
-    grid-template-columns: 124px minmax(0, 1fr);
+    grid-template-columns: 108px minmax(0, 1fr);
     gap: 20px;
   }
 
   .sponsor-mark img {
-    width: 124px;
-    height: 124px;
+    width: 108px;
+    height: 108px;
   }
 
   .footer-brand img {

@@ -6,6 +6,7 @@
 - Official KTAF horizontal lockup is used in the header without alteration.
 - The official vascular-flow pattern is used as the hero signature and a low-opacity supporting motif.
 - The supplied official Denk Pharma logo is presented without alteration in a dedicated, secondary-hierarchy sponsor section.
+- The sponsor mark is intentionally restrained at 160 px on desktop, 145 px on tablet, and 108 px on small screens.
 - Montserrat is requested first in the CSS stack, with approved sans-serif fallbacks when it is unavailable.
 - Layout follows a wide 12-column-inspired composition and an 8-point spacing rhythm.
 - Hero preserves a large quiet text field and more than 35% meaningful negative space.
