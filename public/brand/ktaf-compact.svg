@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" role="img" aria-label="KTAF compact logo">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" role="img" aria-label="Kurdistan Thrombosis and Anticoagulation Forum — KTAF">
+<title>Kurdistan Thrombosis &amp; Anticoagulation Forum — KTAF</title>
 <rect width="1200" height="420" fill="#FFFFFF"/>
 <g transform="translate(10 -30) scale(0.78)">
 <path d="M66 438 C140 418 152 334 205 290 C255 248 316 257 360 208 C398 166 397 110 452 68" fill="none" stroke="#E63946" stroke-width="6" stroke-linecap="round" stroke-dasharray="18 15" opacity="1"/>
@@ -32,8 +33,9 @@
 <circle cx="402.8" cy="276.4" r="1.5" fill="#FFFFFF" opacity="0.55"/>
 </g>
 <g font-family="Montserrat, Inter, Arial, sans-serif">
-  <text x="460" y="205" fill="#0D2B45" font-size="150" font-weight="700" letter-spacing="22">KTAF</text>
-  <text x="468" y="274" fill="#0D2B45" font-size="29" font-weight="600" letter-spacing="3">KURDISTAN THROMBOSIS &amp; ANTICOAGULATION FORUM</text>
-  <line x1="468" y1="315" x2="1140" y2="315" stroke="#E63946" stroke-width="7"/>
+  <text x="460" y="185" fill="#0D2B45" font-size="150" font-weight="700" letter-spacing="22">KTAF</text>
+  <text x="468" y="246" fill="#0D2B45" font-size="32" font-weight="600" letter-spacing="2">KURDISTAN THROMBOSIS &amp;</text>
+  <text x="468" y="288" fill="#0D2B45" font-size="32" font-weight="600" letter-spacing="2">ANTICOAGULATION FORUM</text>
+  <line x1="468" y1="326" x2="1140" y2="326" stroke="#E63946" stroke-width="7"/>
 </g>
 </svg>
