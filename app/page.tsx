@@ -1,3 +1,6 @@
+/* eslint-disable @next/next/no-img-element -- Official SVG masters and the pre-rendered sponsor PNG are served directly by the static export. */
+import MobileNavigation from "./MobileNavigation";
+
 const purposeItems = [
   {
     number: "01",
@@ -75,6 +78,8 @@ export default function Home() {
               Conference updates
             </a>
           </nav>
+
+          <MobileNavigation />
         </div>
       </header>
 
@@ -115,7 +120,6 @@ export default function Home() {
               <div className="hero-actions" aria-label="Hero actions">
                 <a className="button button-primary" href="#purpose">
                   Discover KTAF
-                  <span aria-hidden="true">↘</span>
                 </a>
                 <a className="button button-secondary" href="#updates">
                   Conference information

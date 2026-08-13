@@ -13,7 +13,16 @@
 - **Typography:** Montserrat with Inter and Arial fallbacks
 - **Palette:** KTAF Navy `#0D2B45`, Scientific Blue `#1E63B6`, Oxygen Blue `#72B6E6`, Anticoagulant Red `#E63946`, Clinical Gray `#E6E9EF`, White `#FFFFFF`
 - **Required source:** Editable React/TypeScript and CSS
-- **Final output:** Responsive production build and private hosted site
+- **Final output:** Responsive production build for the public GitHub Pages site at `ktaf.krd`
+
+## Responsive refinement — 13 August 2026
+
+- Preserve the existing desktop identity and all approved conference wording.
+- Replace the compressed mobile navigation with a compact, keyboard-accessible menu.
+- Keep anchor destinations fully visible below the sticky header.
+- Recompose the hero artwork so the vascular-flow motif does not cross critical mobile copy.
+- Improve mobile hierarchy through tighter section spacing, editorial content cards, a two-column information grid, and a restrained sponsor lockup.
+- Verify the interface at 320 px, 390 px, 768 px, and 1440 px widths.
 
 ## Required copy
 

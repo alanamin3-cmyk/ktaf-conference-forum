@@ -14,8 +14,13 @@
 ## Responsive behavior
 
 - Single-page responsive layout for large desktop, laptop, tablet, and mobile widths.
-- Navigation remains visible without JavaScript and uses large, keyboard-reachable links.
+- Desktop navigation remains visible; tablet and mobile use a compact native-details menu with large, keyboard-reachable links and automatic closing after selection.
+- The sticky mobile header is reduced to a single 68–72 px row to preserve valuable screen space.
+- Anchor destinations use responsive scroll padding so section titles remain visible below the sticky header.
 - Content stacks into one column on narrow screens and preserves the full Vision, Mission, and Goal wording.
+- Mobile purpose statements use individual editorial cards; conference details remain a compact 2 × 2 grid.
+- The hero flow artwork moves behind quiet lower-page space on narrow screens rather than intersecting the primary title.
+- The Denk Pharma mark is restrained to 88 px on small screens and sits in a clearly secondary sponsor card.
 - Reduced-motion and increased-contrast user preferences are supported.
 
 ## Content status
@@ -33,3 +38,5 @@
 - Color space: sRGB web output.
 - Favicon: official KTAF app icon SVG.
 - Sponsor source: `linked-assets/denk-pharma-logo-source.pdf`; web rendition: 1679 × 1679 px sRGB PNG.
+- Responsive visual checks completed at 320 × 800, 390 × 844, 768 × 1024, and 1440 × 1000.
+- The production static export and current rendered-HTML test suite pass.
