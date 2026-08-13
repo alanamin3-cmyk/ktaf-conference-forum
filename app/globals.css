@@ -19,22 +19,38 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
+}
+
 html {
-  overflow-x: clip;
   scroll-behavior: smooth;
   scroll-padding-top: 100px;
 }
 
 body {
+  position: relative;
   margin: 0;
-  overflow-x: clip;
   background: var(--white);
   color: var(--navy);
   font-family: "Montserrat", "Inter", Arial, sans-serif;
   font-size: 16px;
   line-height: 1.6;
   text-rendering: optimizeLegibility;
+  touch-action: pan-y;
   -webkit-font-smoothing: antialiased;
+}
+
+.site-header,
+main,
+.site-footer,
+section {
+  width: 100%;
+  max-width: 100%;
 }
 
 body,
@@ -172,7 +188,7 @@ p {
 .hero {
   position: relative;
   min-height: 736px;
-  overflow: clip;
+  overflow: hidden;
   border-bottom: 1px solid var(--gray);
   background:
     radial-gradient(circle at 85% 45%, rgba(114, 182, 230, 0.1), transparent 25%),
