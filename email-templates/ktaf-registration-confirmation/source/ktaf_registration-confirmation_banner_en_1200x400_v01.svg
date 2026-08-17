@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1200" height="400" viewBox="0 0 1200 400" role="img" aria-labelledby="title desc">
+  <title id="title">KTAF registration confirmation banner</title>
+  <desc id="desc">Official KTAF identity on a white clinical field with the vascular-flow motif and a navy registration confirmation band.</desc>
+  <metadata>Kurdistan Thrombosis &amp; Anticoagulation Forum — KTAF</metadata>
+  <rect width="1200" height="400" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="1200" height="10" fill="#0D2B45"/>
+  <rect x="0" y="10" width="176" height="5" fill="#E63946"/>
+  <image x="42" y="32" width="706" height="274" href="../linked-assets/ktaf-horizontal-tagline.svg" xlink:href="../linked-assets/ktaf-horizontal-tagline.svg" preserveAspectRatio="xMidYMid meet"/>
+  <g opacity="0.17" transform="translate(620 -76) scale(0.45)">
+    <image width="1920" height="1080" href="../linked-assets/ktaf-flow-pattern.svg" xlink:href="../linked-assets/ktaf-flow-pattern.svg"/>
+  </g>
+  <rect x="0" y="326" width="1200" height="74" fill="#0D2B45"/>
+  <rect x="0" y="326" width="176" height="5" fill="#E63946"/>
+  <circle cx="66" cy="364" r="7" fill="#E63946"/>
+  <circle cx="91" cy="364" r="4" fill="#72B6E6"/>
+  <text x="118" y="374" fill="#FFFFFF" font-family="Montserrat, Inter, Arial, sans-serif" font-size="30" font-weight="700" letter-spacing="5">REGISTRATION CONFIRMATION</text>
+</svg>

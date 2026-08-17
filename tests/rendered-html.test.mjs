@@ -47,5 +47,11 @@ test("ships the required public brand assets", async () => {
     access(new URL("brand/ktaf-flow-pattern.svg", outputRoot)),
     access(new URL("brand/ktaf-monochrome-white.svg", outputRoot)),
     access(new URL("brand/sponsors/denk-pharma-logo.png", outputRoot)),
+    access(
+      new URL(
+        "brand/email/ktaf_registration-confirmation_banner_en_1200x400_v01.png",
+        outputRoot,
+      ),
+    ),
   ]);
 });
