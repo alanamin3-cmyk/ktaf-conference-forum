@@ -312,7 +312,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="site-footer">
+      <footer className="site-footer" id="contact">
         <div className="shell footer-grid">
           <div className="footer-brand">
             <img
@@ -337,7 +337,11 @@ export default function Home() {
             <a href="#sponsor">Sponsor</a>
           </nav>
 
-          <p className="footer-note">Conference details are subject to confirmation.</p>
+          <div className="footer-contact">
+            <span>Contact KTAF</span>
+            <a href="mailto:contact@ktaf.krd">contact@ktaf.krd</a>
+            <p>Conference details are subject to confirmation.</p>
+          </div>
         </div>
       </footer>
     </>

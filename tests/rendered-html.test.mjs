@@ -23,6 +23,8 @@ test("exports the complete KTAF conference page", async () => {
   assert.match(html, /Advancing Science\. Improving Outcomes\./);
   assert.match(html, /Exclusive sponsor/);
   assert.match(html, /Denk Pharma/);
+  assert.match(html, /href="mailto:contact@ktaf\.krd"/);
+  assert.match(html, />contact@ktaf\.krd</);
 });
 
 test("includes keyboard and mobile navigation", async () => {
