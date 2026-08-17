@@ -21,7 +21,7 @@
 
 - Renderer: `source/ktaf-registration-confirmation.mjs`.
 - Recommended subject: `Registration confirmed — KTAF`.
-- Recommended sender: `KTAF <registration@ktaf.krd>`.
+- Recommended sender: `KTAF Registration <registration@ktaf.krd>`.
 - Recommended reply-to: `registration@ktaf.krd`; verify its forwarding rule to `contact@denkpharma.krd` before launch.
 - Production banner URL: `https://ktaf.krd/brand/email/ktaf_registration-confirmation_banner_en_1200x400_v01.png`.
 - The registration backend must call the renderer and send the returned HTML and text through the selected transactional-email provider.

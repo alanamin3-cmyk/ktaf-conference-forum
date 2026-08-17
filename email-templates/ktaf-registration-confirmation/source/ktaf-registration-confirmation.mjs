@@ -2,7 +2,7 @@ const DEFAULT_SITE_URL = "https://ktaf.krd";
 
 export const registrationEmailDefaults = Object.freeze({
   subject: "Registration confirmed — KTAF",
-  from: "KTAF <registration@ktaf.krd>",
+  from: "KTAF Registration <registration@ktaf.krd>",
   replyTo: "registration@ktaf.krd",
 });
 

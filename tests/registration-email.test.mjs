@@ -18,7 +18,10 @@ const registration = {
 test("renders a personalized KTAF registration email", () => {
   const html = renderRegistrationConfirmationEmail(registration);
 
-  assert.equal(registrationEmailDefaults.from, "KTAF <registration@ktaf.krd>");
+  assert.equal(
+    registrationEmailDefaults.from,
+    "KTAF Registration <registration@ktaf.krd>",
+  );
   assert.equal(registrationEmailDefaults.replyTo, "registration@ktaf.krd");
   assert.match(html, /Kurdistan Thrombosis &amp; Anticoagulation Forum — KTAF/);
   assert.match(html, /Dear Dr\. Lana Ahmed,/);
