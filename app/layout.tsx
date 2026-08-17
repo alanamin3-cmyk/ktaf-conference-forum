@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import "./globals.css";
 
 const title = "KTAF | Kurdistan Thrombosis & Anticoagulation Forum";
@@ -45,7 +46,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Script src="/ktaf-config.js" strategy="beforeInteractive" />
+        {children}
+      </body>
     </html>
   );
 }

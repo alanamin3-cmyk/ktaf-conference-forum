@@ -8,6 +8,10 @@ async function readRenderedPage() {
   return readFile(new URL("index.html", outputRoot), "utf8");
 }
 
+async function readRenderedAdminPage() {
+  return readFile(new URL("admin.html", outputRoot), "utf8");
+}
+
 test("exports the complete KTAF conference page", async () => {
   const html = await readRenderedPage();
 
@@ -25,6 +29,10 @@ test("exports the complete KTAF conference page", async () => {
   assert.match(html, /Denk Pharma/);
   assert.match(html, /href="mailto:contact@ktaf\.krd"/);
   assert.match(html, />contact@ktaf\.krd</);
+  assert.match(html, /id="register"/);
+  assert.match(html, /Attendee registration/);
+  assert.match(html, /Confirm registration/);
+  assert.match(html, /href="\/admin\.html"/);
 });
 
 test("includes keyboard and mobile navigation", async () => {
@@ -53,5 +61,14 @@ test("ships the required public brand assets", async () => {
         outputRoot,
       ),
     ),
+    access(new URL("ktaf-config.js", outputRoot)),
   ]);
+});
+
+test("exports the protected team registration portal", async () => {
+  const html = await readRenderedAdminPage();
+
+  assert.match(html, /<title>Team registration portal \| KTAF<\/title>/);
+  assert.match(html, /Protected team area/);
+  assert.match(html, /noindex/);
 });

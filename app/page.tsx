@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element -- Official SVG masters and the pre-rendered sponsor PNG are served directly by the static export. */
 import MobileNavigation from "./MobileNavigation";
+import RegistrationSection from "./RegistrationSection";
 
 const purposeItems = [
   {
@@ -74,8 +75,9 @@ export default function Home() {
           <nav className="primary-nav" aria-label="Primary navigation">
             <a href="#purpose">Purpose</a>
             <a href="#focus">Scientific focus</a>
-            <a className="nav-cta" href="#updates">
-              Conference updates
+            <a href="#updates">Conference updates</a>
+            <a className="nav-cta" href="#register">
+              Register
             </a>
           </nav>
 
@@ -118,11 +120,11 @@ export default function Home() {
               </p>
 
               <div className="hero-actions" aria-label="Hero actions">
-                <a className="button button-primary" href="#purpose">
-                  Discover KTAF
+                <a className="button button-primary" href="#register">
+                  Register to attend
                 </a>
-                <a className="button button-secondary" href="#updates">
-                  Conference information
+                <a className="button button-secondary" href="#purpose">
+                  Discover KTAF
                 </a>
               </div>
             </div>
@@ -287,6 +289,8 @@ export default function Home() {
           </div>
         </section>
 
+        <RegistrationSection />
+
         <section className="sponsor-section" id="sponsor" aria-labelledby="sponsor-title">
           <div className="shell sponsor-grid">
             <div className="sponsor-copy">
@@ -334,12 +338,16 @@ export default function Home() {
             <a href="#purpose">Purpose</a>
             <a href="#focus">Scientific focus</a>
             <a href="#updates">Conference information</a>
+            <a href="#register">Register</a>
             <a href="#sponsor">Sponsor</a>
           </nav>
 
           <div className="footer-contact">
             <span>Contact KTAF</span>
             <a href="mailto:contact@ktaf.krd">contact@ktaf.krd</a>
+            <a className="footer-portal-link" href="/admin.html">
+              Team registration portal
+            </a>
             <p>Conference details are subject to confirmation.</p>
           </div>
         </div>

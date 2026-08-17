@@ -6,6 +6,7 @@ const links = [
   { href: "#purpose", label: "Purpose" },
   { href: "#focus", label: "Scientific focus" },
   { href: "#updates", label: "Conference updates" },
+  { href: "#register", label: "Register" },
   { href: "#sponsor", label: "Sponsor" },
 ];
 
