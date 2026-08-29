@@ -33,6 +33,16 @@ test("exports the complete KTAF conference page", async () => {
   assert.match(html, /Attendee registration/);
   assert.match(html, /Confirm registration/);
   assert.match(html, /href="\/admin\.html"/);
+  assert.match(html, /Confirmed details, with more to come\./);
+  assert.match(html, /Slemani Rotana/);
+  assert.match(html, /Almas 1/);
+  assert.match(html, /Prof\. Dr\. Aram Baram Mohammed/);
+  assert.match(html, /Conference Chairman/);
+  assert.match(html, /href="#speakers"/);
+  assert.match(
+    html,
+    /href="https:\/\/sites\.google\.com\/a\/univsul\.edu\.iq\/aram-baram\/academic-profile"/,
+  );
 });
 
 test("includes keyboard and mobile navigation", async () => {
@@ -62,6 +72,7 @@ test("ships the required public brand assets", async () => {
       ),
     ),
     access(new URL("ktaf-config.js", outputRoot)),
+    access(new URL("speakers/dr-aram-baram.jpg", outputRoot)),
   ]);
 });
 

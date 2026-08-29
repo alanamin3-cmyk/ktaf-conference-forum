@@ -26,9 +26,11 @@
 ## Content status
 
 - Vision, Mission, and Goal are reproduced verbatim from the approved wording.
-- Date, venue, programme, and participation details remain explicitly unconfirmed.
+- The event year (2026), city (Sulaymaniyah), venue (Slemani Rotana), and meeting room (Almas 1) are now confirmed.
+- The exact date, complete programme, remaining speakers, and changeable session topics remain explicitly provisional.
+- Prof. Dr. Aram Baram Mohammed is introduced as Conference Chairman using his supplied University of Sulaimani profile and photograph.
 - Denk Pharma is identified as the exclusive sponsor, as supplied by the user.
-- No speaker, statistic, treatment claim, guideline claim, or clinical recommendation has been added.
+- No unsourced speaker credential, statistic, treatment claim, guideline claim, or clinical recommendation has been added.
 - Current content is institutional conference copy rather than patient advice. Future scientific programme or treatment content requires appropriate scientific and regulatory review before publication.
 
 ## Production
@@ -39,4 +41,7 @@
 - Favicon: official KTAF app icon SVG.
 - Sponsor source: `linked-assets/denk-pharma-logo-source.pdf`; web rendition: 1679 × 1679 px sRGB PNG.
 - Responsive visual checks completed at 320 × 800, 390 × 844, 768 × 1024, and 1440 × 1000.
+- The expanded conference-information and chairman feature was rechecked at 320 px, 390 px, and desktop widths; the document viewport retained zero horizontal scroll at both mobile widths.
+- The supplied chairman portrait is rendered at or below its native 323 × 425 px size, with no enlargement beyond the source resolution.
+- No browser console warnings or errors were observed during the responsive review.
 - The production static export and current rendered-HTML test suite pass.

@@ -39,9 +39,16 @@
 ## Open items
 
 - Conference date
-- Venue
-- Programme
-- Participation or registration details
-- Official contact or update-subscription destination
+- Complete programme and remaining speaker confirmations
 
-These items are presented as “to be announced”; no unconfirmed details are invented.
+These items remain explicitly provisional; no unconfirmed details are invented.
+
+## Conference-information expansion — 29 August 2026
+
+- **Confirmed year and city:** 2026, Sulaymaniyah.
+- **Confirmed venue:** Slemani Rotana, Almas 1 meeting room.
+- **First leadership profile:** Conference Chairman Prof. Dr. Aram Baram Mohammed.
+- **Profile source:** University of Sulaimani academic profile supplied by the user.
+- **Portrait source:** The photograph published on the same academic profile; displayed at or below its native 323 × 425 px resolution.
+- **Programme approach:** Introduce confirmed people and logistics progressively without publishing changeable session topics as final.
+- **Design treatment:** Editorial chairman feature inside the navy conference-information section, with restrained red/blue accents, generous negative space, and a single-column mobile composition.

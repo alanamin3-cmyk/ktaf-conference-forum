@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element -- Official SVG masters and the pre-rendered sponsor PNG are served directly by the static export. */
 import MobileNavigation from "./MobileNavigation";
 import RegistrationSection from "./RegistrationSection";
+import "./conference-information.css";
 
 const purposeItems = [
   {
@@ -45,10 +46,10 @@ const focusAreas = [
 ];
 
 const conferenceDetails = [
-  { label: "Date", value: "To be announced" },
-  { label: "Venue", value: "To be announced" },
-  { label: "Programme", value: "To be announced" },
-  { label: "Participation", value: "Details to be announced" },
+  { label: "Year", value: "2026" },
+  { label: "City", value: "Sulaymaniyah" },
+  { label: "Venue", value: "Slemani Rotana" },
+  { label: "Meeting room", value: "Almas 1" },
 ];
 
 export default function Home() {
@@ -75,7 +76,7 @@ export default function Home() {
           <nav className="primary-nav" aria-label="Primary navigation">
             <a href="#purpose">Purpose</a>
             <a href="#focus">Scientific focus</a>
-            <a href="#updates">Conference updates</a>
+            <a href="#updates">Conference information</a>
             <a className="nav-cta" href="#register">
               Register
             </a>
@@ -268,24 +269,104 @@ export default function Home() {
         </section>
 
         <section className="updates-section" id="updates" aria-labelledby="updates-title">
-          <div className="shell updates-grid">
-            <div className="updates-intro">
-              <p className="section-label section-label-light">Conference information</p>
-              <h2 id="updates-title">Details will be announced.</h2>
+          <div className="shell">
+            <div className="updates-grid">
+              <div className="updates-intro">
+                <p className="section-label section-label-light">
+                  Conference information
+                </p>
+                <h2 id="updates-title">Confirmed details, with more to come.</h2>
+                <p>
+                  KTAF will take place in Sulaymaniyah in 2026. The exact date
+                  and complete scientific programme will be published as final
+                  confirmations are made.
+                </p>
+              </div>
+
+              <div className="updates-details-panel">
+                <dl className="details-grid">
+                  {conferenceDetails.map((detail) => (
+                    <div key={detail.label}>
+                      <dt>{detail.label}</dt>
+                      <dd>{detail.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+
+                <div className="venue-note">
+                  <div>
+                    <span>Venue confirmed</span>
+                    <p>Slemani Rotana · Almas 1 meeting room</p>
+                  </div>
+                  <a
+                    href="https://www.rotana.com/rotanahotelandresorts/iraq/sulaymaniyah/slemanirotana/meetingsandevents"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Explore the venue <span aria-hidden="true">↗</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div className="speakers-heading" id="speakers">
+              <p className="section-label section-label-light">
+                Conference leadership
+              </p>
               <p>
-                Confirmed conference information will be published here as it
-                becomes available.
+                Speaker profiles will be introduced here as the scientific
+                programme develops.
               </p>
             </div>
 
-            <dl className="details-grid">
-              {conferenceDetails.map((detail) => (
-                <div key={detail.label}>
-                  <dt>{detail.label}</dt>
-                  <dd>{detail.value}</dd>
+            <article className="speaker-feature" aria-labelledby="aram-baram-name">
+              <figure className="speaker-portrait">
+                <div className="speaker-portrait-frame">
+                  <img
+                    src="/speakers/dr-aram-baram.jpg"
+                    alt="Professor Dr. Aram Baram Mohammed"
+                    width="323"
+                    height="425"
+                    loading="lazy"
+                  />
+                  <span className="speaker-index" aria-hidden="true">
+                    01
+                  </span>
                 </div>
-              ))}
-            </dl>
+                <figcaption>Conference chairman</figcaption>
+              </figure>
+
+              <div className="speaker-profile">
+                <p className="speaker-role">Conference Chairman</p>
+                <h3 id="aram-baram-name">Prof. Dr. Aram Baram Mohammed</h3>
+                <p className="speaker-credentials">
+                  MD · MRCSEd · FACS · AFS CTS
+                </p>
+
+                <div className="speaker-appointments" aria-label="Appointments">
+                  <span>Professor, University of Sulaimani</span>
+                  <span>Consultant Cardiothoracic &amp; Vascular Surgeon</span>
+                </div>
+
+                <p className="speaker-bio">
+                  Professor at the University of Sulaimani College of Medicine
+                  and consultant cardiothoracic and vascular surgeon. His
+                  academic profile lists leadership responsibilities across the
+                  cardiothoracic surgery unit, the Sulaimani Center for
+                  Cardiothoracic Training, and the KBMS programme in
+                  cardiothoracic and vascular surgery.
+                </p>
+
+                <a
+                  className="speaker-profile-link"
+                  href="https://sites.google.com/a/univsul.edu.iq/aram-baram/academic-profile"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  View academic profile <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </article>
           </div>
         </section>
 
@@ -338,6 +419,7 @@ export default function Home() {
             <a href="#purpose">Purpose</a>
             <a href="#focus">Scientific focus</a>
             <a href="#updates">Conference information</a>
+            <a href="#speakers">Chairman</a>
             <a href="#register">Register</a>
             <a href="#sponsor">Sponsor</a>
           </nav>
