@@ -67,6 +67,7 @@ test("exports the complete KTAF conference page", async () => {
     html,
     /href="https:\/\/www\.facebook\.com\/Dr\.Sarkawt\.Dawood\.clinic"/,
   );
+  assert.doesNotMatch(html, /docs\.google\.com\/spreadsheets/);
 });
 
 test("includes keyboard and mobile navigation", async () => {

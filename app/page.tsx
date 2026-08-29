@@ -492,14 +492,6 @@ export default function Home() {
                   >
                     View professional profile <span aria-hidden="true">↗</span>
                   </a>
-                  <a
-                    className="speaker-profile-link"
-                    href="https://docs.google.com/spreadsheets/d/1Cy2waLKXzx4Xkb0JQ_nC7Xtw69lgvd9PAhMHE__SY70/edit?usp=sharing"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    View current programme <span aria-hidden="true">↗</span>
-                  </a>
                 </div>
               </div>
             </article>

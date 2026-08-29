@@ -31,6 +31,7 @@
 - Prof. Dr. Aram Baram Mohammed is introduced as Conference Chairman using his supplied University of Sulaimani profile and photograph.
 - Dr. Dana Omar Karim is introduced as a confirmed Conference Speaker using the supplied Smart Health and signed-in LinkedIn profiles. The website includes only the cross-checked M.B.Ch.B education, Senior Hematologist role at Hiwa Hospital, and Smart Health hematology/lymphoma specialty; no unverified session topic is added.
 - Dr. Sarkawt Dawood Abbas is introduced as a confirmed Conference Speaker using the supplied Facebook clinic profile. His current topic is reproduced from the user-supplied working programme and clearly marked as subject to updates.
+- The working Google Sheet is treated as a private editorial source and is not linked from the public website. A future public programme link will be added only after it is supplied and approved.
 - Denk Pharma is identified as the exclusive sponsor, as supplied by the user.
 - No unsourced speaker credential, statistic, treatment claim, guideline claim, or clinical recommendation has been added.
 - Current content is institutional conference copy rather than patient advice. Future scientific programme or treatment content requires appropriate scientific and regulatory review before publication.

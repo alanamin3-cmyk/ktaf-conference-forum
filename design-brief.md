@@ -68,4 +68,5 @@ These items remain explicitly provisional; no unconfirmed details are invented.
 - **Published specialty:** Interventional cardiologist with a stated professional focus on coronary and peripheral vascular intervention, based on the supplied Facebook clinic profile.
 - **Current programme topic:** “Atrial Fibrillation in 2026: Correct DOAC Dosing, Device-Detected AF, and Antithrombotic Simplification After PCI,” read from `Sheet1!A1:J30` in the working programme supplied by the user.
 - **Topic status:** Display as the current programme topic with a visible “Subject to programme updates” qualifier.
+- **Programme privacy:** The working Google Sheet remains private and must not be linked from the public website. A separate public programme may be added later.
 - **Portrait treatment:** Identity-preserving extraction from the supplied poster, retaining the speaker’s face, beard, suit, tie, and crossed-arm pose while removing every original poster element and introducing a white-led KTAF vascular-flow background.
