@@ -298,6 +298,26 @@
   font-size: 0.53rem;
 }
 
+.speaker-topic-entry {
+  padding-block: 10px;
+}
+
+.speaker-topic-entry + .speaker-topic-entry {
+  margin-top: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 15px;
+}
+
+.speaker-topic-entry strong {
+  display: block;
+  margin-bottom: 6px;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 .speaker-profile-links {
   display: flex;
   flex-wrap: wrap;

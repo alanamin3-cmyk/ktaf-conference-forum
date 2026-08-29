@@ -38,6 +38,15 @@ test("exports the complete KTAF conference page", async () => {
   assert.match(html, /Almas 1/);
   assert.match(html, /Prof\. Dr\. Aram Baram Mohammed/);
   assert.match(html, /Conference Chairman/);
+  assert.match(
+    html,
+    /Anticoagulation Across Specialties—Balancing Thrombosis/,
+  );
+  assert.match(
+    html,
+    /Apixaban Across the VTE Continuum: Treatment and Secondary/,
+  );
+  assert.match(html, /Prevention of DVT and PE/);
   assert.match(html, /Conference leadership &amp; faculty/);
   assert.match(html, /Dr\. Dana Omar Karim/);
   assert.match(html, /M\.B\.Ch\.B · Hematology &amp; Lymphoma Specialist/);

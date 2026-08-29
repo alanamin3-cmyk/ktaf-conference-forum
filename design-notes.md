@@ -29,6 +29,7 @@
 - The event year (2026), city (Sulaymaniyah), venue (Slemani Rotana), and meeting room (Almas 1) are now confirmed.
 - The exact date, complete programme, remaining speakers, and changeable session topics remain explicitly provisional.
 - Prof. Dr. Aram Baram Mohammed is introduced as Conference Chairman using his supplied University of Sulaimani profile and photograph.
+- Prof. Dr. Aram Baram Mohammed’s current opening address and scientific-presentation titles are reproduced exactly from the private working programme, grouped beneath his profile, and visibly marked as subject to programme updates.
 - Dr. Dana Omar Karim is introduced as a confirmed Conference Speaker using the supplied Smart Health and signed-in LinkedIn profiles. The website includes only the cross-checked M.B.Ch.B education, Senior Hematologist role at Hiwa Hospital, and Smart Health hematology/lymphoma specialty; no unverified session topic is added.
 - Dr. Sarkawt Dawood Abbas is introduced as a confirmed Conference Speaker using the supplied Facebook clinic profile. His current topic is reproduced from the user-supplied working programme and clearly marked as subject to updates.
 - Dr. Zana Abdulrahman is introduced as a confirmed Conference Speaker and neurologist in Sulaymaniyah using his supplied public professional page. The working programme does not yet include a topic for him, so none is published.

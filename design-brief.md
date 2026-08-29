@@ -77,3 +77,9 @@ These items remain explicitly provisional; no unconfirmed details are invented.
 - **Published specialty:** Neurologist in Sulaymaniyah, based on the supplied public professional profile.
 - **Programme status:** The private working programme lists Dr. Zana but does not yet provide a confirmed session topic. No topic is published or invented.
 - **Portrait treatment:** Identity-preserving edit of the supplied award photograph. Remove the award, original event backdrop, logos, and text; reconstruct the charcoal suit; use a natural crossed-arm pose and a white-led KTAF vascular-flow background.
+
+## Chairman programme topics — 29 August 2026
+
+- **Opening address:** “Anticoagulation Across Specialties—Balancing Thrombosis and Bleeding.”
+- **Scientific presentation:** “Apixaban Across the VTE Continuum: Treatment and Secondary Prevention of DVT and PE.”
+- **Source and status:** Reproduced exactly from the private working programme and displayed beneath Prof. Dr. Aram Baram Mohammed’s profile with a visible “Subject to programme updates” qualifier. The private sheet remains unlinked.

@@ -358,6 +358,28 @@ export default function Home() {
                   cardiothoracic and vascular surgery.
                 </p>
 
+                <div
+                  className="speaker-topic speaker-topic-group"
+                  aria-label="Current programme topics"
+                >
+                  <span>Current programme topics</span>
+                  <div className="speaker-topic-entry">
+                    <strong>Opening address</strong>
+                    <p>
+                      Anticoagulation Across Specialties—Balancing Thrombosis
+                      and Bleeding
+                    </p>
+                  </div>
+                  <div className="speaker-topic-entry">
+                    <strong>Scientific presentation</strong>
+                    <p>
+                      Apixaban Across the VTE Continuum: Treatment and Secondary
+                      Prevention of DVT and PE
+                    </p>
+                  </div>
+                  <small>Subject to programme updates</small>
+                </div>
+
                 <a
                   className="speaker-profile-link"
                   href="https://sites.google.com/a/univsul.edu.iq/aram-baram/academic-profile"
