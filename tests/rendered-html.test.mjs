@@ -67,6 +67,12 @@ test("exports the complete KTAF conference page", async () => {
     html,
     /href="https:\/\/www\.facebook\.com\/Dr\.Sarkawt\.Dawood\.clinic"/,
   );
+  assert.match(html, /Dr\. Zana Abdulrahman/);
+  assert.match(html, /Neurologist/);
+  assert.match(
+    html,
+    /href="https:\/\/www\.facebook\.com\/Dr\.ZanaA\/"/,
+  );
   assert.doesNotMatch(html, /docs\.google\.com\/spreadsheets/);
 });
 
@@ -100,6 +106,7 @@ test("ships the required public brand assets", async () => {
     access(new URL("speakers/dr-aram-baram.jpg", outputRoot)),
     access(new URL("speakers/dr-dana-omar-karim.webp", outputRoot)),
     access(new URL("speakers/dr-sarkawt-dawood-abbas.webp", outputRoot)),
+    access(new URL("speakers/dr-zana-abdulrahman.webp", outputRoot)),
   ]);
 });
 

@@ -70,3 +70,10 @@ These items remain explicitly provisional; no unconfirmed details are invented.
 - **Topic status:** Display as the current programme topic with a visible “Subject to programme updates” qualifier.
 - **Programme privacy:** The working Google Sheet remains private and must not be linked from the public website. A separate public programme may be added later.
 - **Portrait treatment:** Identity-preserving extraction from the supplied poster, retaining the speaker’s face, beard, suit, tie, and crossed-arm pose while removing every original poster element and introducing a white-led KTAF vascular-flow background.
+
+## Fourth faculty profile — 29 August 2026
+
+- **Fourth confirmed speaker:** Dr. Zana Abdulrahman.
+- **Published specialty:** Neurologist in Sulaymaniyah, based on the supplied public professional profile.
+- **Programme status:** The private working programme lists Dr. Zana but does not yet provide a confirmed session topic. No topic is published or invented.
+- **Portrait treatment:** Identity-preserving edit of the supplied award photograph. Remove the award, original event backdrop, logos, and text; reconstruct the charcoal suit; use a natural crossed-arm pose and a white-led KTAF vascular-flow background.

@@ -495,6 +495,58 @@ export default function Home() {
                 </div>
               </div>
             </article>
+
+            <article
+              className="speaker-feature speaker-feature-reverse"
+              aria-labelledby="zana-abdulrahman-name"
+            >
+              <figure className="speaker-portrait">
+                <div className="speaker-portrait-frame">
+                  <img
+                    src="/speakers/dr-zana-abdulrahman.webp"
+                    alt="Dr. Zana Abdulrahman"
+                    width="646"
+                    height="850"
+                    loading="lazy"
+                  />
+                  <span className="speaker-index" aria-hidden="true">
+                    04
+                  </span>
+                </div>
+                <figcaption>Conference speaker</figcaption>
+              </figure>
+
+              <div className="speaker-profile">
+                <p className="speaker-role">Conference Speaker</p>
+                <h3 id="zana-abdulrahman-name">Dr. Zana Abdulrahman</h3>
+                <p className="speaker-credentials">Neurologist</p>
+
+                <div
+                  className="speaker-appointments"
+                  aria-label="Specialty and location"
+                >
+                  <span>Neurology</span>
+                  <span>Sulaymaniyah</span>
+                </div>
+
+                <p className="speaker-bio">
+                  Dr. Zana Abdulrahman is a neurologist based in Sulaymaniyah.
+                  His public professional page identifies neurology as his
+                  clinical specialty.
+                </p>
+
+                <div className="speaker-profile-links">
+                  <a
+                    className="speaker-profile-link"
+                    href="https://www.facebook.com/Dr.ZanaA/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    View professional profile <span aria-hidden="true">↗</span>
+                  </a>
+                </div>
+              </div>
+            </article>
           </div>
         </section>
 
