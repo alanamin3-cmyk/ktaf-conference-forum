@@ -160,12 +160,6 @@ export default function Home() {
               </div>
             </aside>
           </div>
-
-          <div className="shell hero-foot">
-            <span>01</span>
-            <span className="hero-foot-line" aria-hidden="true" />
-            <span>Forum purpose</span>
-          </div>
         </section>
 
         <section className="intro-section" aria-labelledby="about-title">

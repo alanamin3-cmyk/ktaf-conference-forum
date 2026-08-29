@@ -5,6 +5,7 @@
 - White-led academic and medical presentation with deliberate navy, blue, and restrained red accents.
 - Official KTAF horizontal lockup is used in the header without alteration.
 - The official vascular-flow pattern is used as the hero signature and a low-opacity supporting motif.
+- The redundant “01 — Forum purpose” marker was removed from the hero so the opening section ends cleanly after its primary content.
 - The supplied official Denk Pharma logo is presented without alteration in a dedicated, secondary-hierarchy sponsor section.
 - The sponsor mark is intentionally restrained at 160 px on desktop, 145 px on tablet, and 108 px on small screens.
 - Montserrat is requested first in the CSS stack, with approved sans-serif fallbacks when it is unavailable.
