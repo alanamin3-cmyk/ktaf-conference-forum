@@ -29,7 +29,7 @@
 - The event year (2026), city (Sulaymaniyah), venue (Slemani Rotana), and meeting room (Almas 1) are now confirmed.
 - The exact date, complete programme, remaining speakers, and changeable session topics remain explicitly provisional.
 - Prof. Dr. Aram Baram Mohammed is introduced as Conference Chairman using his supplied University of Sulaimani profile and photograph.
-- Dr. Dana Omar Karim is introduced as a confirmed Conference Speaker using the supplied Smart Health profile. No unverified degree, institutional title, or session topic is added.
+- Dr. Dana Omar Karim is introduced as a confirmed Conference Speaker using the supplied Smart Health and signed-in LinkedIn profiles. The website includes only the cross-checked M.B.Ch.B education, Senior Hematologist role at Hiwa Hospital, and Smart Health hematology/lymphoma specialty; no unverified session topic is added.
 - Denk Pharma is identified as the exclusive sponsor, as supplied by the user.
 - No unsourced speaker credential, statistic, treatment claim, guideline claim, or clinical recommendation has been added.
 - Current content is institutional conference copy rather than patient advice. Future scientific programme or treatment content requires appropriate scientific and regulatory review before publication.

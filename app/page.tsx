@@ -393,19 +393,21 @@ export default function Home() {
                 <p className="speaker-role">Conference Speaker</p>
                 <h3 id="dana-omar-name">Dr. Dana Omar Karim</h3>
                 <p className="speaker-credentials">
-                  Hematology &amp; Lymphoma Specialist
+                  M.B.Ch.B · Hematology &amp; Lymphoma Specialist
                 </p>
 
                 <div className="speaker-appointments" aria-label="Appointments">
-                  <span>Specialist in Hematology</span>
-                  <span>Smart Health Tower</span>
+                  <span>Senior Hematologist, Hiwa Hospital</span>
+                  <span>Hematology Specialist, Smart Health Tower</span>
                 </div>
 
                 <p className="speaker-bio">
-                  Dr. Dana Omar Karim is a hematology and lymphoma specialist
-                  at Smart Health Tower. His published professional profile
-                  includes scientific work across hematologic disorders and
-                  lymphoid malignancies.
+                  Dr. Dana Omar Karim is a senior hematologist at Hiwa Hospital
+                  and a hematology and lymphoma specialist at Smart Health
+                  Tower. He earned his M.B.Ch.B in Medicine from the University
+                  of Sulaimani, and his published professional profile includes
+                  scientific work across hematologic disorders and lymphoid
+                  malignancies.
                 </p>
 
                 <div className="speaker-profile-links">

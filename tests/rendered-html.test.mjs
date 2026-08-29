@@ -40,7 +40,9 @@ test("exports the complete KTAF conference page", async () => {
   assert.match(html, /Conference Chairman/);
   assert.match(html, /Conference leadership &amp; faculty/);
   assert.match(html, /Dr\. Dana Omar Karim/);
-  assert.match(html, /Hematology &amp; Lymphoma Specialist/);
+  assert.match(html, /M\.B\.Ch\.B · Hematology &amp; Lymphoma Specialist/);
+  assert.match(html, /Senior Hematologist, Hiwa Hospital/);
+  assert.match(html, /University of Sulaimani/);
   assert.match(html, /href="#speakers"/);
   assert.match(
     html,

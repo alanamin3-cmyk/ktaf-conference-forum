@@ -57,6 +57,7 @@ These items remain explicitly provisional; no unconfirmed details are invented.
 
 - **Second confirmed speaker:** Dr. Dana Omar Karim.
 - **Published specialty:** Hematology and lymphoma specialist, based on the Smart Health profile supplied by the user.
+- **LinkedIn verification:** The signed-in profile supplied by the user lists an M.B.Ch.B in Medicine from the University of Sulaimani and a Senior Hematologist role at Hiwa Hospital.
 - **Portrait treatment:** Identity-preserving edit of the supplied photograph, replacing only the medical coat and turquoise background with a professional navy suit, white shirt, blue tie, and subtle KTAF vascular-flow background.
 - **Navigation:** Add a direct Faculty destination while retaining the profiles within the main conference-information experience.
 - **Programme approach:** Do not publish a session title until the developing scientific programme is confirmed.
