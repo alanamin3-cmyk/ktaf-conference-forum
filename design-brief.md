@@ -44,7 +44,7 @@ These items remain explicitly provisional; no unconfirmed details are invented.
 
 ## Conference-information expansion — 29 August 2026
 
-- **Confirmed date, time, and city:** 1 October 2026, starting at 09:30 in Sulaymaniyah.
+- **Confirmed date, time, and city:** October 1st, 2026, starting at 09:30 in Sulaymaniyah. Display the ordinal suffix as a refined superscript.
 - **Confirmed venue:** Slemani Rotana, Almas 1 meeting room.
 - **Attendee directions:** Link the venue panel to the user-supplied Google Maps location for Slemani Rotana.
 - **First leadership profile:** Conference Chairman Prof. Dr. Aram Baram Mohammed.

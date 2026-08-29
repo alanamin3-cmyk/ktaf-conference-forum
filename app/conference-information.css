@@ -26,6 +26,15 @@
   min-width: 0;
 }
 
+.ordinal-suffix {
+  position: relative;
+  top: -0.28em;
+  margin-left: 0.04em;
+  font-size: 0.58em;
+  line-height: 0;
+  vertical-align: baseline;
+}
+
 .venue-note {
   display: flex;
   min-height: 92px;
