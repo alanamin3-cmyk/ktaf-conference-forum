@@ -76,7 +76,8 @@ export default function Home() {
           <nav className="primary-nav" aria-label="Primary navigation">
             <a href="#purpose">Purpose</a>
             <a href="#focus">Scientific focus</a>
-            <a href="#updates">Conference information</a>
+            <a href="#updates">Information</a>
+            <a href="#speakers">Faculty</a>
             <a className="nav-cta" href="#register">
               Register
             </a>
@@ -311,11 +312,11 @@ export default function Home() {
 
             <div className="speakers-heading" id="speakers">
               <p className="section-label section-label-light">
-                Conference leadership
+                Conference leadership &amp; faculty
               </p>
               <p>
-                Speaker profiles will be introduced here as the scientific
-                programme develops.
+                Meet the confirmed chair and speakers shaping KTAF&apos;s
+                multidisciplinary scientific conversation.
               </p>
             </div>
 
@@ -365,6 +366,66 @@ export default function Home() {
                 >
                   View academic profile <span aria-hidden="true">↗</span>
                 </a>
+              </div>
+            </article>
+
+            <article
+              className="speaker-feature speaker-feature-reverse"
+              aria-labelledby="dana-omar-name"
+            >
+              <figure className="speaker-portrait">
+                <div className="speaker-portrait-frame">
+                  <img
+                    src="/speakers/dr-dana-omar-karim.webp"
+                    alt="Dr. Dana Omar Karim"
+                    width="646"
+                    height="850"
+                    loading="lazy"
+                  />
+                  <span className="speaker-index" aria-hidden="true">
+                    02
+                  </span>
+                </div>
+                <figcaption>Conference speaker</figcaption>
+              </figure>
+
+              <div className="speaker-profile">
+                <p className="speaker-role">Conference Speaker</p>
+                <h3 id="dana-omar-name">Dr. Dana Omar Karim</h3>
+                <p className="speaker-credentials">
+                  Hematology &amp; Lymphoma Specialist
+                </p>
+
+                <div className="speaker-appointments" aria-label="Appointments">
+                  <span>Specialist in Hematology</span>
+                  <span>Smart Health Tower</span>
+                </div>
+
+                <p className="speaker-bio">
+                  Dr. Dana Omar Karim is a hematology and lymphoma specialist
+                  at Smart Health Tower. His published professional profile
+                  includes scientific work across hematologic disorders and
+                  lymphoid malignancies.
+                </p>
+
+                <div className="speaker-profile-links">
+                  <a
+                    className="speaker-profile-link"
+                    href="https://smarthealth.group/ar/doctor-profile/113"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    View clinical profile <span aria-hidden="true">↗</span>
+                  </a>
+                  <a
+                    className="speaker-profile-link"
+                    href="https://www.linkedin.com/in/dana-omar-a8b47534/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    View LinkedIn <span aria-hidden="true">↗</span>
+                  </a>
+                </div>
               </div>
             </article>
           </div>
@@ -419,7 +480,7 @@ export default function Home() {
             <a href="#purpose">Purpose</a>
             <a href="#focus">Scientific focus</a>
             <a href="#updates">Conference information</a>
-            <a href="#speakers">Chairman</a>
+            <a href="#speakers">Faculty</a>
             <a href="#register">Register</a>
             <a href="#sponsor">Sponsor</a>
           </nav>

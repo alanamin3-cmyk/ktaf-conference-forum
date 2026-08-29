@@ -113,6 +113,21 @@
   padding-bottom: clamp(18px, 2vw, 30px);
 }
 
+.speaker-feature-reverse {
+  margin-top: clamp(52px, 7vw, 92px);
+}
+
+.speaker-feature-reverse .speaker-portrait {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+}
+
+.speaker-feature-reverse .speaker-profile {
+  grid-column: 1;
+  grid-row: 1;
+}
+
 .speaker-portrait {
   width: min(100%, 323px);
   margin: 0;
@@ -247,6 +262,12 @@
   line-height: 1.82;
 }
 
+.speaker-profile-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 26px;
+}
+
 @media (max-width: 860px) {
   .venue-note,
   .speakers-heading {
@@ -277,6 +298,20 @@
     grid-template-columns: 1fr;
     gap: 24px;
     margin-top: 36px;
+  }
+
+  .speaker-feature-reverse {
+    margin-top: 52px;
+  }
+
+  .speaker-feature-reverse .speaker-portrait,
+  .speaker-feature-reverse .speaker-profile {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .speaker-feature-reverse .speaker-portrait {
+    justify-self: start;
   }
 
   .speaker-portrait {
@@ -328,6 +363,12 @@
   .speaker-bio {
     font-size: 0.88rem;
     line-height: 1.75;
+  }
+
+  .speaker-profile-links {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
   }
 }
 

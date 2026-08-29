@@ -52,3 +52,11 @@ These items remain explicitly provisional; no unconfirmed details are invented.
 - **Portrait source:** The photograph published on the same academic profile; displayed at or below its native 323 × 425 px resolution.
 - **Programme approach:** Introduce confirmed people and logistics progressively without publishing changeable session topics as final.
 - **Design treatment:** Editorial chairman feature inside the navy conference-information section, with restrained red/blue accents, generous negative space, and a single-column mobile composition.
+
+## Faculty expansion — 29 August 2026
+
+- **Second confirmed speaker:** Dr. Dana Omar Karim.
+- **Published specialty:** Hematology and lymphoma specialist, based on the Smart Health profile supplied by the user.
+- **Portrait treatment:** Identity-preserving edit of the supplied photograph, replacing only the medical coat and turquoise background with a professional navy suit, white shirt, blue tie, and subtle KTAF vascular-flow background.
+- **Navigation:** Add a direct Faculty destination while retaining the profiles within the main conference-information experience.
+- **Programme approach:** Do not publish a session title until the developing scientific programme is confirmed.

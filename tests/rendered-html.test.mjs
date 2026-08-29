@@ -38,10 +38,21 @@ test("exports the complete KTAF conference page", async () => {
   assert.match(html, /Almas 1/);
   assert.match(html, /Prof\. Dr\. Aram Baram Mohammed/);
   assert.match(html, /Conference Chairman/);
+  assert.match(html, /Conference leadership &amp; faculty/);
+  assert.match(html, /Dr\. Dana Omar Karim/);
+  assert.match(html, /Hematology &amp; Lymphoma Specialist/);
   assert.match(html, /href="#speakers"/);
   assert.match(
     html,
     /href="https:\/\/sites\.google\.com\/a\/univsul\.edu\.iq\/aram-baram\/academic-profile"/,
+  );
+  assert.match(
+    html,
+    /href="https:\/\/smarthealth\.group\/ar\/doctor-profile\/113"/,
+  );
+  assert.match(
+    html,
+    /href="https:\/\/www\.linkedin\.com\/in\/dana-omar-a8b47534\/"/,
   );
 });
 
@@ -73,6 +84,7 @@ test("ships the required public brand assets", async () => {
     ),
     access(new URL("ktaf-config.js", outputRoot)),
     access(new URL("speakers/dr-aram-baram.jpg", outputRoot)),
+    access(new URL("speakers/dr-dana-omar-karim.webp", outputRoot)),
   ]);
 });
 
