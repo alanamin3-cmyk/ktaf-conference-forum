@@ -301,13 +301,22 @@ export default function Home() {
                     <span>Venue confirmed</span>
                     <p>Slemani Rotana · Almas 1 meeting room</p>
                   </div>
-                  <a
-                    href="https://www.rotana.com/rotanahotelandresorts/iraq/sulaymaniyah/slemanirotana/meetingsandevents"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Explore the venue <span aria-hidden="true">↗</span>
-                  </a>
+                  <div className="venue-actions">
+                    <a
+                      href="https://maps.app.goo.gl/J2pwVoMVFj3tdZVR8"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Open in Google Maps <span aria-hidden="true">↗</span>
+                    </a>
+                    <a
+                      href="https://www.rotana.com/rotanahotelandresorts/iraq/sulaymaniyah/slemanirotana/meetingsandevents"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Explore the venue <span aria-hidden="true">↗</span>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

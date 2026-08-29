@@ -27,6 +27,7 @@
 
 - Vision, Mission, and Goal are reproduced verbatim from the approved wording.
 - The event date (1 October 2026), start time (09:30), city (Sulaymaniyah), venue (Slemani Rotana), and meeting room (Almas 1) are now confirmed.
+- The venue panel includes a verified Google Maps directions link to Slemani Rotana, alongside the official hotel information link.
 - The complete programme, remaining speakers, and changeable session topics remain explicitly provisional.
 - Prof. Dr. Aram Baram Mohammed is introduced as Conference Chairman using his supplied University of Sulaimani profile and photograph.
 - Prof. Dr. Aram Baram Mohammed’s current opening address and scientific-presentation titles are reproduced exactly from the private working programme, grouped beneath his profile, and visibly marked as subject to programme updates.

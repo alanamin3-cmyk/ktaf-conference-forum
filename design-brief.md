@@ -46,6 +46,7 @@ These items remain explicitly provisional; no unconfirmed details are invented.
 
 - **Confirmed date, time, and city:** 1 October 2026, starting at 09:30 in Sulaymaniyah.
 - **Confirmed venue:** Slemani Rotana, Almas 1 meeting room.
+- **Attendee directions:** Link the venue panel to the user-supplied Google Maps location for Slemani Rotana.
 - **First leadership profile:** Conference Chairman Prof. Dr. Aram Baram Mohammed.
 - **Profile source:** University of Sulaimani academic profile supplied by the user.
 - **Portrait source:** The photograph published on the same academic profile; displayed at or below its native 323 × 425 px resolution.

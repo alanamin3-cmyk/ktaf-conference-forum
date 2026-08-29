@@ -58,6 +58,15 @@
   font-weight: 650;
 }
 
+.venue-actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 14px 22px;
+}
+
 .venue-note a,
 .speaker-profile-link {
   display: inline-flex;
@@ -335,6 +344,11 @@
     gap: 11px;
   }
 
+  .venue-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
   .speakers-heading {
     gap: 20px;
   }
@@ -391,6 +405,12 @@
   .venue-note a {
     width: 100%;
     justify-content: space-between;
+  }
+
+  .venue-actions {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 8px;
   }
 
   .speakers-heading {
