@@ -34,6 +34,9 @@ test("exports the complete KTAF conference page", async () => {
   assert.match(html, /Confirm registration/);
   assert.match(html, /href="\/admin\.html"/);
   assert.match(html, /Confirmed details, with more to come\./);
+  assert.match(html, /1 October 2026/);
+  assert.match(html, /Start time/);
+  assert.match(html, /09:30/);
   assert.match(html, /Slemani Rotana/);
   assert.match(html, /Almas 1/);
   assert.match(html, /Prof\. Dr\. Aram Baram Mohammed/);

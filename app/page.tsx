@@ -47,7 +47,9 @@ const focusAreas = [
 
 const conferenceDetails = [
   { label: "Year", value: "2026" },
+  { label: "Date", value: "1 October" },
   { label: "City", value: "Sulaymaniyah" },
+  { label: "Start time", value: "09:30" },
   { label: "Venue", value: "Slemani Rotana" },
   { label: "Meeting room", value: "Almas 1" },
 ];
@@ -278,9 +280,9 @@ export default function Home() {
                 </p>
                 <h2 id="updates-title">Confirmed details, with more to come.</h2>
                 <p>
-                  KTAF will take place in Sulaymaniyah in 2026. The exact date
-                  and complete scientific programme will be published as final
-                  confirmations are made.
+                  KTAF will take place in Sulaymaniyah on 1 October 2026,
+                  beginning at 09:30. The complete scientific programme will be
+                  published as final confirmations are made.
                 </p>
               </div>
 
