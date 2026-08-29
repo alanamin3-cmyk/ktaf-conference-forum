@@ -262,6 +262,42 @@
   line-height: 1.82;
 }
 
+.speaker-topic {
+  max-width: 760px;
+  margin-bottom: 28px;
+  border-left: 2px solid var(--red);
+  background: rgba(255, 255, 255, 0.055);
+  padding: 18px 22px;
+}
+
+.speaker-topic > span,
+.speaker-topic small {
+  display: block;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.speaker-topic > span {
+  margin-bottom: 9px;
+  color: var(--oxygen);
+  font-size: 0.61rem;
+}
+
+.speaker-topic p {
+  margin: 0;
+  color: var(--white);
+  font-size: 0.88rem;
+  font-weight: 620;
+  line-height: 1.6;
+}
+
+.speaker-topic small {
+  margin-top: 10px;
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 0.53rem;
+}
+
 .speaker-profile-links {
   display: flex;
   flex-wrap: wrap;
@@ -363,6 +399,14 @@
   .speaker-bio {
     font-size: 0.88rem;
     line-height: 1.75;
+  }
+
+  .speaker-topic {
+    padding: 17px 18px;
+  }
+
+  .speaker-topic p {
+    font-size: 0.82rem;
   }
 
   .speaker-profile-links {

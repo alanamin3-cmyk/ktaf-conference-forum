@@ -430,6 +430,79 @@ export default function Home() {
                 </div>
               </div>
             </article>
+
+            <article
+              className="speaker-feature"
+              aria-labelledby="sarkawt-dawood-name"
+            >
+              <figure className="speaker-portrait">
+                <div className="speaker-portrait-frame">
+                  <img
+                    src="/speakers/dr-sarkawt-dawood-abbas.webp"
+                    alt="Dr. Sarkawt Dawood Abbas"
+                    width="646"
+                    height="850"
+                    loading="lazy"
+                  />
+                  <span className="speaker-index" aria-hidden="true">
+                    03
+                  </span>
+                </div>
+                <figcaption>Conference speaker</figcaption>
+              </figure>
+
+              <div className="speaker-profile">
+                <p className="speaker-role">Conference Speaker</p>
+                <h3 id="sarkawt-dawood-name">Dr. Sarkawt Dawood Abbas</h3>
+                <p className="speaker-credentials">
+                  Interventional Cardiologist
+                </p>
+
+                <div className="speaker-appointments" aria-label="Specialty">
+                  <span>Coronary Intervention</span>
+                  <span>Peripheral Vascular Intervention</span>
+                </div>
+
+                <p className="speaker-bio">
+                  Dr. Sarkawt Dawood Abbas is an interventional cardiologist in
+                  Sulaymaniyah. His professional clinic profile highlights a
+                  focus on catheter-based coronary and peripheral vascular
+                  intervention.
+                </p>
+
+                <div
+                  className="speaker-topic"
+                  aria-label="Current programme topic"
+                >
+                  <span>Current programme topic</span>
+                  <p>
+                    Atrial Fibrillation in 2026: Correct DOAC Dosing,
+                    Device-Detected AF, and Antithrombotic Simplification After
+                    PCI
+                  </p>
+                  <small>Subject to programme updates</small>
+                </div>
+
+                <div className="speaker-profile-links">
+                  <a
+                    className="speaker-profile-link"
+                    href="https://www.facebook.com/Dr.Sarkawt.Dawood.clinic"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    View professional profile <span aria-hidden="true">↗</span>
+                  </a>
+                  <a
+                    className="speaker-profile-link"
+                    href="https://docs.google.com/spreadsheets/d/1Cy2waLKXzx4Xkb0JQ_nC7Xtw69lgvd9PAhMHE__SY70/edit?usp=sharing"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    View current programme <span aria-hidden="true">↗</span>
+                  </a>
+                </div>
+              </div>
+            </article>
           </div>
         </section>
 

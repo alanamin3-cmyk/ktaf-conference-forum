@@ -30,6 +30,7 @@
 - The exact date, complete programme, remaining speakers, and changeable session topics remain explicitly provisional.
 - Prof. Dr. Aram Baram Mohammed is introduced as Conference Chairman using his supplied University of Sulaimani profile and photograph.
 - Dr. Dana Omar Karim is introduced as a confirmed Conference Speaker using the supplied Smart Health and signed-in LinkedIn profiles. The website includes only the cross-checked M.B.Ch.B education, Senior Hematologist role at Hiwa Hospital, and Smart Health hematology/lymphoma specialty; no unverified session topic is added.
+- Dr. Sarkawt Dawood Abbas is introduced as a confirmed Conference Speaker using the supplied Facebook clinic profile. His current topic is reproduced from the user-supplied working programme and clearly marked as subject to updates.
 - Denk Pharma is identified as the exclusive sponsor, as supplied by the user.
 - No unsourced speaker credential, statistic, treatment claim, guideline claim, or clinical recommendation has been added.
 - Current content is institutional conference copy rather than patient advice. Future scientific programme or treatment content requires appropriate scientific and regulatory review before publication.
@@ -45,5 +46,6 @@
 - The expanded conference-information and chairman feature was rechecked at 320 px, 390 px, and desktop widths; the document viewport retained zero horizontal scroll at both mobile widths.
 - The supplied chairman portrait is rendered at or below its native 323 × 425 px size, with no enlargement beyond the source resolution.
 - The supplied Dr. Dana photograph was edited with the built-in image-generation workflow to preserve identity while changing clothing and background. The web-ready 646 × 850 WebP asset is approximately 31 KB and uses a restrained KTAF-aligned background.
+- The supplied Dr. Sarkawt poster was edited with the built-in image-generation workflow to isolate the speaker, preserve his identity and existing suit, remove all poster text/logos/contact details, and replace the green background with a restrained KTAF field. The final 646 × 850 WebP is approximately 66 KB.
 - No browser console warnings or errors were observed during the responsive review.
 - The production static export and current rendered-HTML test suite pass.

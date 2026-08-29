@@ -61,3 +61,11 @@ These items remain explicitly provisional; no unconfirmed details are invented.
 - **Portrait treatment:** Identity-preserving edit of the supplied photograph, replacing only the medical coat and turquoise background with a professional navy suit, white shirt, blue tie, and subtle KTAF vascular-flow background.
 - **Navigation:** Add a direct Faculty destination while retaining the profiles within the main conference-information experience.
 - **Programme approach:** Do not publish a session title until the developing scientific programme is confirmed.
+
+## Third faculty profile — 29 August 2026
+
+- **Third confirmed speaker:** Dr. Sarkawt Dawood Abbas.
+- **Published specialty:** Interventional cardiologist with a stated professional focus on coronary and peripheral vascular intervention, based on the supplied Facebook clinic profile.
+- **Current programme topic:** “Atrial Fibrillation in 2026: Correct DOAC Dosing, Device-Detected AF, and Antithrombotic Simplification After PCI,” read from `Sheet1!A1:J30` in the working programme supplied by the user.
+- **Topic status:** Display as the current programme topic with a visible “Subject to programme updates” qualifier.
+- **Portrait treatment:** Identity-preserving extraction from the supplied poster, retaining the speaker’s face, beard, suit, tie, and crossed-arm pose while removing every original poster element and introducing a white-led KTAF vascular-flow background.

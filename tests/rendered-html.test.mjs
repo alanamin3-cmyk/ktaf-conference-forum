@@ -43,6 +43,13 @@ test("exports the complete KTAF conference page", async () => {
   assert.match(html, /M\.B\.Ch\.B · Hematology &amp; Lymphoma Specialist/);
   assert.match(html, /Senior Hematologist, Hiwa Hospital/);
   assert.match(html, /University of Sulaimani/);
+  assert.match(html, /Dr\. Sarkawt Dawood Abbas/);
+  assert.match(html, /Interventional Cardiologist/);
+  assert.match(
+    html,
+    /Atrial Fibrillation in 2026: Correct DOAC Dosing,/,
+  );
+  assert.match(html, /Subject to programme updates/);
   assert.match(html, /href="#speakers"/);
   assert.match(
     html,
@@ -55,6 +62,10 @@ test("exports the complete KTAF conference page", async () => {
   assert.match(
     html,
     /href="https:\/\/www\.linkedin\.com\/in\/dana-omar-a8b47534\/"/,
+  );
+  assert.match(
+    html,
+    /href="https:\/\/www\.facebook\.com\/Dr\.Sarkawt\.Dawood\.clinic"/,
   );
 });
 
@@ -87,6 +98,7 @@ test("ships the required public brand assets", async () => {
     access(new URL("ktaf-config.js", outputRoot)),
     access(new URL("speakers/dr-aram-baram.jpg", outputRoot)),
     access(new URL("speakers/dr-dana-omar-karim.webp", outputRoot)),
+    access(new URL("speakers/dr-sarkawt-dawood-abbas.webp", outputRoot)),
   ]);
 });
 
