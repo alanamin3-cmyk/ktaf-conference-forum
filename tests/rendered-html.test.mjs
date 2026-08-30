@@ -25,6 +25,8 @@ test("exports the complete KTAF conference page", async () => {
   assert.match(html, /id="updates"/);
   assert.match(html, /id="sponsor"/);
   assert.match(html, /Advancing Science\. Improving Outcomes\./);
+  assert.match(html, /Science, dialogue, and practice: connected\./);
+  assert.doesNotMatch(html, /Science, dialogue, and practice—connected\./);
   assert.doesNotMatch(html, /Forum purpose/);
   assert.doesNotMatch(html, /class="shell hero-foot"/);
   assert.match(html, /Exclusive sponsor/);

@@ -190,7 +190,7 @@ export default function Home() {
             <div className="section-heading-row">
               <div>
                 <p className="section-label">Our purpose</p>
-                <h2 id="purpose-title">Science, dialogue, and practice—connected.</h2>
+                <h2 id="purpose-title">Science, dialogue, and practice: connected.</h2>
               </div>
               <p className="section-note">
                 A clear foundation for a credible annual scientific forum.
