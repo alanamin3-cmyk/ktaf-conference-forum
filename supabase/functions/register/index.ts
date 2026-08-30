@@ -1,6 +1,7 @@
 /* global Deno */
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.112.3";
+import QRCode from "npm:qrcode@1.5.4";
 import {
   renderRegistrationConfirmationEmail,
   renderRegistrationConfirmationText,
@@ -54,6 +55,7 @@ async function sendConfirmation(
     fullName: string;
     position: string;
     city: string;
+    phoneNumber: string;
     email: string;
     registrationCode: string;
   },
@@ -65,6 +67,20 @@ async function sendConfirmation(
     "KTAF Registration <registration@ktaf.krd>";
   const replyTo =
     Deno.env.get("KTAF_EMAIL_REPLY_TO") || "registration@ktaf.krd";
+  const checkInUrl = `${siteUrl}/admin.html?checkin=${encodeURIComponent(
+    attendee.registrationCode,
+  )}`;
+  const qrDataUrl = await QRCode.toDataURL(checkInUrl, {
+    errorCorrectionLevel: "H",
+    margin: 2,
+    width: 360,
+    color: { dark: "#0D2B45", light: "#FFFFFF" },
+  });
+  const qrContent = qrDataUrl.split(",")[1];
+
+  if (!qrContent) {
+    throw new Error("The attendee QR pass could not be generated.");
+  }
 
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -79,6 +95,13 @@ async function sendConfirmation(
       subject: "Registration confirmed — KTAF",
       html: renderRegistrationConfirmationEmail({ ...attendee, siteUrl }),
       text: renderRegistrationConfirmationText({ ...attendee, siteUrl }),
+      attachments: [
+        {
+          content: qrContent,
+          filename: `KTAF-pass-${attendee.registrationCode}.png`,
+          content_id: "ktaf-registration-qr",
+        },
+      ],
     }),
   });
 
@@ -145,7 +168,7 @@ export default {
   const { data: existing, error: existingError } = await database
     .from("registrations")
     .select(
-      "full_name,position,city,email,registration_code,email_status",
+      "full_name,position,city,phone_number,email,registration_code,email_status",
     )
     .eq("email", attendee.email)
     .maybeSingle();
@@ -177,11 +200,12 @@ export default {
           full_name: attendee.fullName,
           position: attendee.position,
           city: attendee.city,
+          phone_number: attendee.phoneNumber,
           email: attendee.email,
           registration_code: code,
         })
         .select(
-          "full_name,position,city,email,registration_code,email_status",
+          "full_name,position,city,phone_number,email,registration_code,email_status",
         )
         .single();
 
@@ -201,10 +225,33 @@ export default {
     }
   }
 
+  if (existing) {
+    const { data: updatedRecord, error: updateError } = await database
+      .from("registrations")
+      .update({
+        full_name: attendee.fullName,
+        position: attendee.position,
+        city: attendee.city,
+        phone_number: attendee.phoneNumber,
+      })
+      .eq("registration_code", existing.registration_code)
+      .select(
+        "full_name,position,city,phone_number,email,registration_code,email_status",
+      )
+      .single();
+
+    if (updateError || !updatedRecord) {
+      console.error("Registration retry update failed", updateError);
+      return json(request, { message: "Registration could not be completed." }, 500);
+    }
+    record = updatedRecord;
+  }
+
   const emailInput = {
     fullName: record.full_name,
     position: record.position,
     city: record.city,
+    phoneNumber: record.phone_number,
     email: record.email,
     registrationCode: record.registration_code,
   };

@@ -35,6 +35,7 @@ test("exports the complete KTAF conference page", async () => {
   assert.match(html, />contact@ktaf\.krd</);
   assert.match(html, /id="register"/);
   assert.match(html, /Attendee registration/);
+  assert.match(html, /Phone number/);
   assert.match(html, /Confirm registration/);
   assert.match(html, /href="\/admin\.html"/);
   assert.match(html, /Confirmed details, with more to come\./);

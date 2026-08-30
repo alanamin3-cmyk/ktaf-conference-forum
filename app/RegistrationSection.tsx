@@ -48,6 +48,7 @@ export default function RegistrationSection() {
     const fullName = valueFromForm(formData, "fullName");
     const position = valueFromForm(formData, "position");
     const city = valueFromForm(formData, "city");
+    const phoneNumber = valueFromForm(formData, "phoneNumber");
     const email = valueFromForm(formData, "email").toLowerCase();
 
     setStatus({ state: "submitting" });
@@ -66,6 +67,7 @@ export default function RegistrationSection() {
             fullName,
             position,
             city,
+            phoneNumber,
             email,
             website: valueFromForm(formData, "website"),
             acceptedPrivacy: formData.get("acceptedPrivacy") === "on",
@@ -167,7 +169,8 @@ export default function RegistrationSection() {
                 {status.result.emailSent ? (
                   <>
                     Your place has been reserved. A confirmation email has been
-                    sent to <strong>{status.result.email}</strong>.
+                    sent to <strong>{status.result.email}</strong> with your
+                    personal check-in QR code.
                   </>
                 ) : (
                   <>
@@ -181,6 +184,10 @@ export default function RegistrationSection() {
                 <span>Registration reference</span>
                 <strong>{status.result.registrationCode}</strong>
               </div>
+              <p className="registration-qr-reminder">
+                Keep the confirmation email available on your phone and present
+                its QR code at the registration desk.
+              </p>
               <button
                 className="button button-secondary"
                 type="button"
@@ -241,6 +248,19 @@ export default function RegistrationSection() {
                 </label>
 
                 <label>
+                  <span>Phone number</span>
+                  <input
+                    name="phoneNumber"
+                    type="tel"
+                    autoComplete="tel"
+                    inputMode="tel"
+                    maxLength={25}
+                    placeholder="e.g. +964 770 123 4567"
+                    required
+                  />
+                </label>
+
+                <label className="form-field-wide">
                   <span>Email address</span>
                   <input
                     name="email"

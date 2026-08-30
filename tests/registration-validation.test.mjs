@@ -7,6 +7,7 @@ const validInput = {
   fullName: "  Dr. Lana   Ahmed ",
   position: "Specialist Physician",
   city: "Erbil",
+  phoneNumber: "+964 770 123 4567",
   email: "LANA.AHMED@EXAMPLE.COM",
   acceptedPrivacy: true,
   website: "",
@@ -21,8 +22,24 @@ test("normalizes a valid attendee registration", () => {
     fullName: "Dr. Lana Ahmed",
     position: "Specialist Physician",
     city: "Erbil",
+    phoneNumber: "+964 770 123 4567",
     email: "lana.ahmed@example.com",
   });
+});
+
+test("requires a plausible attendee phone number", () => {
+  assert.match(
+    normalizeRegistrationInput({ ...validInput, phoneNumber: "123" }, now)
+      .message,
+    /valid phone/i,
+  );
+  assert.match(
+    normalizeRegistrationInput(
+      { ...validInput, phoneNumber: "+964 CALL ME" },
+      now,
+    ).message,
+    /valid phone/i,
+  );
 });
 
 test("requires consent and a valid email address", () => {

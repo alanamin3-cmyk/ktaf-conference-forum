@@ -12,6 +12,7 @@ const sampleRegistration = {
   fullName: "Dr. Lana Ahmed",
   position: "Specialist Physician",
   city: "Erbil",
+  phoneNumber: "+964 770 123 4567",
   email: "lana.ahmed@example.com",
   registrationId: "KTAF-2026-000124",
   siteUrl: "https://ktaf.krd",

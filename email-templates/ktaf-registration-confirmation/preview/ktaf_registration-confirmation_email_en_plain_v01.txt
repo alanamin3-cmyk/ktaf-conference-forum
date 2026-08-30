@@ -8,8 +8,12 @@ REGISTRATION DETAILS
 Full name: Dr. Lana Ahmed
 Position: Specialist Physician
 City: Erbil
+Phone number: +964 770 123 4567
 Email address: lana.ahmed@example.com
 Registration reference: KTAF-2026-000124
+
+YOUR CHECK-IN QR PASS
+The QR code is attached to this email and displayed in the HTML version. Keep this email available on your phone and present the QR code at the KTAF registration desk.
 
 Conference updates, including confirmed programme, date, and venue information, will be published at:
 https://ktaf.krd/

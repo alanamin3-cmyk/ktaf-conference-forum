@@ -40,6 +40,7 @@ export function renderRegistrationConfirmationEmail(input = {}) {
   const fullName = requireText(input.fullName, "fullName");
   const position = requireText(input.position, "position");
   const city = requireText(input.city, "city");
+  const phoneNumber = requireText(input.phoneNumber, "phoneNumber");
   const email = requireText(input.email, "email");
   const registrationId = String(input.registrationId ?? "").trim();
   const siteUrl = normalizeBaseUrl(input.siteUrl);
@@ -51,6 +52,7 @@ export function renderRegistrationConfirmationEmail(input = {}) {
     ["Full name", fullName],
     ["Position", position],
     ["City", city],
+    ["Phone number", phoneNumber],
     ["Email address", email],
   ];
   if (registrationId) details.push(["Registration reference", registrationId]);
@@ -136,6 +138,29 @@ export function renderRegistrationConfirmationEmail(input = {}) {
             </td>
           </tr>
           <tr>
+            <td class="mobile-pad" align="center" style="padding:18px 48px 14px 48px;">
+              <table role="presentation" width="100%" style="width:100%;background:#FFFFFF;border:2px solid #D9E5F0;border-radius:16px;">
+                <tr>
+                  <td align="center" style="padding:25px 24px 10px 24px;">
+                    <p style="margin:0 0 8px;color:#1E63B6;font-family:Montserrat,Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;line-height:18px;text-transform:uppercase;">Your personal check-in pass</p>
+                    <h2 style="margin:0;color:#0D2B45;font-family:Montserrat,Arial,sans-serif;font-size:21px;font-weight:700;line-height:28px;">Present this QR code at the registration desk</h2>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" style="padding:8px 24px;">
+                    <img src="cid:ktaf-registration-qr" width="220" height="220" alt="KTAF check-in QR code for ${escapeHtml(fullName)}" style="width:220px;max-width:100%;height:auto;">
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" style="padding:9px 24px 25px 24px;">
+                    <p style="margin:0 0 5px;color:#5F7182;font-family:Montserrat,Arial,sans-serif;font-size:12px;line-height:19px;">Keep this email available on your phone. The code is unique to your registration.</p>
+                    <p style="margin:0;color:#0D2B45;font-family:Montserrat,Arial,sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;">${escapeHtml(registrationId)}</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
             <td class="mobile-pad" style="padding:22px 48px 40px 48px;">
               <p class="body-copy" style="margin:0 0 22px 0;color:#5F7182;font-family:Montserrat,Arial,sans-serif;font-size:15px;font-weight:400;line-height:25px;">Conference updates, including confirmed programme, date, and venue information, will be published on the official KTAF website.</p>
               <table role="presentation" width="100%">
@@ -174,6 +199,7 @@ export function renderRegistrationConfirmationText(input = {}) {
   const fullName = requireText(input.fullName, "fullName");
   const position = requireText(input.position, "position");
   const city = requireText(input.city, "city");
+  const phoneNumber = requireText(input.phoneNumber, "phoneNumber");
   const email = requireText(input.email, "email");
   const registrationId = String(input.registrationId ?? "").trim();
   const siteUrl = normalizeBaseUrl(input.siteUrl);
@@ -191,7 +217,11 @@ REGISTRATION DETAILS
 Full name: ${fullName}
 Position: ${position}
 City: ${city}
+Phone number: ${phoneNumber}
 Email address: ${email}${referenceLine}
+
+YOUR CHECK-IN QR PASS
+The QR code is attached to this email and displayed in the HTML version. Keep this email available on your phone and present the QR code at the KTAF registration desk.
 
 Conference updates, including confirmed programme, date, and venue information, will be published at:
 ${siteUrl}/

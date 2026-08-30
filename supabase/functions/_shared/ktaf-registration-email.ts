@@ -2,6 +2,7 @@ export type RegistrationEmailInput = {
   fullName: string;
   position: string;
   city: string;
+  phoneNumber: string;
   email: string;
   registrationCode: string;
   siteUrl?: string;
@@ -31,6 +32,7 @@ export function renderRegistrationConfirmationEmail(input: RegistrationEmailInpu
     ["Full name", input.fullName],
     ["Position", input.position],
     ["City", input.city],
+    ["Phone number", input.phoneNumber],
     ["Email address", input.email],
     ["Registration reference", input.registrationCode],
   ];
@@ -62,6 +64,7 @@ export function renderRegistrationConfirmationEmail(input: RegistrationEmailInpu
         <p class="body-copy" style="margin:0;color:#5F7182;font-family:Montserrat,Arial,sans-serif;font-size:16px;line-height:27px">Thank you for registering for the <strong style="color:#0D2B45">Kurdistan Thrombosis &amp; Anticoagulation Forum — KTAF</strong>. We have received your registration and reserved your place.</p>
       </td></tr>
       <tr><td class="mobile-pad" style="padding:20px 48px 14px"><table role="presentation" width="100%" style="background:#F8FAFC;border:1px solid #E6E9EF;border-radius:14px"><tr><td style="padding:22px 24px 8px"><p style="margin:0;color:#0D2B45;font-family:Montserrat,Arial,sans-serif;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase">Registration details</p></td></tr><tr><td style="padding:0 24px 12px"><table role="presentation" width="100%">${rows}</table></td></tr></table></td></tr>
+      <tr><td class="mobile-pad" align="center" style="padding:18px 48px 14px"><table role="presentation" width="100%" style="background:#FFFFFF;border:2px solid #D9E5F0;border-radius:16px"><tr><td align="center" style="padding:25px 24px 10px"><p style="margin:0 0 8px;color:#1E63B6;font-family:Montserrat,Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase">Your personal check-in pass</p><h2 style="margin:0;color:#0D2B45;font-family:Montserrat,Arial,sans-serif;font-size:21px;line-height:28px">Present this QR code at the registration desk</h2></td></tr><tr><td align="center" style="padding:8px 24px"><img src="cid:ktaf-registration-qr" width="220" height="220" alt="KTAF check-in QR code for ${escapeHtml(input.fullName)}" style="width:220px;max-width:100%;height:auto"></td></tr><tr><td align="center" style="padding:9px 24px 25px"><p style="margin:0 0 5px;color:#5F7182;font-family:Montserrat,Arial,sans-serif;font-size:12px;line-height:19px">Keep this email available on your phone. The code is unique to your registration.</p><p style="margin:0;color:#0D2B45;font-family:Montserrat,Arial,sans-serif;font-size:13px;font-weight:700;letter-spacing:1px">${escapeHtml(input.registrationCode)}</p></td></tr></table></td></tr>
       <tr><td class="mobile-pad" style="padding:22px 48px 40px"><p style="margin:0 0 22px;color:#5F7182;font-family:Montserrat,Arial,sans-serif;font-size:15px;line-height:25px">Conference updates, including confirmed programme, date, and venue information, will be published on the official KTAF website.</p><a href="${siteUrl}/" style="display:inline-block;border-radius:999px;background:#0D2B45;padding:14px 25px;color:#FFFFFF;font-family:Montserrat,Arial,sans-serif;font-size:13px;font-weight:700;text-decoration:none">Visit the KTAF website&nbsp;&nbsp;→</a></td></tr>
       <tr><td class="mobile-pad" style="padding:28px 48px;background:#0D2B45;border-top:4px solid #E63946"><p style="margin:0 0 8px;color:#FFFFFF;font-family:Montserrat,Arial,sans-serif;font-size:14px;font-weight:700">Advancing Science. Improving Outcomes.</p><p style="margin:0 0 18px;color:#C9D9E7;font-family:Montserrat,Arial,sans-serif;font-size:12px;line-height:20px">Questions? Reply to this email or contact <a href="mailto:registration@ktaf.krd" style="color:#FFFFFF;font-weight:700">registration@ktaf.krd</a>.</p><p style="margin:0;color:#9FB6C9;font-family:Montserrat,Arial,sans-serif;font-size:10px;line-height:17px">Kurdistan Thrombosis &amp; Anticoagulation Forum — KTAF<br>Denk Pharma — Exclusive sponsor&nbsp;&nbsp;•&nbsp;&nbsp;© ${year} KTAF</p></td></tr>
     </table>
@@ -81,8 +84,12 @@ REGISTRATION DETAILS
 Full name: ${input.fullName}
 Position: ${input.position}
 City: ${input.city}
+Phone number: ${input.phoneNumber}
 Email address: ${input.email}
 Registration reference: ${input.registrationCode}
+
+YOUR CHECK-IN QR PASS
+The QR code is attached to this email and displayed in the HTML version. Keep this email available on your phone and present the QR code at the KTAF registration desk.
 
 Conference updates will be published at ${input.siteUrl || "https://ktaf.krd"}/
 

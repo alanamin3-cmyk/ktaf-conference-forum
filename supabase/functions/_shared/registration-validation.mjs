@@ -1,4 +1,5 @@
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_PATTERN = /^\+?[0-9() .-]+$/;
 
 function cleanText(value) {
   return String(value ?? "").trim().replace(/\s+/g, " ");
@@ -8,6 +9,7 @@ export function normalizeRegistrationInput(input, now = Date.now()) {
   const fullName = cleanText(input?.fullName);
   const position = cleanText(input?.position);
   const city = cleanText(input?.city);
+  const phoneNumber = cleanText(input?.phoneNumber);
   const email = cleanText(input?.email).toLowerCase();
   const website = cleanText(input?.website);
   const formStartedAt = Number(input?.formStartedAt);
@@ -56,8 +58,18 @@ export function normalizeRegistrationInput(input, now = Date.now()) {
     return { ok: false, message: "Please enter a valid email address." };
   }
 
+  const phoneDigits = phoneNumber.replace(/\D/g, "");
+  if (
+    phoneNumber.length > 25 ||
+    !PHONE_PATTERN.test(phoneNumber) ||
+    phoneDigits.length < 7 ||
+    phoneDigits.length > 15
+  ) {
+    return { ok: false, message: "Please enter a valid phone number." };
+  }
+
   return {
     ok: true,
-    value: { fullName, position, city, email },
+    value: { fullName, position, city, phoneNumber, email },
   };
 }
