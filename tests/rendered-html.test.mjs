@@ -88,7 +88,13 @@ test("exports the complete KTAF conference page", async () => {
     /href="https:\/\/www\.facebook\.com\/Dr\.Sarkawt\.Dawood\.clinic"/,
   );
   assert.match(html, /Dr\. Zana Abdulrahman/);
-  assert.match(html, /Neurologist/);
+  assert.match(html, /Asst\. Prof\. of Neurology/);
+  assert.match(html, /Kurdistan Council of Medical Specialties/);
+  assert.match(html, /Head of the Neurology Department/);
+  assert.match(html, /University of Sulaimani/);
+  assert.match(html, /Director of the Neurology Department/);
+  assert.match(html, /Shar Teaching Hospital/);
+  assert.match(html, /Anticoagulation in Stroke patients/);
   assert.match(
     html,
     /href="https:\/\/www\.facebook\.com\/Dr\.ZanaA\/"/,

@@ -34,7 +34,8 @@
 - Prof. Dr. Aram Baram Mohammed’s current opening address and scientific-presentation titles are reproduced exactly from the private working programme, grouped beneath his profile, and visibly marked as subject to programme updates.
 - Dr. Dana Omar Karim is introduced as a confirmed Conference Speaker using the supplied Smart Health and signed-in LinkedIn profiles. The website includes only the cross-checked M.B.Ch.B education, Senior Hematologist role at Hiwa Hospital, and Smart Health hematology/lymphoma specialty; no unverified session topic is added.
 - Dr. Sarkawt Dawood Abbas is introduced as a confirmed Conference Speaker using the supplied Facebook clinic profile. His current topic is reproduced from the user-supplied working programme and clearly marked as subject to updates.
-- Dr. Zana Abdulrahman is introduced as a confirmed Conference Speaker and neurologist in Sulaymaniyah using his supplied public professional page. The working programme does not yet include a topic for him, so none is published.
+- Dr. Zana Abdulrahman is introduced as a confirmed Conference Speaker and Asst. Prof. of Neurology. His programme-director role under the Kurdistan Council of Medical Specialties in Sulaymaniyah and his neurology-department leadership appointments at the University of Sulaimani and Shar Teaching Hospital are reproduced from the user-supplied profile copy.
+- Dr. Zana’s current topic, “Anticoagulation in Stroke patients,” is reproduced exactly from the private working programme and clearly marked as subject to updates.
 - The working Google Sheet is treated as a private editorial source and is not linked from the public website. A future public programme link will be added only after it is supplied and approved.
 - Denk Pharma is identified as the exclusive sponsor, as supplied by the user.
 - No unsourced speaker credential, statistic, treatment claim, guideline claim, or clinical recommendation has been added.

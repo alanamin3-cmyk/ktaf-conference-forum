@@ -74,8 +74,8 @@ These items remain explicitly provisional; no unconfirmed details are invented.
 ## Fourth faculty profile — 29 August 2026
 
 - **Fourth confirmed speaker:** Dr. Zana Abdulrahman.
-- **Published specialty:** Neurologist in Sulaymaniyah, based on the supplied public professional profile.
-- **Programme status:** The private working programme lists Dr. Zana but does not yet provide a confirmed session topic. No topic is published or invented.
+- **Published role:** Asst. Prof. of Neurology, with the user-supplied programme-director and departmental-leadership appointments.
+- **Programme status:** The private working programme now lists “Anticoagulation in Stroke patients” as Dr. Zana’s current topic. Display it exactly as written with a visible “Subject to programme updates” qualifier.
 - **Portrait treatment:** Identity-preserving edit of the supplied award photograph. Remove the award, original event backdrop, logos, and text; reconstruct the charcoal suit; use a natural crossed-arm pose and a white-led KTAF vascular-flow background.
 
 ## Chairman programme topics — 29 August 2026

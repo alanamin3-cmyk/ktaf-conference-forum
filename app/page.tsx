@@ -556,21 +556,34 @@ export default function Home() {
               <div className="speaker-profile">
                 <p className="speaker-role">Conference Speaker</p>
                 <h3 id="zana-abdulrahman-name">Dr. Zana Abdulrahman</h3>
-                <p className="speaker-credentials">Neurologist</p>
+                <p className="speaker-credentials">
+                  Asst. Prof. of Neurology
+                </p>
 
                 <div
                   className="speaker-appointments"
-                  aria-label="Specialty and location"
+                  aria-label="Academic and clinical appointments"
                 >
-                  <span>Neurology</span>
-                  <span>Sulaymaniyah</span>
+                  <span>
+                    Program Director · Kurdistan Council of Medical Specialties
+                  </span>
+                  <span>Head of Neurology · University of Sulaimani</span>
+                  <span>Director of Neurology · Shar Teaching Hospital</span>
                 </div>
 
                 <p className="speaker-bio">
-                  Dr. Zana Abdulrahman is a neurologist based in Sulaymaniyah.
-                  His public professional page identifies neurology as his
-                  clinical specialty.
+                  Dr. Zana Abdulrahman serves as Program Director for Neurology
+                  under the Kurdistan Council of Medical Specialties in
+                  Sulaymaniyah and as Head of the Neurology Department at the
+                  University of Sulaimani. He is also Director of the Neurology
+                  Department at Shar Teaching Hospital.
                 </p>
+
+                <div className="speaker-topic">
+                  <span>Current programme topic</span>
+                  <p>Anticoagulation in Stroke patients</p>
+                  <small>Subject to programme updates</small>
+                </div>
 
                 <div className="speaker-profile-links">
                   <a
