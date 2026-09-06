@@ -604,10 +604,32 @@ export default function Home() {
 
         <RegistrationSection />
 
+        <section className="partner-section" id="partnership" aria-labelledby="partner-title">
+          <div className="shell partner-grid">
+            <div className="partner-copy">
+              <p className="section-label">Academic partnership</p>
+              <h2 id="partner-title">In partnership with</h2>
+              <p className="partner-name">
+                University of Sulaimani
+                <span>College of Medicine</span>
+              </p>
+            </div>
+            <figure className="partner-mark">
+              <img
+                src="/brand/partners/university-of-sulaimani-college-of-medicine.webp"
+                alt="University of Sulaimani — College of Medicine"
+                width="1820"
+                height="861"
+                loading="lazy"
+              />
+            </figure>
+          </div>
+        </section>
+
         <section className="sponsor-section" id="sponsor" aria-labelledby="sponsor-title">
           <div className="shell sponsor-grid">
             <div className="sponsor-copy">
-              <p className="section-label">Conference partnership</p>
+              <p className="section-label">Conference sponsorship</p>
               <h2 id="sponsor-title">Exclusive sponsor</h2>
               <p className="sponsor-name">Denk Pharma</p>
             </div>
@@ -653,6 +675,7 @@ export default function Home() {
             <a href="#updates">Conference information</a>
             <a href="#speakers">Faculty</a>
             <a href="#register">Register</a>
+            <a href="#partnership">Partnership</a>
             <a href="#sponsor">Sponsor</a>
           </nav>
 
