@@ -632,6 +632,9 @@ export default function Home() {
                 University of Sulaimani
                 <span>College of Medicine</span>
               </p>
+              <p className="partner-cme">
+                Attendees will receive <strong>1 CME credit</strong>.
+              </p>
             </div>
             <figure className="partner-mark">
               <img

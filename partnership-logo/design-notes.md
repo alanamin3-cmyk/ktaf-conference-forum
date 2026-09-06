@@ -10,6 +10,8 @@ Image-generation attempts at equal outer spacing did not produce equal borders. 
 
 ## Website
 
+CME update: “Attendees will receive 1 CME credit.” appears below the academic partner details, separated by a thin gray rule. Navy body text and bold Scientific Blue credit count retain the site's restrained KTAF hierarchy. This is organizer-supplied event information; no accrediting body, certificate, or additional accreditation claim was added.
+
 Dedicated academic partnership section above the existing exclusive sponsor section. Desktop: two columns. Mobile below 760 px: stacked copy and centered logo. Logo uses intrinsic aspect ratio, width capped at 480 px (440 px on mobile) and a lossless WebP. The footer links to the new section. No registration/backend changes.
 
 Existing website typography and KTAF colors are inherited. No clinical, treatment, accreditation, or endorsement claims were added beyond the user-supplied partnership.

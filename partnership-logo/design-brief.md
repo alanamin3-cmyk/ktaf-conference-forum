@@ -6,3 +6,4 @@
 - Follow-up requirement: center the entire logo lockup, with identical white margins on all four sides.
 - Deliverables: centered high-resolution PNG, lossless WebP, responsive website section, editable page/styles and reproducible centering script.
 - Brand: preserve existing KTAF identity, white-led layout, navy headings, restrained hierarchy; retain partner logo colors.
+- CME update: add the user-supplied statement “Attendees will receive 1 CME credit.” below the university name, using the existing KTAF type and color system. No accrediting organization or additional eligibility conditions were supplied or inferred.

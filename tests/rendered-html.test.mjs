@@ -114,6 +114,13 @@ test("shows the supplied presentation topic and description under Dr. Dana", asy
   assert.ok(text.includes("An evidence-based review of anticoagulant selection, dosing, peri-procedural management, and bleeding management, incorporating recent ESC 2026 recommendations and trial evidence. Particular emphasis will be placed on anticoagulation in chronic kidney disease, treatment decisions at intermediate thromboembolic risk, and concomitant antiplatelet therapy, alongside individualised management of venous thromboembolism and cancer-associated thrombosis."));
 });
 
+test("shows the attendee CME credit within the academic partnership section", async () => {
+  const html = await readRenderedPage();
+  const partnership = html.match(/<section[^>]*id="partnership"[\s\S]*?<\/section>/)?.[0];
+  assert.ok(partnership, "Academic partnership section is present");
+  assert.match(partnership, /Attendees will receive <strong>1 CME credit<\/strong>\./);
+});
+
 test("includes keyboard and mobile navigation", async () => {
   const html = await readRenderedPage();
 

@@ -1192,6 +1192,20 @@ p {
   font-weight: 450;
 }
 
+.partner-cme {
+  margin: 24px 0 0;
+  border-top: 1px solid var(--gray);
+  padding-top: 20px;
+  color: var(--navy);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.partner-cme strong {
+  color: var(--blue);
+  font-weight: 700;
+}
+
 .partner-mark {
   display: flex;
   min-width: 0;
