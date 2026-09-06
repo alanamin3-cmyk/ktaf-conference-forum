@@ -453,16 +453,6 @@ export default function Home() {
                 >
                   <span>Current programme topic</span>
                   <p>Practical Tips on Anticoagulation</p>
-                  <p className="speaker-topic-description">
-                    An evidence-based review of anticoagulant selection, dosing,
-                    peri-procedural management, and bleeding management,
-                    incorporating recent ESC 2026 recommendations and trial
-                    evidence. Particular emphasis will be placed on anticoagulation
-                    in chronic kidney disease, treatment decisions at intermediate
-                    thromboembolic risk, and concomitant antiplatelet therapy,
-                    alongside individualised management of venous thromboembolism
-                    and cancer-associated thrombosis.
-                  </p>
                   <small>Subject to programme updates</small>
                 </div>
 

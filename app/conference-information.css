@@ -295,13 +295,6 @@
   padding: 18px 22px;
 }
 
-.speaker-topic p.speaker-topic-description {
-  margin-top: 12px;
-  color: rgba(255, 255, 255, 0.78);
-  font-weight: 400;
-  line-height: 1.8;
-}
-
 .speaker-topic > span,
 .speaker-topic small {
   display: block;

@@ -105,13 +105,14 @@ test("exports the complete KTAF conference page", async () => {
   assert.doesNotMatch(html, /docs\.google\.com\/spreadsheets/);
 });
 
-test("shows the supplied presentation topic and description under Dr. Dana", async () => {
+test("shows Dr. Dana's presentation title without the removed description", async () => {
   const html = await readRenderedPage();
   const profile = html.match(/<article[^>]*aria-labelledby="dana-omar-name"[\s\S]*?<\/article>/)?.[0];
   assert.ok(profile, "Second speaker profile is present");
   const text = profile.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ");
   assert.ok(text.includes("Practical Tips on Anticoagulation"));
-  assert.ok(text.includes("An evidence-based review of anticoagulant selection, dosing, peri-procedural management, and bleeding management, incorporating recent ESC 2026 recommendations and trial evidence. Particular emphasis will be placed on anticoagulation in chronic kidney disease, treatment decisions at intermediate thromboembolic risk, and concomitant antiplatelet therapy, alongside individualised management of venous thromboembolism and cancer-associated thrombosis."));
+  assert.doesNotMatch(profile, /speaker-topic-description/);
+  assert.doesNotMatch(text, /An evidence-based review of anticoagulant selection/);
 });
 
 test("shows the attendee CME credit within the academic partnership section", async () => {
