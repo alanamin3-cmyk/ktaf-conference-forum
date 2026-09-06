@@ -42,7 +42,12 @@
 - Preserve the description verbatim, including the reference to ESC 2026; this is supplied programme copy, not an independently verified clinical summary.
 - Reuse the existing topic panel, with lighter body text for the description and the existing programme-updates qualifier. Preserve all other speaker details and responsive layouts.
 
-## Remaining open items
+## Second speaker layout correction — 6 September 2026
+
+- Give Dr. Dana's text the wider left column and keep the portrait in the smaller right column above 680 px. Avoid the narrow text column and excess empty space caused by swapping content without swapping column widths.
+- Keep all wording, typography and other speakers unchanged; retain the existing single-column mobile layout.
+
+## Programme open items
 
 - Complete programme and remaining speaker confirmations
 

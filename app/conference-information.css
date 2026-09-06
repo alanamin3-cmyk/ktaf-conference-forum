@@ -146,6 +146,13 @@
   grid-row: 1;
 }
 
+@media (min-width: 681px) {
+  .speaker-feature.speaker-feature-wide-profile {
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 0.42fr);
+    gap: clamp(32px, 5vw, 80px);
+  }
+}
+
 .speaker-portrait {
   width: min(100%, 323px);
   margin: 0;

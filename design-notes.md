@@ -47,6 +47,10 @@ Added the user-supplied title “Practical Tips on Anticoagulation” and the fu
 
 ## Production
 
+### Second speaker layout correction — 6 September 2026
+
+The reversed speaker layout moved Dr. Dana's text into the narrow portrait column without reversing the column proportions. A scoped `speaker-feature-wide-profile` modifier now assigns the wider left column to his text and the smaller right column to his portrait above 680 px, with a responsive 32–80 px gap. The existing mobile stack, all supplied copy, other speaker layouts, portraits, fonts and colors are unchanged.
+
 - Editable source: React/TypeScript and CSS.
 - Web assets: copied from the KTAF skill’s master asset library; the masters remain untouched.
 - Color space: sRGB web output.

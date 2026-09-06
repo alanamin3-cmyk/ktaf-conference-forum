@@ -407,7 +407,7 @@ export default function Home() {
             </article>
 
             <article
-              className="speaker-feature speaker-feature-reverse"
+              className="speaker-feature speaker-feature-reverse speaker-feature-wide-profile"
               aria-labelledby="dana-omar-name"
             >
               <figure className="speaker-portrait">
