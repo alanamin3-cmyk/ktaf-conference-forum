@@ -36,7 +36,13 @@
 
 **Exclusive sponsor:** Denk Pharma
 
-## Open items
+## Second speaker presentation — 6 September 2026
+
+- Add “Practical Tips on Anticoagulation” and the user's complete supplied description to Dr. Dana Omar Karim's profile.
+- Preserve the description verbatim, including the reference to ESC 2026; this is supplied programme copy, not an independently verified clinical summary.
+- Reuse the existing topic panel, with lighter body text for the description and the existing programme-updates qualifier. Preserve all other speaker details and responsive layouts.
+
+## Remaining open items
 
 - Complete programme and remaining speaker confirmations
 

@@ -41,6 +41,10 @@
 - No unsourced speaker credential, statistic, treatment claim, guideline claim, or clinical recommendation has been added.
 - Current content is institutional conference copy rather than patient advice. Future scientific programme or treatment content requires appropriate scientific and regulatory review before publication.
 
+## Second speaker presentation — 6 September 2026
+
+Added the user-supplied title “Practical Tips on Anticoagulation” and the full supplied description to Dr. Dana Omar Karim's topic panel. The body description uses the existing website type scale with normal weight, generous line height, and high-contrast light text. No assets or credentials changed. The description, including “ESC 2026 recommendations”, is reproduced as supplied programme copy; it has not been independently scientifically validated in this editorial update.
+
 ## Production
 
 - Editable source: React/TypeScript and CSS.
