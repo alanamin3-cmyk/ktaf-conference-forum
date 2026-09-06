@@ -493,6 +493,8 @@ export default function Home() {
                 <h3 id="sarkawt-dawood-name">Dr. Sarkawt Dawood Abbas</h3>
                 <p className="speaker-credentials">
                   Interventional Cardiologist
+                  <br />
+                  FEBC (Cardio.), MRCP (UK), MBChB
                 </p>
 
                 <div className="speaker-appointments" aria-label="Specialty">
