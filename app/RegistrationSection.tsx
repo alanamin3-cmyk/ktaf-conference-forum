@@ -21,13 +21,57 @@ function valueFromForm(formData: FormData, field: string) {
   return String(formData.get(field) ?? "").trim();
 }
 
+const registrationFullMessage =
+  "Registration is now full. All 100 attendee places have been reserved. For enquiries, please contact registration@ktaf.krd.";
+
+async function registrationIsFull(): Promise<boolean | null> {
+  const config = getKtafRuntimeConfig();
+  if (!config) return null;
+  try {
+    const response = await fetch(
+      `${config.supabaseUrl}/rest/v1/rpc/get_registration_capacity`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: config.supabasePublishableKey,
+        },
+        body: "{}",
+        cache: "no-store",
+      },
+    );
+    if (!response.ok) return null;
+    const capacity = await response.json();
+    return typeof capacity?.remaining === "number"
+      ? capacity.remaining === 0
+      : null;
+  } catch {
+    // Availability is informational; the database always enforces the limit.
+    return null;
+  }
+}
+
 export default function RegistrationSection() {
   const [status, setStatus] = useState<FormStatus>({ state: "idle" });
+  const [isFull, setIsFull] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const startedAt = useRef(0);
 
   useEffect(() => {
     startedAt.current = Date.now();
+    let active = true;
+    const refreshCapacity = async () => {
+      const full = await registrationIsFull();
+      if (active && full !== null) setIsFull(full);
+    };
+    void refreshCapacity();
+    const interval = window.setInterval(refreshCapacity, 60_000);
+    window.addEventListener("focus", refreshCapacity);
+    return () => {
+      active = false;
+      window.clearInterval(interval);
+      window.removeEventListener("focus", refreshCapacity);
+    };
   }, []);
 
   async function submitRegistration(event: FormEvent<HTMLFormElement>) {
@@ -81,6 +125,13 @@ export default function RegistrationSection() {
         | null;
 
       if (!response.ok || !payload?.registrationCode) {
+        // An open form can lose the final seat to another attendee. Check the
+        // authoritative count after a rejected submission, including older
+        // register-function versions that return a generic database error.
+        if (await registrationIsFull()) {
+          setIsFull(true);
+          throw new Error(registrationFullMessage);
+        }
         throw new Error(
           payload?.message ||
             "We could not complete your registration. Please try again.",
@@ -131,6 +182,7 @@ export default function RegistrationSection() {
             Complete the form to register your interest in attending the
             Kurdistan Thrombosis &amp; Anticoagulation Forum — KTAF.
           </p>
+          <p className="form-assurance">Registration is limited to 100 attendees.</p>
 
           <ol className="registration-steps" aria-label="Registration process">
             <li>
@@ -292,7 +344,11 @@ export default function RegistrationSection() {
                 </span>
               </label>
 
-              {status.state === "error" ? (
+              {isFull ? (
+                <p className="form-message form-error" role="status">
+                  {registrationFullMessage}
+                </p>
+              ) : status.state === "error" ? (
                 <p className="form-message form-error" role="alert">
                   {status.message}
                 </p>
@@ -301,10 +357,12 @@ export default function RegistrationSection() {
               <button
                 className="registration-submit"
                 type="submit"
-                disabled={status.state === "submitting"}
+                disabled={status.state === "submitting" || isFull}
               >
                 <span>
-                  {status.state === "submitting"
+                  {isFull
+                    ? "Registration full"
+                    : status.state === "submitting"
                     ? "Confirming registration…"
                     : "Confirm registration"}
                 </span>

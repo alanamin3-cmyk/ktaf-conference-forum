@@ -25,6 +25,7 @@ type Registration = {
   email_status: "pending" | "sent" | "failed";
   email_sent_at: string | null;
   registration_status: "registered" | "cancelled";
+  is_test: boolean;
   status_updated_at: string;
   cancellation_note: string | null;
   checked_in_at: string | null;
@@ -191,7 +192,7 @@ export default function AdminPortal() {
     const { data, error } = await client
       .from("registrations")
       .select(
-        "id,created_at,full_name,position,city,phone_number,email,registration_code,email_status,email_sent_at,registration_status,status_updated_at,cancellation_note,checked_in_at,checked_in_by,badge_printed_at,badge_print_count",
+        "id,created_at,full_name,position,city,phone_number,email,registration_code,email_status,email_sent_at,registration_status,is_test,status_updated_at,cancellation_note,checked_in_at,checked_in_by,badge_printed_at,badge_print_count",
       )
       .order("created_at", { ascending: false });
 
@@ -301,22 +302,22 @@ export default function AdminPortal() {
   const summary = useMemo(
     () => ({
       registered: registrations.filter(
-        (registration) => registration.registration_status === "registered",
+        (registration) => !registration.is_test && registration.registration_status === "registered",
       ).length,
       cancelled: registrations.filter(
-        (registration) => registration.registration_status === "cancelled",
+        (registration) => !registration.is_test && registration.registration_status === "cancelled",
       ).length,
       today: registrations.filter((registration) =>
-        isToday(registration.created_at),
+        !registration.is_test && isToday(registration.created_at),
       ).length,
       checkedIn: registrations.filter(
-        (registration) => registration.checked_in_at,
+        (registration) => !registration.is_test && registration.checked_in_at,
       ).length,
       cities: new Set(
         registrations
           .filter(
             (registration) =>
-              registration.registration_status === "registered",
+              !registration.is_test && registration.registration_status === "registered",
           )
           .map((registration) => registration.city.toLowerCase()),
       ).size,
@@ -379,7 +380,7 @@ export default function AdminPortal() {
         .update(update)
         .eq("id", registration.id)
         .select(
-          "id,created_at,full_name,position,city,phone_number,email,registration_code,email_status,email_sent_at,registration_status,status_updated_at,cancellation_note,checked_in_at,checked_in_by,badge_printed_at,badge_print_count",
+          "id,created_at,full_name,position,city,phone_number,email,registration_code,email_status,email_sent_at,registration_status,is_test,status_updated_at,cancellation_note,checked_in_at,checked_in_by,badge_printed_at,badge_print_count",
         )
         .single();
 
@@ -598,7 +599,9 @@ export default function AdminPortal() {
 
     if (error) {
       setActionError(
-        "The attendance status could not be updated. Please try again.",
+        error.message.includes("KTAF_CAPACITY_FULL")
+          ? "All 100 attendee places are reserved. A place must become available before restoring this registration."
+          : "The attendance status could not be updated. Please try again.",
       );
       setActionBusy(false);
       return;
@@ -644,6 +647,7 @@ export default function AdminPortal() {
         "Status updated",
         "Cancellation note",
         "Confirmation email",
+        "Record type",
       ].map((value) => ({ value, ...headerStyle }));
       const rows = filtered.map((registration) => [
         { value: registration.registration_code },
@@ -677,6 +681,7 @@ export default function AdminPortal() {
                 ? "Needs attention"
                 : "Pending",
         },
+        { value: registration.is_test ? "Test — excluded from capacity" : "Attendee" },
       ]);
       const date = new Date().toISOString().slice(0, 10);
 
@@ -697,6 +702,7 @@ export default function AdminPortal() {
           { width: 24 },
           { width: 42 },
           { width: 22 },
+          { width: 32 },
         ],
         dateFormat: "dd mmm yyyy hh:mm",
         stickyRowsCount: 1,
@@ -924,7 +930,7 @@ export default function AdminPortal() {
           <section className="portal-stats" aria-label="Registration summary">
             <article>
               <span>Registered attendees</span>
-              <strong>{summary.registered}</strong>
+              <strong>{summary.registered} / 100</strong>
             </article>
             <article>
               <span>Checked in</span>
@@ -943,6 +949,11 @@ export default function AdminPortal() {
               <strong>{summary.cities}</strong>
             </article>
           </section>
+
+          <p className="form-assurance">
+            Maximum attendance: 100. Test records are labelled below and excluded
+            from all attendance totals. Cancelled registrations release a place.
+          </p>
 
           <section className="checkin-panel" aria-labelledby="checkin-title">
             <div className="checkin-workspace">
@@ -1105,6 +1116,9 @@ export default function AdminPortal() {
                     >
                       <td>
                         <strong>{registration.full_name}</strong>
+                        {registration.is_test ? (
+                          <span className="attendance-note">Test — excluded from capacity</span>
+                        ) : null}
                         <a href={`mailto:${registration.email}`}>
                           {registration.email}
                         </a>
