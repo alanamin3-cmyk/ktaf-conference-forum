@@ -22,7 +22,7 @@ function valueFromForm(formData: FormData, field: string) {
 }
 
 const registrationFullMessage =
-  "Registration is now full. All 100 attendee places have been reserved. For enquiries, please contact registration@ktaf.krd.";
+  "Registration is now full. All 200 attendee places have been reserved. For enquiries, please contact registration@ktaf.krd.";
 
 async function registrationIsFull(): Promise<boolean | null> {
   const config = getKtafRuntimeConfig();
@@ -182,7 +182,7 @@ export default function RegistrationSection() {
             Complete the form to register your interest in attending the
             Kurdistan Thrombosis &amp; Anticoagulation Forum — KTAF.
           </p>
-          <p className="form-assurance">Registration is limited to 100 attendees.</p>
+          <p className="form-assurance">Registration is limited to 200 attendees.</p>
 
           <ol className="registration-steps" aria-label="Registration process">
             <li>

@@ -600,7 +600,7 @@ export default function AdminPortal() {
     if (error) {
       setActionError(
         error.message.includes("KTAF_CAPACITY_FULL")
-          ? "All 100 attendee places are reserved. A place must become available before restoring this registration."
+          ? "All 200 attendee places are reserved. A place must become available before restoring this registration."
           : "The attendance status could not be updated. Please try again.",
       );
       setActionBusy(false);
@@ -930,7 +930,7 @@ export default function AdminPortal() {
           <section className="portal-stats" aria-label="Registration summary">
             <article>
               <span>Registered attendees</span>
-              <strong>{summary.registered} / 100</strong>
+              <strong>{summary.registered} / 200</strong>
             </article>
             <article>
               <span>Checked in</span>
@@ -951,7 +951,7 @@ export default function AdminPortal() {
           </section>
 
           <p className="form-assurance">
-            Maximum attendance: 100. Test records are labelled below and excluded
+            Maximum attendance: 200. Test records are labelled below and excluded
             from all attendance totals. Cancelled registrations release a place.
           </p>
 
