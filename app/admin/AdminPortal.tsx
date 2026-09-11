@@ -12,6 +12,7 @@ import {
   useState,
 } from "react";
 import { getSupabaseBrowserClient } from "../../lib/supabase-browser";
+import { withPortalTimeout } from "../../lib/portal-request";
 
 type Registration = {
   id: string;
@@ -42,6 +43,7 @@ type RegistrationAction = {
 type PortalState =
   | { kind: "loading" }
   | { kind: "configuration" }
+  | { kind: "unavailable" }
   | { kind: "signed-out" }
   | { kind: "set-password"; session: Session }
   | { kind: "unauthorized"; email: string }
@@ -151,8 +153,11 @@ export default function AdminPortal() {
   const handledUrlCodeRef = useRef("");
   const scannerInputRef = useRef<HTMLInputElement>(null);
   const dialogCloseButtonRef = useRef<HTMLButtonElement>(null);
+  const accessRequestRef = useRef(0);
+  const attendeeRequestRef = useRef(0);
 
   const loadPortal = useCallback(async (session: Session | null) => {
+    const requestId = ++accessRequestRef.current;
     const client = getSupabaseBrowserClient();
     if (!client) {
       queueMicrotask(() => setPortal({ kind: "configuration" }));
@@ -160,48 +165,62 @@ export default function AdminPortal() {
     }
 
     if (!session) {
+      ++attendeeRequestRef.current;
       setPortal({ kind: "signed-out" });
       setRegistrations([]);
+      setDataBusy(false);
       return;
     }
 
-    const { data: membership, error: membershipError } = await client
-      .from("admin_users")
-      .select("email")
-      .eq("user_id", session.user.id)
-      .maybeSingle();
+    try {
+      const { data: membership, error: membershipError } = await withPortalTimeout(
+        client.from("admin_users").select("email")
+          .eq("user_id", session.user.id).maybeSingle(),
+      );
+      if (requestId !== accessRequestRef.current) return;
+      if (membershipError) throw membershipError;
 
-    if (membershipError || !membership) {
-      setPortal({
-        kind: "unauthorized",
-        email: session.user.email || "this account",
-      });
+      if (!membership) {
+        ++attendeeRequestRef.current;
+        setPortal({ kind: "unauthorized", email: session.user.email || "this account" });
+        setRegistrations([]);
+        setDataBusy(false);
+        return;
+      }
+      setPortal({ kind: "ready", session });
+    } catch {
+      if (requestId !== accessRequestRef.current) return;
+      ++attendeeRequestRef.current;
       setRegistrations([]);
-      return;
+      setDataBusy(false);
+      setPortal({ kind: "unavailable" });
     }
-
-    setPortal({ kind: "ready", session });
   }, []);
 
   const refreshRegistrations = useCallback(async () => {
     const client = getSupabaseBrowserClient();
     if (!client) return;
 
+    const requestId = ++attendeeRequestRef.current;
     setDataBusy(true);
     setDataError("");
-    const { data, error } = await client
-      .from("registrations")
-      .select(
-        "id,created_at,full_name,position,city,phone_number,email,registration_code,email_status,email_sent_at,registration_status,is_test,status_updated_at,cancellation_note,checked_in_at,checked_in_by,badge_printed_at,badge_print_count",
-      )
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      setDataError("The attendee list could not be loaded. Please try again.");
-    } else {
+    try {
+      const { data, error } = await withPortalTimeout(client
+        .from("registrations")
+        .select(
+          "id,created_at,full_name,position,city,phone_number,email,registration_code,email_status,email_sent_at,registration_status,is_test,status_updated_at,cancellation_note,checked_in_at,checked_in_by,badge_printed_at,badge_print_count",
+        )
+        .order("created_at", { ascending: false }));
+      if (requestId !== attendeeRequestRef.current) return;
+      if (error) throw error;
       setRegistrations((data as Registration[]) || []);
+    } catch {
+      if (requestId === attendeeRequestRef.current) {
+        setDataError("The attendee list could not be refreshed. Any displayed records may be out of date. Please try Refresh again.");
+      }
+    } finally {
+      if (requestId === attendeeRequestRef.current) setDataBusy(false);
     }
-    setDataBusy(false);
   }, []);
 
   useEffect(() => {
@@ -212,19 +231,28 @@ export default function AdminPortal() {
     }
 
     let active = true;
-    client.auth.getSession().then(({ data }) => {
+    const accessRequests = accessRequestRef;
+    const attendeeRequests = attendeeRequestRef;
+    withPortalTimeout(client.auth.getSession()).then(({ data, error }) => {
       if (!active) return;
+      if (error) throw error;
       const hash = window.location.hash;
       if (
         data.session &&
         (hash.includes("type=invite") || hash.includes("type=recovery"))
       ) {
+        ++accessRequestRef.current;
         setPortal({ kind: "set-password", session: data.session });
         return;
       }
       void loadPortal(data.session);
+    }).catch(() => {
+      if (!active) return;
+      setPortal((current) => current.kind === "loading" ? { kind: "unavailable" } : current);
     });
 
+    // Leave the auth notification before making an authenticated database read.
+    const authTimers = new Set<ReturnType<typeof setTimeout>>();
     const { data: listener } = client.auth.onAuthStateChange((event, session) => {
       if (!active) return;
       const hash = window.location.hash;
@@ -234,14 +262,22 @@ export default function AdminPortal() {
           hash.includes("type=invite") ||
           hash.includes("type=recovery"))
       ) {
+        ++accessRequestRef.current;
         setPortal({ kind: "set-password", session });
         return;
       }
-      void loadPortal(session);
+      const timer = setTimeout(() => {
+        authTimers.delete(timer);
+        if (active) void loadPortal(session);
+      }, 0);
+      authTimers.add(timer);
     });
 
     return () => {
       active = false;
+      ++accessRequests.current;
+      ++attendeeRequests.current;
+      authTimers.forEach(clearTimeout);
       listener.subscription.unsubscribe();
     };
   }, [loadPortal]);
@@ -439,15 +475,21 @@ export default function AdminPortal() {
     setLoginError("");
     setLoginMessage("");
 
-    const { error } = await client.auth.signInWithPassword({
-      email: String(formData.get("email") ?? "").trim(),
-      password: String(formData.get("password") ?? ""),
-    });
-
-    if (error) {
-      setLoginError("The email address or password is incorrect.");
+    try {
+      const { error } = await withPortalTimeout(client.auth.signInWithPassword({
+        email: String(formData.get("email") ?? "").trim(),
+        password: String(formData.get("password") ?? ""),
+      }));
+      if (error?.code === "invalid_credentials") {
+        setLoginError("The email address or password is incorrect.");
+      } else if (error) {
+        throw error;
+      }
+    } catch {
+      setLoginError("The sign-in service is not responding. Please try again shortly; you do not need to reset your password.");
+    } finally {
+      setLoginBusy(false);
     }
-    setLoginBusy(false);
   }
 
   async function requestPasswordReset(event: FormEvent<HTMLFormElement>) {
@@ -747,6 +789,23 @@ export default function AdminPortal() {
             <Link className="button button-primary" href="/">
               Return to KTAF
             </Link>
+          </section>
+        </main>
+      ) : null}
+
+      {portal.kind === "unavailable" ? (
+        <main className="portal-centered">
+          <section className="portal-notice" role="alert">
+            <p className="section-label">Connection interrupted</p>
+            <h1>The team portal could not connect.</h1>
+            <p>
+              The secure registration service is taking too long to respond.
+              Please check your internet connection and try again. You do not
+              need to reset your password.
+            </p>
+            <button className="button button-primary" type="button" onClick={() => window.location.reload()}>
+              Try again
+            </button>
           </section>
         </main>
       ) : null}
