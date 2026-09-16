@@ -686,6 +686,55 @@ export default function Home() {
                 </div>
               </div>
             </article>
+            <article
+              className="speaker-feature"
+              aria-labelledby="fernando-guzman-name"
+            >
+              <figure className="speaker-portrait">
+                <div className="speaker-portrait-frame">
+                  <img
+                    src="/speakers/dr-fernando-guzman.jpg"
+                    alt="Dr. Fernando Guzman"
+                    width="1086"
+                    height="1448"
+                    loading="lazy"
+                  />
+                  <span className="speaker-index" aria-hidden="true">
+                    07
+                  </span>
+                </div>
+                <figcaption>Conference speaker</figcaption>
+              </figure>
+
+              <div className="speaker-profile">
+                <p className="speaker-role">Conference Speaker</p>
+                <h3 id="fernando-guzman-name">Dr. Fernando Guzman</h3>
+                <p className="speaker-credentials">Head of Medical Affairs</p>
+
+                <div
+                  className="speaker-appointments"
+                  aria-label="Professional affiliation"
+                >
+                  <span>Denk Pharma</span>
+                </div>
+
+                <p className="speaker-bio">
+                  Dr. Fernando Guzman leads global scientific communication and
+                  medical education at Denk Pharma. He holds a medical degree and
+                  an MBA in Healthcare Administration, with interests in preventive,
+                  cardiovascular and cardiometabolic health and translating evidence
+                  into patient-centered care.
+                </p>
+
+                <div className="speaker-topic">
+                  <span>Presentation topic</span>
+                  <p>
+                    Beyond Anticoagulation: From Stroke Prevention to Recovery –
+                    The Complete Patient Journey
+                  </p>
+                </div>
+              </div>
+            </article>
           </div>
         </section>
 

@@ -118,7 +118,7 @@ test("shows Dr. Dana's presentation title without the removed description", asyn
 test("shows the approved fifth speaker after Dr. Zana with the verified programme title", async () => {
   const html = await readRenderedPage();
   const profiles = [...html.matchAll(/<article[^>]*class="speaker-feature[^"]*"[^>]*>[\s\S]*?<\/article>/g)].map((match) => match[0]);
-  assert.equal(profiles.length, 6);
+  assert.equal(profiles.length, 7);
   assert.match(profiles[3], /aria-labelledby="zana-abdulrahman-name"/);
   const profile = profiles[4];
   assert.match(profile, /aria-labelledby="ahmed-ibrahim-name"/);
@@ -134,7 +134,7 @@ test("shows the approved fifth speaker after Dr. Zana with the verified programm
 test("shows the approved sixth speaker with the supplied qualifications and role", async () => {
   const html = await readRenderedPage();
   const profiles = [...html.matchAll(/<article[^>]*class="speaker-feature[^"]*"[^>]*>[\s\S]*?<\/article>/g)].map((match) => match[0]);
-  assert.equal(profiles.length, 6);
+  assert.equal(profiles.length, 7);
   assert.match(profiles[4], /aria-labelledby="ahmed-ibrahim-name"/);
   const profile = profiles[5];
   assert.match(profile, /aria-labelledby="mustapha-alkhalidi-name"/);
@@ -146,7 +146,25 @@ test("shows the approved sixth speaker with the supplied qualifications and role
   assert.match(profile, /<img[^>]*src="\/speakers\/ph-mustapha-alkhalidi\.jpg"[^>]*alt="Ph\. Mustapha Alkhalidi"[^>]*width="1086"[^>]*height="1448"[^>]*loading="lazy"/);
   assert.match(profile, /Quality Behind Antithrombotic Therapy/);
   assert.doesNotMatch(profile, /speaker-bio|speaker-topic-description/);
-  assert.doesNotMatch(html, /Fernando Guzman/);
+});
+
+test("shows the approved seventh speaker with the concise biography and exact programme title", async () => {
+  const html = await readRenderedPage();
+  const profiles = [...html.matchAll(/<article[^>]*class="speaker-feature[^"]*"[^>]*>[\s\S]*?<\/article>/g)].map((match) => match[0]);
+  assert.equal(profiles.length, 7);
+  assert.match(profiles[5], /aria-labelledby="mustapha-alkhalidi-name"/);
+  const profile = profiles[6];
+  assert.match(profile, /aria-labelledby="fernando-guzman-name"/);
+  assert.doesNotMatch(profile, /speaker-feature-reverse/);
+  assert.match(profile, /Dr\. Fernando Guzman/);
+  assert.match(profile, /Head of Medical Affairs/);
+  assert.match(profile, /Denk Pharma/);
+  const text = profile.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ");
+  assert.ok(text.includes("Dr. Fernando Guzman leads global scientific communication and medical education at Denk Pharma. He holds a medical degree and an MBA in Healthcare Administration, with interests in preventive, cardiovascular and cardiometabolic health and translating evidence into patient-centered care."));
+  assert.ok(text.includes("Beyond Anticoagulation: From Stroke Prevention to Recovery – The Complete Patient Journey"));
+  assert.match(profile, /class="speaker-index"[^>]*>\s*07\s*</);
+  assert.match(profile, /<img[^>]*src="\/speakers\/dr-fernando-guzman\.jpg"[^>]*alt="Dr\. Fernando Guzman"[^>]*width="1086"[^>]*height="1448"[^>]*loading="lazy"/);
+  assert.doesNotMatch(profile, /speaker-topic-description|MBChB|\bMD\b/);
 });
 
 test("shows the attendee CME credit within the academic partnership section", async () => {
@@ -189,6 +207,7 @@ test("ships the required public brand assets", async () => {
     access(new URL("speakers/dr-zana-abdulrahman.webp", outputRoot)),
     access(new URL("speakers/dr-ahmed-ibrahim-shukr.jpg", outputRoot)),
     access(new URL("speakers/ph-mustapha-alkhalidi.jpg", outputRoot)),
+    access(new URL("speakers/dr-fernando-guzman.jpg", outputRoot)),
   ]);
 });
 
