@@ -646,6 +646,41 @@ export default function Home() {
                 </div>
               </div>
             </article>
+            <article
+              className="speaker-feature speaker-feature-reverse speaker-feature-wide-profile"
+              aria-labelledby="mustapha-alkhalidi-name"
+            >
+              <figure className="speaker-portrait">
+                <div className="speaker-portrait-frame">
+                  <img
+                    src="/speakers/ph-mustapha-alkhalidi.jpg"
+                    alt="Ph. Mustapha Alkhalidi"
+                    width="1086"
+                    height="1448"
+                    loading="lazy"
+                  />
+                  <span className="speaker-index" aria-hidden="true">
+                    06
+                  </span>
+                </div>
+                <figcaption>Conference speaker</figcaption>
+              </figure>
+
+              <div className="speaker-profile">
+                <p className="speaker-role">Conference Speaker</p>
+                <h3 id="mustapha-alkhalidi-name">Ph. Mustapha Alkhalidi</h3>
+                <p className="speaker-credentials">
+                  BSc Pharm, MSc in Pharmaceutics and Industrial Pharmacy
+                </p>
+
+                <div
+                  className="speaker-appointments"
+                  aria-label="Professional role"
+                >
+                  <span>Product Manager, Denk Pharma</span>
+                </div>
+              </div>
+            </article>
           </div>
         </section>
 

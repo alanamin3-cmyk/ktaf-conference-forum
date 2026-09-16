@@ -118,7 +118,7 @@ test("shows Dr. Dana's presentation title without the removed description", asyn
 test("shows the approved fifth speaker after Dr. Zana with the verified programme title", async () => {
   const html = await readRenderedPage();
   const profiles = [...html.matchAll(/<article[^>]*class="speaker-feature[^"]*"[^>]*>[\s\S]*?<\/article>/g)].map((match) => match[0]);
-  assert.equal(profiles.length, 5);
+  assert.equal(profiles.length, 6);
   assert.match(profiles[3], /aria-labelledby="zana-abdulrahman-name"/);
   const profile = profiles[4];
   assert.match(profile, /aria-labelledby="ahmed-ibrahim-name"/);
@@ -129,6 +129,23 @@ test("shows the approved fifth speaker after Dr. Zana with the verified programm
   assert.match(profile, /class="speaker-index"[^>]*>\s*05\s*</);
   assert.match(profile, /<img[^>]*src="\/speakers\/dr-ahmed-ibrahim-shukr\.jpg"[^>]*alt="Dr\. Ahmed Ibrahim Shukr"[^>]*width="1086"[^>]*height="1448"[^>]*loading="lazy"/);
   assert.doesNotMatch(profile, /speaker-bio|speaker-topic-description/);
+});
+
+test("shows the approved sixth speaker with the supplied qualifications and role", async () => {
+  const html = await readRenderedPage();
+  const profiles = [...html.matchAll(/<article[^>]*class="speaker-feature[^"]*"[^>]*>[\s\S]*?<\/article>/g)].map((match) => match[0]);
+  assert.equal(profiles.length, 6);
+  assert.match(profiles[4], /aria-labelledby="ahmed-ibrahim-name"/);
+  const profile = profiles[5];
+  assert.match(profile, /aria-labelledby="mustapha-alkhalidi-name"/);
+  assert.match(profile, /speaker-feature-reverse speaker-feature-wide-profile/);
+  assert.match(profile, /Ph\. Mustapha Alkhalidi/);
+  assert.match(profile, /BSc Pharm, MSc in Pharmaceutics and Industrial Pharmacy/);
+  assert.match(profile, /Product Manager, Denk Pharma/);
+  assert.match(profile, /class="speaker-index"[^>]*>\s*06\s*</);
+  assert.match(profile, /<img[^>]*src="\/speakers\/ph-mustapha-alkhalidi\.jpg"[^>]*alt="Ph\. Mustapha Alkhalidi"[^>]*width="1086"[^>]*height="1448"[^>]*loading="lazy"/);
+  assert.doesNotMatch(profile, /speaker-bio|speaker-topic/);
+  assert.doesNotMatch(html, /Fernando Guzman/);
 });
 
 test("shows the attendee CME credit within the academic partnership section", async () => {
@@ -170,6 +187,7 @@ test("ships the required public brand assets", async () => {
     access(new URL("speakers/dr-sarkawt-dawood-abbas.webp", outputRoot)),
     access(new URL("speakers/dr-zana-abdulrahman.webp", outputRoot)),
     access(new URL("speakers/dr-ahmed-ibrahim-shukr.jpg", outputRoot)),
+    access(new URL("speakers/ph-mustapha-alkhalidi.jpg", outputRoot)),
   ]);
 });
 
