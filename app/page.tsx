@@ -608,6 +608,44 @@ export default function Home() {
                 </div>
               </div>
             </article>
+            <article
+              className="speaker-feature"
+              aria-labelledby="ahmed-ibrahim-name"
+            >
+              <figure className="speaker-portrait">
+                <div className="speaker-portrait-frame">
+                  <img
+                    src="/speakers/dr-ahmed-ibrahim-shukr.jpg"
+                    alt="Dr. Ahmed Ibrahim Shukr"
+                    width="1086"
+                    height="1448"
+                    loading="lazy"
+                  />
+                  <span className="speaker-index" aria-hidden="true">
+                    05
+                  </span>
+                </div>
+                <figcaption>Conference speaker</figcaption>
+              </figure>
+
+              <div className="speaker-profile">
+                <p className="speaker-role">Conference Speaker</p>
+                <h3 id="ahmed-ibrahim-name">Dr. Ahmed Ibrahim Shukr</h3>
+                <p className="speaker-credentials">Consultant Hematologist</p>
+
+                <div
+                  className="speaker-appointments"
+                  aria-label="Clinical appointment"
+                >
+                  <span>Kirkuk Center for Oncology and Hematology</span>
+                </div>
+
+                <div className="speaker-topic">
+                  <span>Presentation topic</span>
+                  <p>Unusual-Site Thrombosis</p>
+                </div>
+              </div>
+            </article>
           </div>
         </section>
 

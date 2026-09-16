@@ -115,6 +115,22 @@ test("shows Dr. Dana's presentation title without the removed description", asyn
   assert.doesNotMatch(text, /An evidence-based review of anticoagulant selection/);
 });
 
+test("shows the approved fifth speaker after Dr. Zana with the verified programme title", async () => {
+  const html = await readRenderedPage();
+  const profiles = [...html.matchAll(/<article[^>]*class="speaker-feature[^"]*"[^>]*>[\s\S]*?<\/article>/g)].map((match) => match[0]);
+  assert.equal(profiles.length, 5);
+  assert.match(profiles[3], /aria-labelledby="zana-abdulrahman-name"/);
+  const profile = profiles[4];
+  assert.match(profile, /aria-labelledby="ahmed-ibrahim-name"/);
+  assert.match(profile, /Dr\. Ahmed Ibrahim Shukr/);
+  assert.match(profile, /Consultant Hematologist/);
+  assert.match(profile, /Kirkuk Center for Oncology and Hematology/);
+  assert.match(profile, /Unusual-Site Thrombosis/);
+  assert.match(profile, /class="speaker-index"[^>]*>\s*05\s*</);
+  assert.match(profile, /<img[^>]*src="\/speakers\/dr-ahmed-ibrahim-shukr\.jpg"[^>]*alt="Dr\. Ahmed Ibrahim Shukr"[^>]*width="1086"[^>]*height="1448"[^>]*loading="lazy"/);
+  assert.doesNotMatch(profile, /speaker-bio|speaker-topic-description/);
+});
+
 test("shows the attendee CME credit within the academic partnership section", async () => {
   const html = await readRenderedPage();
   const partnership = html.match(/<section[^>]*id="partnership"[\s\S]*?<\/section>/)?.[0];
@@ -153,6 +169,7 @@ test("ships the required public brand assets", async () => {
     access(new URL("speakers/dr-dana-omar-karim.webp", outputRoot)),
     access(new URL("speakers/dr-sarkawt-dawood-abbas.webp", outputRoot)),
     access(new URL("speakers/dr-zana-abdulrahman.webp", outputRoot)),
+    access(new URL("speakers/dr-ahmed-ibrahim-shukr.jpg", outputRoot)),
   ]);
 });
 
