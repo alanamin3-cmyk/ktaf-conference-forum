@@ -709,13 +709,15 @@ export default function Home() {
               <div className="speaker-profile">
                 <p className="speaker-role">Conference Speaker</p>
                 <h3 id="fernando-guzman-name">Dr. Fernando Guzman</h3>
-                <p className="speaker-credentials">Head of Medical Affairs</p>
+                <p className="speaker-credentials">
+                  Medical degree · MBA in Healthcare Administration
+                </p>
 
                 <div
                   className="speaker-appointments"
-                  aria-label="Professional affiliation"
+                  aria-label="Professional role"
                 >
-                  <span>Denk Pharma</span>
+                  <span>Head of Medical Affairs of Denk Pharma</span>
                 </div>
 
                 <p className="speaker-bio">

@@ -157,7 +157,8 @@ test("shows the approved seventh speaker with the concise biography and exact pr
   assert.match(profile, /aria-labelledby="fernando-guzman-name"/);
   assert.doesNotMatch(profile, /speaker-feature-reverse/);
   assert.match(profile, /Dr\. Fernando Guzman/);
-  assert.match(profile, /Head of Medical Affairs/);
+  assert.match(profile, /<h3 id="fernando-guzman-name">Dr\. Fernando Guzman<\/h3>\s*<p class="speaker-credentials">Medical degree · MBA in Healthcare Administration<\/p>/);
+  assert.match(profile, /<span>Head of Medical Affairs of Denk Pharma<\/span>/);
   assert.match(profile, /Denk Pharma/);
   const text = profile.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ");
   assert.ok(text.includes("Dr. Fernando Guzman leads global scientific communication and medical education at Denk Pharma. He holds a medical degree and an MBA in Healthcare Administration, with interests in preventive, cardiovascular and cardiometabolic health and translating evidence into patient-centered care."));
