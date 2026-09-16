@@ -679,6 +679,11 @@ export default function Home() {
                 >
                   <span>Product Manager, Denk Pharma</span>
                 </div>
+
+                <div className="speaker-topic">
+                  <span>Presentation topic</span>
+                  <p>Quality Behind Antithrombotic Therapy</p>
+                </div>
               </div>
             </article>
           </div>

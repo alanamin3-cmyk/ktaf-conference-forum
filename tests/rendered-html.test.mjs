@@ -144,7 +144,8 @@ test("shows the approved sixth speaker with the supplied qualifications and role
   assert.match(profile, /Product Manager, Denk Pharma/);
   assert.match(profile, /class="speaker-index"[^>]*>\s*06\s*</);
   assert.match(profile, /<img[^>]*src="\/speakers\/ph-mustapha-alkhalidi\.jpg"[^>]*alt="Ph\. Mustapha Alkhalidi"[^>]*width="1086"[^>]*height="1448"[^>]*loading="lazy"/);
-  assert.doesNotMatch(profile, /speaker-bio|speaker-topic/);
+  assert.match(profile, /Quality Behind Antithrombotic Therapy/);
+  assert.doesNotMatch(profile, /speaker-bio|speaker-topic-description/);
   assert.doesNotMatch(html, /Fernando Guzman/);
 });
 
