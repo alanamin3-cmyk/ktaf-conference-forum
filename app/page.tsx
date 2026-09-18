@@ -631,14 +631,29 @@ export default function Home() {
               <div className="speaker-profile">
                 <p className="speaker-role">Conference Speaker</p>
                 <h3 id="ahmed-ibrahim-name">Dr. Ahmed Ibrahim Shukr</h3>
-                <p className="speaker-credentials">Consultant Hematologist</p>
+                <p className="speaker-credentials">
+                  Consultant Clinical Hematologist · Internal Medicine Specialist
+                  <br />
+                  MBChB · Specialty in Internal Medicine · Subspecialty in Clinical Hematology
+                </p>
 
                 <div
                   className="speaker-appointments"
-                  aria-label="Clinical appointment"
+                  aria-label="Academic and clinical appointments"
                 >
-                  <span>Kirkuk Center for Oncology and Hematology</span>
+                  <span>Head of Hematology · Kirkuk Center for Oncology and Hematology</span>
+                  <span>Lecturer · College of Medicine, University of Kirkuk</span>
                 </div>
+
+                <p className="speaker-bio">
+                  Dr. Ahmed Ibrahim Shukr brings over 20 years of postgraduate
+                  clinical experience in hematology and internal medicine. He earned
+                  his MBChB at the University of Baghdad and completed his specialty
+                  and subspecialty training through the Iraqi Board for Medical
+                  Specializations. His work combines care for hematological
+                  malignancies and bleeding disorders with supervision of Arab and
+                  Iraqi Board Internal Medicine trainees.
+                </p>
 
                 <div className="speaker-topic">
                   <span>Presentation topic</span>

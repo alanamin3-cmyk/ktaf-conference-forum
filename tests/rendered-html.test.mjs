@@ -123,12 +123,21 @@ test("shows the approved fifth speaker after Dr. Zana with the verified programm
   const profile = profiles[4];
   assert.match(profile, /aria-labelledby="ahmed-ibrahim-name"/);
   assert.match(profile, /Dr\. Ahmed Ibrahim Shukr/);
-  assert.match(profile, /Consultant Hematologist/);
+  assert.match(profile, /Consultant Clinical Hematologist · Internal Medicine Specialist/);
+  assert.match(profile, /MBChB · Specialty in Internal Medicine · Subspecialty in Clinical Hematology/);
+  assert.match(profile, /Head of Hematology · Kirkuk Center for Oncology and Hematology/);
+  assert.match(profile, /Lecturer · College of Medicine, University of Kirkuk/);
+  const text = profile.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ");
+  assert.ok(text.includes("over 20 years of postgraduate clinical experience"));
+  assert.ok(text.includes("MBChB at the University of Baghdad"));
+  assert.ok(text.includes("Iraqi Board for Medical Specializations"));
+  assert.ok(text.includes("supervision of Arab and Iraqi Board Internal Medicine trainees"));
   assert.match(profile, /Kirkuk Center for Oncology and Hematology/);
   assert.match(profile, /Unusual-Site Thrombosis/);
   assert.match(profile, /class="speaker-index"[^>]*>\s*05\s*</);
   assert.match(profile, /<img[^>]*src="\/speakers\/dr-ahmed-ibrahim-shukr\.jpg"[^>]*alt="Dr\. Ahmed Ibrahim Shukr"[^>]*width="1086"[^>]*height="1448"[^>]*loading="lazy"/);
-  assert.doesNotMatch(profile, /speaker-bio|speaker-topic-description/);
+  assert.match(profile, /class="speaker-bio"/);
+  assert.doesNotMatch(profile, /speaker-topic-description|mailto:|tel:|Born 1976|Nationality|FIBMS|FICMS|Professor/);
 });
 
 test("shows the approved sixth speaker with the supplied qualifications and role", async () => {
