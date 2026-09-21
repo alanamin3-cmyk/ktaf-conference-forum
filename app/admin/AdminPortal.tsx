@@ -3,6 +3,7 @@
 /* eslint-disable @next/next/no-img-element -- The official KTAF SVG logo is served directly by the static export. */
 import type { Session } from "@supabase/supabase-js";
 import Link from "next/link";
+import CityBreakdown from "./CityBreakdown";
 import {
   FormEvent,
   useCallback,
@@ -14,7 +15,7 @@ import {
 import { getSupabaseBrowserClient } from "../../lib/supabase-browser";
 import { withPortalTimeout } from "../../lib/portal-request";
 
-import { CAREER_STAGES, careerStage, findDuplicateGroups, formatAttendeeName, formatCity } from "../../lib/attendee-presentation";
+import { CAREER_STAGES, careerStage, countAttendeesByCity, findDuplicateGroups, formatAttendeeName, formatCity } from "../../lib/attendee-presentation";
 
 import { attendeeEditError, validateAttendeeEdit } from "../../lib/admin-registration-edit";
 
@@ -135,6 +136,7 @@ export default function AdminPortal() {
   const [query, setQuery] = useState("");
   const [careerFilter, setCareerFilter] = useState("all");
   const [duplicatesOnly, setDuplicatesOnly] = useState(false);
+  const [cityChartOpen, setCityChartOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState<
     "all" | "registered" | "cancelled"
   >("all");
@@ -368,6 +370,8 @@ export default function AdminPortal() {
     });
   }, [query, registrations, statusFilter, careerFilter, duplicatesOnly, duplicateIds]);
 
+  const cityBreakdown = useMemo(() => countAttendeesByCity(registrations), [registrations]);
+
   const summary = useMemo(
     () => ({
       registered: registrations.filter(
@@ -382,16 +386,9 @@ export default function AdminPortal() {
       checkedIn: registrations.filter(
         (registration) => !registration.is_test && registration.checked_in_at,
       ).length,
-      cities: new Set(
-        registrations
-          .filter(
-            (registration) =>
-              !registration.is_test && registration.registration_status === "registered",
-          )
-          .map((registration) => formatCity(registration.city)),
-      ).size,
+      cities: cityBreakdown.length,
     }),
-    [registrations],
+    [registrations, cityBreakdown],
   );
 
   const processCheckIn = useCallback(
@@ -1156,11 +1153,18 @@ export default function AdminPortal() {
               <span>Registrations today</span>
               <strong>{summary.today}</strong>
             </article>
-            <article>
-              <span>Cities represented</span>
-              <strong>{summary.cities}</strong>
+            <article className="portal-city-stat">
+              <button type="button" className="portal-city-stat-button" aria-haspopup="dialog"
+                aria-label={`Cities represented: ${summary.cities}. View attendees by city`}
+                onClick={() => setCityChartOpen(true)}>
+                <span>Cities represented</span>
+                <strong>{summary.cities}</strong>
+                <small>View bar chart <span aria-hidden="true">↗</span></small>
+              </button>
             </article>
           </section>
+
+          {cityChartOpen ? <CityBreakdown cities={cityBreakdown} onClose={() => setCityChartOpen(false)} /> : null}
 
           <p className="form-assurance">
             Maximum attendance: 200. Test records are labelled below and excluded

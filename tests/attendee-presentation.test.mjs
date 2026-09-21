@@ -67,3 +67,21 @@ test('shared names and phones alone stay review candidates; history is flagged',
   assert.equal(strong.protectedHistory,true);
   assert.equal(findDuplicateGroups([record('1',{full_name:'One'}),record('2',{full_name:'Other',email:'1@example.com'})])[0].matches[0].reasons[0],'Same email');
 });
+
+test('city chart groups standard spellings, excludes cancelled and test rows, and reconciles to active total', async () => {
+  const {countAttendeesByCity}=await import('../lib/attendee-presentation.ts');
+  const active=city=>({city,is_test:false,registration_status:'registered'});
+  const rows=[active('Slemani'),active('Sulaymaniyah'),active('سلێمانی'),active('Hawler'),active('erbil'),active('Kirkuk'),{...active('Mosul'),is_test:true},{...active('Duhok'),registration_status:'cancelled'}];
+  const before=structuredClone(rows);
+  const chart=countAttendeesByCity(rows);
+  assert.deepEqual(chart,[{city:'Sulaymaniyah',count:3},{city:'Erbil',count:2},{city:'Kirkuk',count:1}]);
+  assert.equal(chart.reduce((sum,row)=>sum+row.count,0),6);
+  assert.deepEqual(rows,before);
+});
+
+test('city chart handles empty results, unknown cities, and ties consistently', async () => {
+  const {countAttendeesByCity}=await import('../lib/attendee-presentation.ts');
+  assert.deepEqual(countAttendeesByCity([]),[]);
+  const rows=['new town',' ','kirkuk'].map(city=>({city,is_test:false,registration_status:'registered'}));
+  assert.deepEqual(countAttendeesByCity(rows),[{city:'Kirkuk',count:1},{city:'New Town',count:1},{city:'Not specified',count:1}]);
+});

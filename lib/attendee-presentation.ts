@@ -34,6 +34,20 @@ export function formatCity(value: string): string {
   return cityAliases[cityKey(value)] || formatAttendeeName(value);
 }
 
+/** Full active-registration breakdown, using the same city spellings as the table. */
+export function countAttendeesByCity(registrations: readonly {
+  city: string; is_test: boolean; registration_status: string;
+}[]): { city: string; count: number }[] {
+  const counts = new Map<string, number>();
+  for (const registration of registrations) {
+    if (registration.is_test || registration.registration_status !== "registered") continue;
+    const city = formatCity(registration.city) || "Not specified";
+    counts.set(city, (counts.get(city) || 0) + 1);
+  }
+  return Array.from(counts, ([city, count]) => ({ city, count }))
+    .sort((a, b) => b.count - a.count || a.city.localeCompare(b.city, "en"));
+}
+
 export const CAREER_STAGES = [
   "Medical student", "Junior house officer", "Senior house officer", "Junior doctor",
   "Resident doctor", "General practitioner", "Specialist", "Consultant", "Senior doctor",

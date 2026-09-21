@@ -3378,3 +3378,58 @@ p {
   overflow-wrap: anywhere;
 }
 .attendee-email-feedback-error { color: #a03535; }
+
+/* The city total opens the same active-registration breakdown as its headline. */
+.portal-stats .portal-city-stat { padding: 0; }
+.portal-city-stat-button {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 24px;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  color: var(--navy);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.portal-city-stat-button:hover { background: #f0f6fc; }
+.portal-city-stat-button:focus-visible { outline: 3px solid var(--blue); outline-offset: -4px; }
+.portal-city-stat-button small { color: var(--blue); font-size: 0.68rem; font-weight: 650; }
+.portal-city-stat-button small span { color: inherit; font-size: inherit; }
+.portal-city-dialog {
+  position: fixed;
+  width: min(760px, calc(100vw - 32px));
+  max-height: calc(100dvh - 40px);
+  margin: auto;
+  padding: 34px;
+  border: 1px solid var(--gray);
+  border-radius: 24px;
+  background: var(--white);
+  color: var(--navy);
+  box-shadow: 0 32px 90px rgba(7, 29, 48, 0.28);
+  overflow-y: auto;
+}
+.portal-city-dialog::backdrop { background: rgba(7, 29, 48, 0.66); backdrop-filter: blur(5px); }
+.portal-city-dialog h2 { margin: 10px 40px 16px 0; font-size: clamp(1.4rem, 4vw, 2rem); line-height: 1.15; }
+.city-chart-summary { margin: 0 0 8px; font-size: 0.95rem; }
+.city-chart-description { margin: 0; max-width: 590px; color: var(--text-muted); font-size: 0.74rem; line-height: 1.6; }
+.city-chart { margin: 24px 0 0; }
+.city-chart figcaption { margin-bottom: 18px; color: var(--text-muted); font-size: 0.7rem; }
+.city-chart-bars { display: grid; gap: 13px; margin: 0; padding: 0; list-style: none; }
+.city-chart-row { display: grid; grid-template-columns: 150px minmax(0, 1fr) 34px; align-items: center; gap: 14px; }
+.city-chart-label { font-size: 0.8rem; font-weight: 650; overflow-wrap: anywhere; }
+.city-chart-track { display: block; height: 22px; border-radius: 4px; background: #f0f4f8; overflow: hidden; }
+.city-chart-bar { display: block; height: 100%; min-width: 2px; border-radius: 4px; background: var(--blue); }
+.city-chart-count { font-size: 0.85rem; font-variant-numeric: tabular-nums; text-align: right; }
+.city-chart-empty { margin: 28px 0 0; color: var(--text-muted); }
+@media (max-width: 600px) {
+  .portal-city-dialog { padding: 26px 20px; border-radius: 18px; }
+  .city-chart-row { grid-template-columns: 106px minmax(0, 1fr) 28px; gap: 8px; }
+  .city-chart-label { font-size: 0.73rem; }
+  .portal-city-stat-button { padding: 20px; }
+}
