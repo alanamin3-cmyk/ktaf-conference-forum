@@ -14,6 +14,8 @@ import {
 import { getSupabaseBrowserClient } from "../../lib/supabase-browser";
 import { withPortalTimeout } from "../../lib/portal-request";
 
+import { CAREER_STAGES, careerStage, findDuplicateGroups, formatAttendeeName, formatCity } from "../../lib/attendee-presentation";
+
 type Registration = {
   id: string;
   created_at: string;
@@ -89,7 +91,7 @@ function BadgeArtwork({
   registration: Registration;
   className?: string;
 }) {
-  const nameLength = registration.full_name.length;
+  const nameLength = formatAttendeeName(registration.full_name).length;
   const nameClass =
     nameLength > 34
       ? "badge-name badge-name-long"
@@ -109,9 +111,9 @@ function BadgeArtwork({
         <span>October 1, 2026 · Slemani Rotana</span>
       </div>
       <div className="badge-person">
-        <p className={nameClass}>{registration.full_name}</p>
+        <p className={nameClass}>{formatAttendeeName(registration.full_name)}</p>
         <p className="badge-position">{registration.position}</p>
-        <p className="badge-city">{registration.city}</p>
+        <p className="badge-city">{formatCity(registration.city)}</p>
       </div>
       <div className="badge-reference">
         <span>{registration.registration_code}</span>
@@ -129,6 +131,8 @@ export default function AdminPortal() {
   const [portal, setPortal] = useState<PortalState>({ kind: "loading" });
   const [registrations, setRegistrations] = useState<Registration[]>([]);
   const [query, setQuery] = useState("");
+  const [careerFilter, setCareerFilter] = useState("all");
+  const [duplicatesOnly, setDuplicatesOnly] = useState(false);
   const [statusFilter, setStatusFilter] = useState<
     "all" | "registered" | "cancelled"
   >("all");
@@ -309,9 +313,18 @@ export default function AdminPortal() {
     };
   }, [actionBusy, registrationAction]);
 
+  const duplicateGroups = useMemo(() => findDuplicateGroups(registrations), [registrations]);
+  const duplicateIds = useMemo(() => new Set(duplicateGroups.flatMap(group => group.records.map(r => r.id))), [duplicateGroups]);
+  const careerCounts = useMemo(() => {
+    const active = registrations.filter(r => !r.is_test && r.registration_status === "registered");
+    return CAREER_STAGES.map(stage => ({stage, count: active.filter(r => careerStage(r.position) === stage).length}));
+  }, [registrations]);
+
   const filtered = useMemo(() => {
     const normalized = query.trim().toLowerCase();
     return registrations.filter((registration) => {
+      if (careerFilter !== "all" && careerStage(registration.position) !== careerFilter) return false;
+      if (duplicatesOnly && !duplicateIds.has(registration.id)) return false;
       if (
         statusFilter !== "all" &&
         registration.registration_status !== statusFilter
@@ -322,8 +335,11 @@ export default function AdminPortal() {
 
       return [
         registration.full_name,
+        formatAttendeeName(registration.full_name),
+        careerStage(registration.position),
         registration.position,
         registration.city,
+        formatCity(registration.city),
         registration.phone_number || "",
         registration.email,
         registration.registration_code,
@@ -333,7 +349,7 @@ export default function AdminPortal() {
         registration.cancellation_note || "",
       ].some((value) => value.toLowerCase().includes(normalized));
     });
-  }, [query, registrations, statusFilter]);
+  }, [query, registrations, statusFilter, careerFilter, duplicatesOnly, duplicateIds]);
 
   const summary = useMemo(
     () => ({
@@ -355,7 +371,7 @@ export default function AdminPortal() {
             (registration) =>
               !registration.is_test && registration.registration_status === "registered",
           )
-          .map((registration) => registration.city.toLowerCase()),
+          .map((registration) => formatCity(registration.city)),
       ).size,
     }),
     [registrations],
@@ -392,7 +408,7 @@ export default function AdminPortal() {
 
       if (registration.registration_status === "cancelled") {
         setScanError(
-          `${registration.full_name} is marked “Cancelled by attendee”. The badge was not printed.`,
+          `${formatAttendeeName(registration.full_name)} is marked “Cancelled by attendee”. The badge was not printed.`,
         );
         setScanValue("");
         setBadgeRegistration(registration);
@@ -594,12 +610,15 @@ export default function AdminPortal() {
         return;
       }
 
-      const { error } = await client
+      downloadOriginalBackup([registration]);
+      const { data: deleted, error } = await client
         .from("registrations")
         .delete()
-        .eq("id", registration.id);
+        .eq("id", registration.id)
+        .select("id")
+        .single();
 
-      if (error) {
+      if (error || !deleted) {
         setActionError(
           "This registration could not be deleted. Please try again.",
         );
@@ -610,7 +629,7 @@ export default function AdminPortal() {
       await refreshRegistrations();
       setRegistrationAction(null);
       setDataMessage(
-        `${registration.full_name}'s test or mistaken record was deleted.`,
+        `${formatAttendeeName(registration.full_name)}'s test or mistaken record was deleted.`,
       );
       setActionBusy(false);
       return;
@@ -653,10 +672,24 @@ export default function AdminPortal() {
     setRegistrationAction(null);
     setDataMessage(
       kind === "cancel"
-        ? `${registration.full_name} was marked “Cancelled by attendee”.`
-        : `${registration.full_name}'s registration was restored.`,
+        ? `${formatAttendeeName(registration.full_name)} was marked “Cancelled by attendee”.`
+        : `${formatAttendeeName(registration.full_name)}'s registration was restored.`,
     );
     setActionBusy(false);
+  }
+
+  function downloadOriginalBackup(records = registrations) {
+    const blob = new Blob([JSON.stringify({
+      exported_at: new Date().toISOString(), source: "KTAF admin portal",
+      description: "Original registration fields before display formatting. Contains private attendee details; keep securely.",
+      registrations: records,
+    }, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `KTAF_Original_Registrations_${new Date().toISOString().replace(/[:.]/g, "-")}.json`;
+    link.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
   async function exportToExcel() {
@@ -690,12 +723,16 @@ export default function AdminPortal() {
         "Cancellation note",
         "Confirmation email",
         "Record type",
+        "Career stage (suggested)",
+        "Duplicate review",
+        "Original full name",
+        "Original city",
       ].map((value) => ({ value, ...headerStyle }));
       const rows = filtered.map((registration) => [
         { value: registration.registration_code },
-        { value: registration.full_name },
+        { value: formatAttendeeName(registration.full_name) },
         { value: registration.position },
-        { value: registration.city },
+        { value: formatCity(registration.city) },
         { value: registration.phone_number || "" },
         { value: registration.email },
         { value: new Date(registration.created_at), type: Date },
@@ -724,11 +761,14 @@ export default function AdminPortal() {
                 : "Pending",
         },
         { value: registration.is_test ? "Test — excluded from capacity" : "Attendee" },
+        { value: careerStage(registration.position) },
+        { value: duplicateGroups.find(g => g.records.some(r => r.id === registration.id))?.confidence || "" },
+        { value: registration.full_name },
+        { value: registration.city },
       ]);
       const date = new Date().toISOString().slice(0, 10);
 
       await writeXlsxFile([header, ...rows], {
-        fileName: `KTAF_Attendees_${date}.xlsx`,
         columns: [
           { width: 22 },
           { width: 28 },
@@ -745,10 +785,16 @@ export default function AdminPortal() {
           { width: 42 },
           { width: 22 },
           { width: 32 },
+          { width: 28 },
+          { width: 24 },
+          { width: 28 },
+          { width: 24 },
         ],
         dateFormat: "dd mmm yyyy hh:mm",
         stickyRowsCount: 1,
-      });
+      }).toFile(`KTAF_Attendees_${date}.xlsx`);
+    } catch {
+      setDataError("The Excel file could not be created. Please try again.");
     } finally {
       setExportBusy(false);
     }
@@ -1014,6 +1060,50 @@ export default function AdminPortal() {
             from all attendance totals. Cancelled registrations release a place.
           </p>
 
+          <section className="attendee-insights" aria-labelledby="career-stage-title">
+            <p className="form-kicker">Attendee profile</p>
+            <h2 id="career-stage-title">Career stages</h2>
+            <p>Suggested from each applicant’s stated position. A specialty or department alone is marked “Needs review”. Counts include active registrations, exclude tests, and may include duplicates until reviewed.</p>
+            <div className="career-counts">
+              {careerCounts.map(({stage, count}) => (
+                <button key={stage} type="button" aria-pressed={careerFilter === stage}
+                  onClick={() => setCareerFilter(current => current === stage ? "all" : stage)}>
+                  <span>{stage}</span><strong>{count}</strong>
+                </button>
+              ))}
+            </div>
+            <p className="career-senior-total">Specialists, consultants and explicitly stated senior doctors: <strong>{careerCounts.filter(item => ["Specialist", "Consultant", "Senior doctor"].includes(item.stage)).reduce((total, item) => total + item.count, 0)}</strong>. Senior house officers and residents are listed separately.</p>
+          </section>
+
+          <section className="attendee-insights" aria-labelledby="duplicate-review-title">
+            <p className="form-kicker">Registration quality</p>
+            <h2 id="duplicate-review-title">Duplicate review · {duplicateGroups.length} suggested groups</h2>
+            <p>Compare names, contact details and registration dates before removing a record. Matching details suggest a duplicate; they do not confirm identity. No records are removed automatically.</p>
+            <details className="duplicate-groups">
+              <summary>Review {duplicateIds.size} registrations in suggested groups</summary>
+              {duplicateGroups.map(group => (
+                <article className="duplicate-group" key={group.newest.id}>
+                  <h3>{formatAttendeeName(group.newest.full_name)} <span className="career-tag">{group.confidence}</span></h3>
+                  <p>{group.protectedHistory ? "Check-in, badge or cancellation history exists. Review that history before deciding which record to keep." : "Suggested record to keep after confirming identity: the newest registration."}</p>
+                  <ul>
+                    {group.records.map(record => (
+                      <li key={record.id}>
+                        <div><strong>{formatAttendeeName(record.full_name)}</strong> · {record.registration_code}{record.id === group.newest.id ? " · Newest" : ""}
+                          <br />{formatDate(record.created_at)} · {formatCity(record.city)} · {record.position}
+                          <br />{record.email} · {record.phone_number || "Phone not recorded"}
+                          <br />{record.registration_status === "cancelled" ? "Cancelled by attendee" : "Registered"}{record.checked_in_at ? " · Checked in" : ""} · Badge prints: {record.badge_print_count || 0}
+                        </div>
+                        <button type="button" onClick={() => openRegistrationAction("delete", record)}>Review deletion</button>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="duplicate-evidence">{group.matches.map(match => `${match.a.registration_code} ↔ ${match.b.registration_code}: ${match.reasons.join(" + ")}`).join("; ")}</p>
+                </article>
+              ))}
+              {!duplicateGroups.length && <p>No matching names, emails or valid phone numbers found.</p>}
+            </details>
+          </section>
+
           <section className="checkin-panel" aria-labelledby="checkin-title">
             <div className="checkin-workspace">
               <p className="form-kicker">Conference entrance</p>
@@ -1099,6 +1189,15 @@ export default function AdminPortal() {
               </div>
               <div className="attendee-actions">
                 <label className="attendee-filter">
+                  <span className="sr-only">Filter by career stage</span>
+                  <select aria-label="Filter by career stage" value={careerFilter} onChange={event => setCareerFilter(event.target.value)}>
+                    <option value="all">All career stages</option>
+                    {CAREER_STAGES.map(stage => <option key={stage} value={stage}>{stage}</option>)}
+                  </select>
+                </label>
+                <label className="duplicate-filter"><input type="checkbox" checked={duplicatesOnly} onChange={event => setDuplicatesOnly(event.target.checked)} /> Duplicates only</label>
+                <button className="backup-button" type="button" disabled={dataBusy || !registrations.length} onClick={() => downloadOriginalBackup()}>Download original backup</button>
+                <label className="attendee-filter">
                   <span className="sr-only">Filter by attendance status</span>
                   <select
                     value={statusFilter}
@@ -1155,6 +1254,7 @@ export default function AdminPortal() {
                   <tr>
                     <th>Attendee</th>
                     <th>Position</th>
+                    <th>Career stage</th>
                     <th>City</th>
                     <th>Check-in</th>
                     <th>Registration</th>
@@ -1174,7 +1274,8 @@ export default function AdminPortal() {
                       }
                     >
                       <td>
-                        <strong>{registration.full_name}</strong>
+                        <strong>{formatAttendeeName(registration.full_name)}</strong>
+                        {duplicateIds.has(registration.id) ? <span className="duplicate-tag">Duplicate review</span> : null}
                         {registration.is_test ? (
                           <span className="attendance-note">Test — excluded from capacity</span>
                         ) : null}
@@ -1192,7 +1293,8 @@ export default function AdminPortal() {
                         )}
                       </td>
                       <td>{registration.position}</td>
-                      <td>{registration.city}</td>
+                      <td><span className={`career-tag ${careerStage(registration.position) === "Needs review" ? "career-tag-review" : ""}`}>{careerStage(registration.position)}</span></td>
+                      <td>{formatCity(registration.city)}</td>
                       <td>
                         <span
                           className={`checkin-state ${
@@ -1291,7 +1393,7 @@ export default function AdminPortal() {
                   ))}
                   {!dataBusy && !filtered.length ? (
                     <tr>
-                      <td className="attendee-empty" colSpan={8}>
+                      <td className="attendee-empty" colSpan={9}>
                         {registrations.length
                           ? "No attendees match your search."
                           : "No registrations have been received yet."}
@@ -1342,7 +1444,7 @@ export default function AdminPortal() {
               className="portal-action-attendee"
               id="registration-action-attendee"
             >
-              <strong>{registrationAction.registration.full_name}</strong>
+              <strong>{formatAttendeeName(registrationAction.registration.full_name)}</strong>
               <span>{registrationAction.registration.registration_code}</span>
             </p>
 
@@ -1373,6 +1475,7 @@ export default function AdminPortal() {
                     mistaken records. A genuine attendee cancellation should
                     be recorded with the status above.
                   </p>
+                  <p className="portal-action-explanation">An original-record backup is downloaded before deletion. Keep the file securely; the portal cannot undo permanent deletion. Check the duplicate comparison and save any older contact details you need first.</p>
                   <label>
                     <span>
                       Type {registrationAction.registration.registration_code}
