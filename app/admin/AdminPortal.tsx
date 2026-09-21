@@ -143,6 +143,11 @@ export default function AdminPortal() {
   const [showPasswordReset, setShowPasswordReset] = useState(false);
   const [dataError, setDataError] = useState("");
   const [dataMessage, setDataMessage] = useState("");
+  const [sendingEmailId, setSendingEmailId] = useState<string | null>(null);
+  const [emailFeedback, setEmailFeedback] = useState<Record<string, { message: string; error: boolean }>>({});
+  const emailSendingRef = useRef(false);
+  const emailCooldownRef = useRef<Record<string, number>>({});
+  const [emailServiceReady, setEmailServiceReady] = useState(false);
   const [loginBusy, setLoginBusy] = useState(false);
   const [dataBusy, setDataBusy] = useState(false);
   const [exportBusy, setExportBusy] = useState(false);
@@ -161,6 +166,16 @@ export default function AdminPortal() {
   const dialogCloseButtonRef = useRef<HTMLButtonElement>(null);
   const accessRequestRef = useRef(0);
   const attendeeRequestRef = useRef(0);
+
+  useEffect(() => {
+    const client = getSupabaseBrowserClient();
+    if (!client || portal.kind !== "ready") return;
+    let active = true;
+    void withPortalTimeout(client.functions.invoke("resend-registration", { body: { action: "check" } }))
+      .then(({ data, error }) => { if (active) setEmailServiceReady(!error && data?.ready === true); })
+      .catch(() => { if (active) setEmailServiceReady(false); });
+    return () => { active = false; };
+  }, [portal]);
 
   const loadPortal = useCallback(async (session: Session | null) => {
     const requestId = ++accessRequestRef.current;
@@ -586,6 +601,49 @@ export default function AdminPortal() {
     if (actionBusy) return;
     setActionError("");
     setRegistrationAction(null);
+  }
+
+  async function resendRegistrationEmail(registration: Registration) {
+    const client = getSupabaseBrowserClient();
+    if (!client || portal.kind !== "ready" || emailSendingRef.current || registration.registration_status !== "registered") return;
+    const feedback = (message: string, error = false) => setEmailFeedback(current => ({
+      ...current, [registration.id]: { message, error },
+    }));
+    if ((emailCooldownRef.current[registration.id] || 0) > Date.now()) {
+      feedback("Please wait two minutes between email requests.", true);
+      return;
+    }
+    emailSendingRef.current = true;
+    setSendingEmailId(registration.id);
+    feedback("Sending registration email…");
+    // A timeout is not proof of failure. Avoid an immediate duplicate request.
+    emailCooldownRef.current[registration.id] = Date.now() + 120_000;
+    try {
+      const { data, error } = await withPortalTimeout(client.functions.invoke("resend-registration", {
+        body: { registrationId: registration.id },
+      }), 35_000);
+      if (error) {
+        let message = "Email sending could not be confirmed. Check the inbox and spam folder, then wait two minutes before retrying.";
+        if (error.context instanceof Response) {
+          const body = await error.context.json().catch(() => null);
+          if (typeof body?.message === "string") message = body.message;
+          if (typeof body?.retryAfter === "number") emailCooldownRef.current[registration.id] = Date.now() + body.retryAfter * 1000;
+        }
+        feedback(message, true);
+        return;
+      }
+      if (!data?.emailSent) throw new Error("Email sending was not confirmed.");
+      feedback(`${data.message} Sent to ${data.email}.`);
+      if (data.statusSaved) {
+        setRegistrations(current => current.map(row => row.id === registration.id && row.email === data.email
+          ? { ...row, email_status: "sent", email_sent_at: data.emailSentAt } : row));
+      }
+    } catch {
+      feedback("Email sending could not be confirmed. Check the inbox and spam folder, then wait two minutes before retrying.", true);
+    } finally {
+      emailSendingRef.current = false;
+      setSendingEmailId(null);
+    }
   }
 
   async function completeRegistrationAction(
@@ -1409,12 +1467,20 @@ export default function AdminPortal() {
                               ? "Needs attention"
                               : "Pending"}
                         </span>
+                        {registration.email_sent_at ? <span>Last sent: {formatDate(registration.email_sent_at)}</span> : null}
                       </td>
                       <td>
                         <div className="attendee-row-actions">
                           <button type="button" className="attendee-edit-button"
                             aria-label={`Edit attendee ${registration.registration_code}`}
                             onClick={() => openRegistrationAction("edit", registration)}>Edit</button>
+                          <button type="button" className="attendee-resend-button"
+                            aria-label={`Resend registration email ${registration.registration_code}`}
+                            title={!emailServiceReady ? "Email service is unavailable or still connecting. Refresh the page to retry." : registration.registration_status === "cancelled" ? "Restore the registration before resending" : `Send the same registration code and QR pass to ${registration.email}`}
+                            disabled={!emailServiceReady || sendingEmailId !== null || actionBusy || registration.registration_status === "cancelled"}
+                            onClick={() => void resendRegistrationEmail(registration)}>
+                            {sendingEmailId === registration.id ? "Sending…" : "Resend email"}
+                          </button>
                           <button
                             className="attendee-print-button"
                             type="button"
@@ -1459,6 +1525,11 @@ export default function AdminPortal() {
                             Delete
                           </button>
                         </div>
+                        {emailFeedback[registration.id] ? <p
+                          className={`attendee-email-feedback${emailFeedback[registration.id].error ? " attendee-email-feedback-error" : ""}`}
+                          role={emailFeedback[registration.id].error ? "alert" : "status"}>
+                          {emailFeedback[registration.id].message}
+                        </p> : null}
                       </td>
                     </tr>
                   ))}

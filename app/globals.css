@@ -3359,3 +3359,18 @@ p {
 .attendee-edit-fields { display: grid; gap: 14px; min-width: 0; margin: 0; padding: 0; border: 0; }
 .attendee-edit-fields:disabled { opacity: .65; }
 .portal-action-dialog { max-height: calc(100dvh - 40px); overflow-y: auto; }
+
+.attendee-row-actions .attendee-resend-button {
+  color: var(--ktaf-navy, #0d2b45);
+  border-color: #9bb9ce;
+  background: #eff7fb;
+}
+.attendee-email-feedback {
+  max-width: 240px;
+  margin: 8px 0 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #27634a;
+  overflow-wrap: anywhere;
+}
+.attendee-email-feedback-error { color: #a03535; }
