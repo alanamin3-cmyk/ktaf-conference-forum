@@ -2156,9 +2156,11 @@ p {
 
 .attendee-table {
   width: 100%;
-  min-width: 1240px;
+  min-width: 1480px;
   border-collapse: collapse;
 }
+
+.attendee-table td:nth-child(6) { min-width: 190px; }
 
 .attendee-table th {
   background: #f8fafc;
@@ -2180,19 +2182,19 @@ p {
 }
 
 .attendee-table td:first-child,
-.attendee-table td:nth-child(5) {
+.attendee-table td:nth-child(6) {
   display: table-cell;
 }
 
 .attendee-table td:first-child strong,
 .attendee-table td:first-child a,
-.attendee-table td:nth-child(5) strong,
-.attendee-table td:nth-child(5) span {
+.attendee-table td:nth-child(6) strong,
+.attendee-table td:nth-child(6) span {
   display: block;
 }
 
 .attendee-table td:first-child a,
-.attendee-table td:nth-child(5) span {
+.attendee-table td:nth-child(6) span {
   margin-top: 3px;
   color: var(--text-muted);
   font-size: 0.7rem;
