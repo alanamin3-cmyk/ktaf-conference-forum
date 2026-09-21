@@ -1093,7 +1093,9 @@ export default function AdminPortal() {
                           <br />{record.email} · {record.phone_number || "Phone not recorded"}
                           <br />{record.registration_status === "cancelled" ? "Cancelled by attendee" : "Registered"}{record.checked_in_at ? " · Checked in" : ""} · Badge prints: {record.badge_print_count || 0}
                         </div>
-                        <button type="button" onClick={() => openRegistrationAction("delete", record)}>Review deletion</button>
+                        <button className="review-delete-button" type="button"
+                          aria-label={`Delete ${record.registration_code}`}
+                          onClick={() => openRegistrationAction("delete", record)}>Delete</button>
                       </li>
                     ))}
                   </ul>
@@ -1293,7 +1295,14 @@ export default function AdminPortal() {
                         )}
                       </td>
                       <td>{registration.position}</td>
-                      <td><span className={`career-tag ${careerStage(registration.position) === "Needs review" ? "career-tag-review" : ""}`}>{careerStage(registration.position)}</span></td>
+                      <td>
+                        <span className={`career-tag ${careerStage(registration.position) === "Needs review" ? "career-tag-review" : ""}`}>{careerStage(registration.position)}</span>
+                        {careerStage(registration.position) === "Needs review" ? (
+                          <button className="review-delete-button" type="button"
+                            aria-label={`Delete ${registration.registration_code} from review`}
+                            onClick={() => openRegistrationAction("delete", registration)}>Delete</button>
+                        ) : null}
+                      </td>
                       <td>{formatCity(registration.city)}</td>
                       <td>
                         <span

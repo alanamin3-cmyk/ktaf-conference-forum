@@ -1750,6 +1750,13 @@ p {
 .duplicate-group li { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 14px; margin-bottom: 8px; background: #f7f9fc; border-radius: 12px; font-size: .8rem; line-height: 1.8; overflow-wrap: anywhere; }
 .duplicate-group button, .backup-button { padding: 10px 14px; border: 1px solid #cad6e2; border-radius: 10px; background: white; color: var(--navy); font: inherit; font-size: .72rem; cursor: pointer; }
 .duplicate-group button { flex-shrink: 0; }
+.review-delete-button, .duplicate-group .review-delete-button {
+  display: block; width: fit-content; margin-top: 8px; padding: 10px 16px;
+  border: 1px solid #e4aeb3; border-radius: 10px; background: #fff4f4;
+  color: #a72632; font: inherit; font-size: .75rem; font-weight: 650; cursor: pointer;
+}
+.review-delete-button:hover, .duplicate-group .review-delete-button:hover { background: #ffe8e9; border-color: #a72632; }
+.review-delete-button:focus-visible { outline: 3px solid #a72632; outline-offset: 3px; }
 .duplicate-evidence { overflow-wrap: anywhere; }
 .duplicate-filter { display: flex; align-items: center; gap: 7px; color: var(--navy); font-size: .75rem; }
 .attendee-actions { flex-wrap: wrap; }
