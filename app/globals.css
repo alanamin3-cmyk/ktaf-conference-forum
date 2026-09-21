@@ -3350,3 +3350,12 @@ p {
     box-shadow: none !important;
   }
 }
+
+/* Attendee profile editing uses the same confirmation dialog and portal palette. */
+.review-record-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; flex-shrink: 0; }
+.review-edit-button, .duplicate-group .review-edit-button { margin-top: 8px; padding: 10px 16px; border: 1px solid #b8cce3; border-radius: 10px; background: #eaf2fb; color: var(--blue); font: inherit; font-size: .75rem; font-weight: 650; cursor: pointer; }
+.review-edit-button:hover, .duplicate-group .review-edit-button:hover { background: #dceafa; border-color: var(--blue); }
+.review-edit-button:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+.attendee-edit-fields { display: grid; gap: 14px; min-width: 0; margin: 0; padding: 0; border: 0; }
+.attendee-edit-fields:disabled { opacity: .65; }
+.portal-action-dialog { max-height: calc(100dvh - 40px); overflow-y: auto; }

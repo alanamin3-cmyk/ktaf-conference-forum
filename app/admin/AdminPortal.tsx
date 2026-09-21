@@ -16,6 +16,8 @@ import { withPortalTimeout } from "../../lib/portal-request";
 
 import { CAREER_STAGES, careerStage, findDuplicateGroups, formatAttendeeName, formatCity } from "../../lib/attendee-presentation";
 
+import { attendeeEditError, validateAttendeeEdit } from "../../lib/admin-registration-edit";
+
 type Registration = {
   id: string;
   created_at: string;
@@ -38,7 +40,7 @@ type Registration = {
 };
 
 type RegistrationAction = {
-  kind: "cancel" | "restore" | "delete";
+  kind: "cancel" | "restore" | "delete" | "edit";
   registration: Registration;
 };
 
@@ -600,6 +602,53 @@ export default function AdminPortal() {
     setDataError("");
     setDataMessage("");
 
+    if (kind === "edit") {
+      const validation = validateAttendeeEdit(Object.fromEntries(formData.entries()));
+      if (!validation.ok) {
+        setActionError(validation.message);
+        setActionBusy(false);
+        return;
+      }
+      const values = validation.value;
+      const fields = ["full_name", "position", "city", "phone_number", "email"] as const;
+      if (fields.every(field => values[field] === registration[field])) {
+        setRegistrationAction(null);
+        setActionBusy(false);
+        setDataMessage("No changes were made to this registration.");
+        return;
+      }
+      try {
+        downloadOriginalBackup([registration]);
+        let request = client.from("registrations").update(values).eq("id", registration.id);
+        // Do not overwrite profile changes another organizer saved while this form was open.
+        for (const field of fields) {
+          const previous = registration[field];
+          request = previous === null ? request.is(field, null) : request.eq(field, previous);
+        }
+        const { data, error } = await withPortalTimeout(request.select(
+          "id,created_at,full_name,position,city,phone_number,email,registration_code,email_status,email_sent_at,registration_status,is_test,status_updated_at,cancellation_note,checked_in_at,checked_in_by,badge_printed_at,badge_print_count",
+        ).maybeSingle());
+        if (error) {
+          setActionError(attendeeEditError(error));
+          return;
+        }
+        if (!data) {
+          setActionError("This registration changed or was removed while you were editing. Close this form, refresh the list and reopen the record before saving.");
+          return;
+        }
+        const updated = data as Registration;
+        setRegistrations(current => current.map(record => record.id === updated.id ? updated : record));
+        setBadgeRegistration(current => current?.id === updated.id ? updated : current);
+        setRegistrationAction(null);
+        setDataMessage(`${formatAttendeeName(updated.full_name)}’s details were saved. Career tags, city totals and duplicate suggestions have been updated.`);
+      } catch {
+        setActionError("The save could not be confirmed. Refresh the list to check whether your changes were saved before trying again.");
+      } finally {
+        setActionBusy(false);
+      }
+      return;
+    }
+
     if (kind === "delete") {
       const confirmationCode = String(
         formData.get("confirmationCode") ?? "",
@@ -1093,9 +1142,14 @@ export default function AdminPortal() {
                           <br />{record.email} · {record.phone_number || "Phone not recorded"}
                           <br />{record.registration_status === "cancelled" ? "Cancelled by attendee" : "Registered"}{record.checked_in_at ? " · Checked in" : ""} · Badge prints: {record.badge_print_count || 0}
                         </div>
+                        <div className="review-record-actions">
+                        <button className="review-edit-button" type="button"
+                          aria-label={`Edit ${record.registration_code}`}
+                          onClick={() => openRegistrationAction("edit", record)}>Edit</button>
                         <button className="review-delete-button" type="button"
                           aria-label={`Delete ${record.registration_code}`}
                           onClick={() => openRegistrationAction("delete", record)}>Delete</button>
+                        </div>
                       </li>
                     ))}
                   </ul>
@@ -1298,9 +1352,14 @@ export default function AdminPortal() {
                       <td>
                         <span className={`career-tag ${careerStage(registration.position) === "Needs review" ? "career-tag-review" : ""}`}>{careerStage(registration.position)}</span>
                         {careerStage(registration.position) === "Needs review" ? (
+                          <div className="review-record-actions">
+                          <button className="review-edit-button" type="button"
+                            aria-label={`Edit ${registration.registration_code} from review`}
+                            onClick={() => openRegistrationAction("edit", registration)}>Edit</button>
                           <button className="review-delete-button" type="button"
                             aria-label={`Delete ${registration.registration_code} from review`}
                             onClick={() => openRegistrationAction("delete", registration)}>Delete</button>
+                          </div>
                         ) : null}
                       </td>
                       <td>{formatCity(registration.city)}</td>
@@ -1353,6 +1412,9 @@ export default function AdminPortal() {
                       </td>
                       <td>
                         <div className="attendee-row-actions">
+                          <button type="button" className="attendee-edit-button"
+                            aria-label={`Edit attendee ${registration.registration_code}`}
+                            onClick={() => openRegistrationAction("edit", registration)}>Edit</button>
                           <button
                             className="attendee-print-button"
                             type="button"
@@ -1443,7 +1505,9 @@ export default function AdminPortal() {
             </button>
             <p className="form-kicker">Registration management</p>
             <h2 id="registration-action-title">
-              {registrationAction.kind === "cancel"
+              {registrationAction.kind === "edit"
+                ? "Edit attendee details"
+                : registrationAction.kind === "cancel"
                 ? "Record attendee cancellation"
                 : registrationAction.kind === "restore"
                   ? "Restore registration"
@@ -1457,7 +1521,21 @@ export default function AdminPortal() {
               <span>{registrationAction.registration.registration_code}</span>
             </p>
 
-            <form onSubmit={completeRegistrationAction}>
+            <form key={`${registrationAction.kind}-${registrationAction.registration.id}`} onSubmit={completeRegistrationAction}>
+              {registrationAction.kind === "edit" ? (
+                <>
+                  <p className="portal-action-explanation">Edit the original details submitted by this attendee. An original-record backup downloads before saving. Career tags and duplicate suggestions update from the saved details.</p>
+                  <fieldset className="attendee-edit-fields" disabled={actionBusy}>
+                    <legend className="sr-only">Submitted attendee details</legend>
+                    <label><span>Full name</span><input name="full_name" type="text" defaultValue={registrationAction.registration.full_name} minLength={2} maxLength={120} autoComplete="off" required /></label>
+                    <label><span>Position / professional title</span><input name="position" type="text" defaultValue={registrationAction.registration.position} minLength={2} maxLength={120} autoComplete="off" required /></label>
+                    <label><span>City</span><input name="city" type="text" defaultValue={registrationAction.registration.city} minLength={2} maxLength={100} autoComplete="off" required /></label>
+                    <label><span>Phone number (optional)</span><input name="phone_number" type="tel" defaultValue={registrationAction.registration.phone_number || ""} maxLength={25} autoComplete="off" /></label>
+                    <label><span>Email address</span><input name="email" type="email" defaultValue={registrationAction.registration.email} maxLength={254} autoComplete="off" required /></label>
+                  </fieldset>
+                  <p className="portal-action-explanation">Changing an email updates this registration’s contact details. It does not send a new confirmation email or change the registration reference.</p>
+                </>
+              ) : null}
               {registrationAction.kind === "cancel" ? (
                 <label>
                   <span>Internal cancellation note (optional)</span>
@@ -1525,7 +1603,9 @@ export default function AdminPortal() {
                 >
                   {actionBusy
                     ? "Saving…"
-                    : registrationAction.kind === "cancel"
+                    : registrationAction.kind === "edit"
+                      ? "Save changes"
+                      : registrationAction.kind === "cancel"
                       ? "Mark as cancelled"
                       : registrationAction.kind === "restore"
                         ? "Restore registration"
