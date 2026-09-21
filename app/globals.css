@@ -2168,6 +2168,7 @@ p {
 }
 
 .attendee-table td:nth-child(6) { min-width: 190px; }
+.attendee-table td:nth-child(8) { min-width: 150px; }
 
 .attendee-table th {
   background: #f8fafc;
@@ -2317,6 +2318,9 @@ p {
 
 .attendee-row-actions {
   display: flex;
+  flex-wrap: wrap;
+  min-width: 240px;
+  max-width: 260px;
   align-items: center;
   gap: 7px;
 }
