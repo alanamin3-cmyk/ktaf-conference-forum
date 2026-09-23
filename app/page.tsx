@@ -405,16 +405,15 @@ export default function Home() {
                 </a>
               </div>
             </article>
-
             <article
-              className="speaker-feature speaker-feature-reverse speaker-feature-wide-profile"
-              aria-labelledby="dana-omar-name"
+              className="speaker-feature speaker-feature-reverse"
+              aria-labelledby="zana-abdulrahman-name"
             >
               <figure className="speaker-portrait">
                 <div className="speaker-portrait-frame">
                   <img
-                    src="/speakers/dr-dana-omar-karim.webp"
-                    alt="Dr. Dana Omar Karim"
+                    src="/speakers/dr-zana-abdulrahman.webp"
+                    alt="Dr. Zana Abdulrahman"
                     width="646"
                     height="850"
                     loading="lazy"
@@ -428,55 +427,48 @@ export default function Home() {
 
               <div className="speaker-profile">
                 <p className="speaker-role">Conference Speaker</p>
-                <h3 id="dana-omar-name">Dr. Dana Omar Karim</h3>
+                <h3 id="zana-abdulrahman-name">Dr. Zana Abdulrahman</h3>
                 <p className="speaker-credentials">
-                  M.B.Ch.B · Hematology &amp; Lymphoma Specialist
-                </p>
-
-                <div className="speaker-appointments" aria-label="Appointments">
-                  <span>Senior Hematologist, Hiwa Hospital</span>
-                  <span>Hematology Specialist, Smart Health Tower</span>
-                </div>
-
-                <p className="speaker-bio">
-                  Dr. Dana Omar Karim is a senior hematologist at Hiwa Hospital
-                  and a hematology and lymphoma specialist at Smart Health
-                  Tower. He earned his M.B.Ch.B in Medicine from the University
-                  of Sulaimani, and his published professional profile includes
-                  scientific work across hematologic disorders and lymphoid
-                  malignancies.
+                  Asst. Prof. of Neurology
                 </p>
 
                 <div
-                  className="speaker-topic"
-                  aria-label="Current programme topic"
+                  className="speaker-appointments"
+                  aria-label="Academic and clinical appointments"
                 >
+                  <span>
+                    Program Director · Kurdistan Council of Medical Specialties
+                  </span>
+                  <span>Head of Neurology · University of Sulaimani</span>
+                  <span>Director of Neurology · Shar Teaching Hospital</span>
+                </div>
+
+                <p className="speaker-bio">
+                  Dr. Zana Abdulrahman serves as Program Director for Neurology
+                  under the Kurdistan Council of Medical Specialties in
+                  Sulaymaniyah and as Head of the Neurology Department at the
+                  University of Sulaimani. He is also Director of the Neurology
+                  Department at Shar Teaching Hospital.
+                </p>
+
+                <div className="speaker-topic">
                   <span>Current programme topic</span>
-                  <p>Practical Tips on Anticoagulation</p>
+                  <p>Anticoagulation in Stroke patients</p>
                   <small>Subject to programme updates</small>
                 </div>
 
                 <div className="speaker-profile-links">
                   <a
                     className="speaker-profile-link"
-                    href="https://smarthealth.group/ar/doctor-profile/113"
+                    href="https://www.facebook.com/Dr.ZanaA/"
                     target="_blank"
                     rel="noreferrer"
                   >
-                    View clinical profile <span aria-hidden="true">↗</span>
-                  </a>
-                  <a
-                    className="speaker-profile-link"
-                    href="https://www.linkedin.com/in/dana-omar-a8b47534/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    View LinkedIn <span aria-hidden="true">↗</span>
+                    View professional profile <span aria-hidden="true">↗</span>
                   </a>
                 </div>
               </div>
             </article>
-
             <article
               className="speaker-feature"
               aria-labelledby="sarkawt-dawood-name"
@@ -543,16 +535,15 @@ export default function Home() {
                 </div>
               </div>
             </article>
-
             <article
-              className="speaker-feature speaker-feature-reverse"
-              aria-labelledby="zana-abdulrahman-name"
+              className="speaker-feature speaker-feature-reverse speaker-feature-wide-profile"
+              aria-labelledby="dana-omar-name"
             >
               <figure className="speaker-portrait">
                 <div className="speaker-portrait-frame">
                   <img
-                    src="/speakers/dr-zana-abdulrahman.webp"
-                    alt="Dr. Zana Abdulrahman"
+                    src="/speakers/dr-dana-omar-karim.webp"
+                    alt="Dr. Dana Omar Karim"
                     width="646"
                     height="850"
                     loading="lazy"
@@ -566,44 +557,50 @@ export default function Home() {
 
               <div className="speaker-profile">
                 <p className="speaker-role">Conference Speaker</p>
-                <h3 id="zana-abdulrahman-name">Dr. Zana Abdulrahman</h3>
+                <h3 id="dana-omar-name">Dr. Dana Omar Karim</h3>
                 <p className="speaker-credentials">
-                  Asst. Prof. of Neurology
+                  M.B.Ch.B · Hematology &amp; Lymphoma Specialist
                 </p>
 
-                <div
-                  className="speaker-appointments"
-                  aria-label="Academic and clinical appointments"
-                >
-                  <span>
-                    Program Director · Kurdistan Council of Medical Specialties
-                  </span>
-                  <span>Head of Neurology · University of Sulaimani</span>
-                  <span>Director of Neurology · Shar Teaching Hospital</span>
+                <div className="speaker-appointments" aria-label="Appointments">
+                  <span>Senior Hematologist, Hiwa Hospital</span>
+                  <span>Hematology Specialist, Smart Health Tower</span>
                 </div>
 
                 <p className="speaker-bio">
-                  Dr. Zana Abdulrahman serves as Program Director for Neurology
-                  under the Kurdistan Council of Medical Specialties in
-                  Sulaymaniyah and as Head of the Neurology Department at the
-                  University of Sulaimani. He is also Director of the Neurology
-                  Department at Shar Teaching Hospital.
+                  Dr. Dana Omar Karim is a senior hematologist at Hiwa Hospital
+                  and a hematology and lymphoma specialist at Smart Health
+                  Tower. He earned his M.B.Ch.B in Medicine from the University
+                  of Sulaimani, and his published professional profile includes
+                  scientific work across hematologic disorders and lymphoid
+                  malignancies.
                 </p>
 
-                <div className="speaker-topic">
+                <div
+                  className="speaker-topic"
+                  aria-label="Current programme topic"
+                >
                   <span>Current programme topic</span>
-                  <p>Anticoagulation in Stroke patients</p>
+                  <p>Practical Tips on Anticoagulation</p>
                   <small>Subject to programme updates</small>
                 </div>
 
                 <div className="speaker-profile-links">
                   <a
                     className="speaker-profile-link"
-                    href="https://www.facebook.com/Dr.ZanaA/"
+                    href="https://smarthealth.group/ar/doctor-profile/113"
                     target="_blank"
                     rel="noreferrer"
                   >
-                    View professional profile <span aria-hidden="true">↗</span>
+                    View clinical profile <span aria-hidden="true">↗</span>
+                  </a>
+                  <a
+                    className="speaker-profile-link"
+                    href="https://www.linkedin.com/in/dana-omar-a8b47534/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    View LinkedIn <span aria-hidden="true">↗</span>
                   </a>
                 </div>
               </div>

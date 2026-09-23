@@ -105,21 +105,32 @@ test("exports the complete KTAF conference page", async () => {
   assert.doesNotMatch(html, /docs\.google\.com\/spreadsheets/);
 });
 
+test("orders and numbers all faculty profiles according to the 23 September agenda", async () => {
+  const html = await readRenderedPage();
+  const profiles = [...html.matchAll(/<article[^>]*class="speaker-feature[^"]*"[^>]*>[\s\S]*?<\/article>/g)].map((match) => match[0]);
+  const expected = ["aram-baram-name", "zana-abdulrahman-name", "sarkawt-dawood-name", "dana-omar-name", "ahmed-ibrahim-name", "mustapha-alkhalidi-name", "fernando-guzman-name"];
+  assert.deepEqual(profiles.map((profile) => profile.match(/aria-labelledby="([^"]+)"/)?.[1]), expected);
+  assert.deepEqual(profiles.map((profile) => profile.match(/class="speaker-index"[^>]*>\s*(\d{2})\s*</)?.[1]), ["01", "02", "03", "04", "05", "06", "07"]);
+  profiles.forEach((profile, index) => {
+    assert.equal(profile.includes("speaker-feature-reverse"), index % 2 === 1);
+  });
+});
+
 test("shows Dr. Dana's presentation title without the removed description", async () => {
   const html = await readRenderedPage();
   const profile = html.match(/<article[^>]*aria-labelledby="dana-omar-name"[\s\S]*?<\/article>/)?.[0];
-  assert.ok(profile, "Second speaker profile is present");
+  assert.ok(profile, "Dr. Dana's speaker profile is present");
   const text = profile.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ");
   assert.ok(text.includes("Practical Tips on Anticoagulation"));
   assert.doesNotMatch(profile, /speaker-topic-description/);
   assert.doesNotMatch(text, /An evidence-based review of anticoagulant selection/);
 });
 
-test("shows the approved fifth speaker after Dr. Zana with the verified programme title", async () => {
+test("shows the approved fifth speaker after Dr. Dana with the verified programme title", async () => {
   const html = await readRenderedPage();
   const profiles = [...html.matchAll(/<article[^>]*class="speaker-feature[^"]*"[^>]*>[\s\S]*?<\/article>/g)].map((match) => match[0]);
   assert.equal(profiles.length, 7);
-  assert.match(profiles[3], /aria-labelledby="zana-abdulrahman-name"/);
+  assert.match(profiles[3], /aria-labelledby="dana-omar-name"/);
   const profile = profiles[4];
   assert.match(profile, /aria-labelledby="ahmed-ibrahim-name"/);
   assert.match(profile, /Dr\. Ahmed Ibrahim Shukr/);
