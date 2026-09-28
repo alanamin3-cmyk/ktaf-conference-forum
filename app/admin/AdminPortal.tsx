@@ -95,12 +95,17 @@ function BadgeArtwork({
   className?: string;
 }) {
   const nameLength = formatAttendeeName(registration.full_name).length;
+  const denseDetails = nameLength + registration.position.length + formatCity(registration.city).length > 250;
   const nameClass =
-    nameLength > 34
-      ? "badge-name badge-name-long"
-      : nameLength > 25
-        ? "badge-name badge-name-medium"
-        : "badge-name";
+    nameLength > 80
+      ? "badge-name badge-name-extra-long"
+      : nameLength > 50
+        ? "badge-name badge-name-very-long"
+        : nameLength > 34
+          ? "badge-name badge-name-long"
+          : nameLength > 25
+            ? "badge-name badge-name-medium"
+            : "badge-name";
 
   return (
     <article className={`ktaf-name-badge ${className}`.trim()}>
@@ -111,12 +116,12 @@ function BadgeArtwork({
           width="1600"
           height="520"
         />
-        <span>October 1, 2026 · Slemani Rotana</span>
+        <span>October 1, 2026<br />Slemani Rotana</span>
       </div>
-      <div className="badge-person">
+      <div className={`badge-person${denseDetails ? " badge-person-dense" : ""}`}>
         <p className={nameClass}>{formatAttendeeName(registration.full_name)}</p>
-        <p className="badge-position">{registration.position}</p>
-        <p className="badge-city">{formatCity(registration.city)}</p>
+        <p className={`badge-position${registration.position.length > 70 ? " badge-position-long" : ""}`}>{registration.position}</p>
+        <p className={`badge-city${formatCity(registration.city).length > 35 ? " badge-city-long" : ""}`}>{formatCity(registration.city)}</p>
       </div>
       <div className="badge-reference">
         <span>{registration.registration_code}</span>
@@ -124,8 +129,11 @@ function BadgeArtwork({
       </div>
       <div className="badge-delegate-band">
         <strong>Delegate</strong>
-        <span>Advancing Science. Improving Outcomes.</span>
       </div>
+      <footer className="badge-sponsor">
+        <span>Exclusive sponsor</span>
+        <img src="/brand/sponsors/denk-pharma-logo.png" alt="Denk Pharma" width="1679" height="1679" />
+      </footer>
     </article>
   );
 }
@@ -471,7 +479,15 @@ export default function AdminPortal() {
       setScanBusy(false);
 
       requestAnimationFrame(() => {
-        window.setTimeout(() => window.print(), 180);
+        window.setTimeout(async () => {
+          // Both faces must have their brand assets loaded before kiosk printing.
+          await document.fonts.ready;
+          await Promise.all(
+            Array.from(document.querySelectorAll<HTMLImageElement>(".badge-print-sheet img"))
+              .map((image) => image.decode().catch(() => undefined)),
+          );
+          window.print();
+        }, 180);
       });
     },
     [portal, registrations, scanBusy],
@@ -1281,7 +1297,7 @@ export default function AdminPortal() {
             </div>
 
             <div className="badge-preview-panel">
-              <span>90 × 120 mm badge preview</span>
+              <span>55 × 90 mm folded badge preview</span>
               {badgeRegistration ? (
                 <BadgeArtwork
                   registration={badgeRegistration}
@@ -1293,6 +1309,13 @@ export default function AdminPortal() {
                   <p>The attendee badge preview appears here before printing.</p>
                 </div>
               )}
+              <p className="badge-print-instructions">
+                Paper: 55 × 180 mm. Print on one side at 100% / Actual size,
+                with no margins or headers and footers. Fold halfway at 90 mm,
+                where the two sponsor footers meet, with the blank sides together.
+                The lower copy is upside down on paper so both faces are upright
+                after folding. Insert into a 55 × 90 mm holder.
+              </p>
             </div>
           </section>
 
@@ -1695,6 +1718,7 @@ export default function AdminPortal() {
       {badgeRegistration ? (
         <div className="badge-print-sheet" aria-hidden="true">
           <BadgeArtwork registration={badgeRegistration} />
+          <BadgeArtwork registration={badgeRegistration} className="badge-reverse-face" />
         </div>
       ) : null}
     </div>

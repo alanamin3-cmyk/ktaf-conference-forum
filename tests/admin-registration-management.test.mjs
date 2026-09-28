@@ -40,10 +40,21 @@ test("adds phone visibility and a QR scanner check-in station", () => {
   assert.match(portalSource, /Check in \+ print/);
 });
 
-test("prints a KTAF 90 by 120 millimetre delegate badge", () => {
+test("prints two 55 by 90 mm faces on one 55 by 180 mm bottom-fold sheet", () => {
   assert.match(portalSource, /ktaf-horizontal\.svg/);
   assert.match(portalSource, /className="badge-delegate-band"/);
-  assert.match(globalStyles, /size: 90mm 120mm/);
+  assert.match(globalStyles, /size: 55mm 180mm/);
+  assert.match(globalStyles, /width: 55mm/);
+  assert.match(globalStyles, /height: 90mm/);
+  assert.match(globalStyles, /\.badge-reverse-face\s*\{\s*transform: rotate\(180deg\)/);
+  const printMarkup = portalSource.split('className="badge-print-sheet"')[1];
+  assert.equal((printMarkup.match(/<BadgeArtwork/g) || []).length, 2);
+  assert.match(printMarkup, /className="badge-reverse-face"/);
+  assert.match(portalSource, /Exclusive sponsor/);
+  assert.match(portalSource, /sponsors\/denk-pharma-logo\.png/);
+  assert.match(portalSource, /55 × 90 mm folded badge preview/);
+  assert.match(portalSource, /Paper: 55 × 180 mm/);
+  assert.doesNotMatch(globalStyles, /size: 90mm 120mm/);
   assert.match(globalStyles, /\.badge-print-sheet/);
   assert.match(globalStyles, /\.badge-name-long/);
 });

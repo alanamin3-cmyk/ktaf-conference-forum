@@ -1892,7 +1892,7 @@ p {
 .badge-preview-empty {
   display: grid;
   width: min(100%, 270px);
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 55 / 90;
   align-content: center;
   justify-items: center;
   border: 1px dashed #b7c6d5;
@@ -1918,9 +1918,10 @@ p {
   position: relative;
   display: grid;
   overflow: hidden;
-  width: 90mm;
-  height: 120mm;
-  grid-template-rows: auto 1fr auto auto;
+  width: 55mm;
+  height: 90mm;
+  flex: none;
+  grid-template-rows: auto minmax(0, 1fr) auto auto auto;
   border: 1px solid #dbe3eb;
   background:
     linear-gradient(155deg, transparent 61%, rgba(114, 182, 230, 0.09)),
@@ -1932,10 +1933,10 @@ p {
 .ktaf-name-badge::after {
   position: absolute;
   z-index: 0;
-  right: -21mm;
-  bottom: 17mm;
-  width: 72mm;
-  height: 44mm;
+  right: -16mm;
+  bottom: 22mm;
+  width: 48mm;
+  height: 32mm;
   background: url("/brand/ktaf-flow-pattern.svg") center / contain no-repeat;
   content: "";
   opacity: 0.15;
@@ -1943,25 +1944,32 @@ p {
 }
 
 .badge-screen-preview {
-  width: min(100%, 270px);
-  height: auto;
-  aspect-ratio: 3 / 4;
-  border-radius: 10px;
+  max-width: 100%;
   box-shadow: 0 15px 35px rgba(13, 43, 69, 0.14);
+}
+
+.badge-print-instructions {
+  max-width: 290px;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  line-height: 1.6;
+  text-align: center;
 }
 
 .badge-brand,
 .badge-person,
 .badge-reference,
-.badge-delegate-band {
+.badge-delegate-band,
+.badge-sponsor {
   position: relative;
   z-index: 1;
 }
 
 .badge-brand {
   display: grid;
-  gap: 3.5mm;
-  padding: 8mm 8mm 4mm;
+  gap: 1.5mm;
+  padding: 4mm 4mm 1.5mm;
 }
 
 .badge-brand img {
@@ -1971,9 +1979,10 @@ p {
 
 .badge-brand span {
   color: #5f7182;
-  font-size: 2.5mm;
+  font-size: 1.9mm;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
+  line-height: 1.35;
   text-transform: uppercase;
 }
 
@@ -1981,83 +1990,115 @@ p {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  padding: 4mm 8mm 5mm;
+  min-height: 0;
+  min-width: 0;
+  padding: 1.5mm 4mm 2mm;
+  overflow-wrap: anywhere;
 }
 
 .badge-name {
   margin: 0;
   color: var(--navy);
-  font-size: 9.6mm;
+  font-size: 5.6mm;
   font-weight: 750;
-  letter-spacing: -0.045em;
-  line-height: 1.03;
+  letter-spacing: -0.025em;
+  line-height: 1.08;
 }
 
 .badge-name-medium {
-  font-size: 8mm;
+  font-size: 4.8mm;
 }
 
 .badge-name-long {
-  font-size: 6.8mm;
+  font-size: 4mm;
 }
 
+.badge-name-very-long { font-size: 3.3mm; }
+.badge-name-extra-long { font-size: 2.8mm; }
+
 .badge-position {
-  margin: 4mm 0 0;
+  margin: 2mm 0 0;
   color: var(--blue);
-  font-size: 4mm;
+  font-size: 2.5mm;
   font-weight: 700;
   line-height: 1.25;
 }
 
 .badge-city {
-  margin: 2mm 0 0;
+  margin: 1.3mm 0 0;
   color: #5f7182;
-  font-size: 3.2mm;
+  font-size: 2.2mm;
   font-weight: 650;
+  line-height: 1.2;
 }
+
+.badge-position-long { font-size: 2.1mm; }
+.badge-city-long { font-size: 1.9mm; }
+
+/* Preserve complete unusually long submissions without covering the footer. */
+.badge-person-dense { padding-top: 0.5mm; padding-bottom: 0.5mm; }
+.badge-person-dense .badge-name { font-size: 2.3mm; }
+.badge-person-dense .badge-position { font-size: 1.8mm; margin-top: 1mm; }
+.badge-person-dense .badge-city { font-size: 1.5mm; margin-top: 1mm; }
 
 .badge-reference {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 4mm;
-  border-top: 0.4mm solid #e6e9ef;
-  margin: 0 8mm;
-  padding: 4mm 0;
+  gap: 1mm;
+  border-top: 0.2mm solid #e6e9ef;
+  margin: 0 4mm;
+  padding: 2mm 0;
   color: #5f7182;
-  font-size: 2.5mm;
+  font-size: 1.65mm;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 
 .badge-delegate-band {
   display: flex;
-  min-height: 19mm;
+  min-height: 6mm;
   align-items: center;
-  justify-content: space-between;
-  gap: 5mm;
-  border-top: 1.3mm solid var(--red);
+  justify-content: center;
+  border-top: 0.6mm solid var(--red);
   background: var(--navy);
-  padding: 4mm 8mm;
+  padding: 1mm 4mm;
   color: var(--white);
 }
 
 .badge-delegate-band strong {
-  font-size: 5mm;
+  font-size: 2.6mm;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-.badge-delegate-band span {
-  max-width: 40mm;
-  color: #c9d9e7;
-  font-size: 2.2mm;
-  font-weight: 650;
-  line-height: 1.35;
-  text-align: right;
+.badge-sponsor {
+  display: flex;
+  min-height: 14mm;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3mm;
+  padding: 2mm 4mm 3mm;
+  background: #fff;
+}
+
+.badge-sponsor span {
+  color: var(--navy);
+  font-size: 1.9mm;
+  font-weight: 700;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
 }
+
+.badge-sponsor img {
+  display: block;
+  width: 9mm;
+  height: 9mm;
+  object-fit: contain;
+}
+
+.badge-reverse-face { transform: rotate(180deg); }
 
 .badge-print-sheet {
   display: none;
@@ -3314,15 +3355,17 @@ p {
 }
 
 @page {
-  size: 90mm 120mm;
+  size: 55mm 180mm;
   margin: 0;
 }
 
 @media print {
   html,
   body {
-    width: 90mm !important;
-    height: 120mm !important;
+    width: 55mm !important;
+    height: 180mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
     overflow: hidden !important;
     background: #fff !important;
   }
@@ -3340,18 +3383,26 @@ p {
     position: fixed !important;
     z-index: 9999 !important;
     inset: 0 !important;
-    display: block !important;
-    width: 90mm !important;
-    height: 120mm !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+    width: 55mm !important;
+    height: 180mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    break-inside: avoid !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
     background: #fff !important;
   }
 
   .badge-print-sheet .ktaf-name-badge {
-    width: 90mm !important;
-    height: 120mm !important;
+    width: 55mm !important;
+    height: 90mm !important;
     border: 0 !important;
     border-radius: 0 !important;
     box-shadow: none !important;
+    break-inside: avoid !important;
   }
 }
 
