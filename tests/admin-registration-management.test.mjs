@@ -24,6 +24,20 @@ const globalStyles = await readFile(
   new URL("../app/globals.css", import.meta.url),
   "utf8",
 );
+const salutationMigration = await readFile(
+  new URL("../supabase/migrations/20260929101500_add_registration_salutation.sql", import.meta.url),
+  "utf8",
+);
+
+test("salutations are editable before attendee names and saved only by approved admins", () => {
+  assert.match(portalSource, /<th>Salutation<\/th>\s*<th>Attendee<\/th>/);
+  assert.match(portalSource, /SALUTATIONS\.map\(option => <option/);
+  assert.match(portalSource, /\.update\(\{ salutation: selected \}\)/);
+  assert.match(portalSource, /displaySalutation\(registration\.position, registration\.salutation\)/);
+  assert.match(salutationMigration, /add column if not exists salutation text/);
+  assert.match(salutationMigration, /grant update \(salutation\) on public\.registrations to authenticated/);
+  assert.match(salutationMigration, /'Dr\.', 'Ph\.', 'Prof\.', 'Mr\.', 'Ms\.', 'Mrs\.', 'Miss'/);
+});
 
 test("uses professional cancellation wording and supports restoration", () => {
   assert.match(portalSource, /Cancelled by attendee/);

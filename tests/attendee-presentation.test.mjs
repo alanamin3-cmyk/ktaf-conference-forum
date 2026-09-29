@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { formatAttendeeName, formatCity, careerStage, isDoctorPosition, normalizedPhone, findDuplicateGroups } from '../lib/attendee-presentation.ts';
+import { formatAttendeeName, formatCity, careerStage, displaySalutation, isDoctorPosition, normalizedPhone, findDuplicateGroups, suggestedSalutation } from '../lib/attendee-presentation.ts';
 
 test('badge names handle lowercase, uppercase, hyphens, initials, accents and native script without respelling', () => {
   assert.equal(formatAttendeeName('  rekar   adl sabr '), 'Rekar Adl Sabr');
@@ -48,6 +48,21 @@ test('doctor check-in classification includes physicians while excluding student
   for (const position of ['Medical student', 'Student Doctor', 'SHO clinical Pharmacist', 'Pharmacist', 'Medical representative', 'Internal medicine']) {
     assert.equal(isDoctorPosition(position), false, position);
   }
+});
+
+test('salutation suggestions include medical trainees and pharmacists without guessing gender', () => {
+  for (const position of ['General practitioner', 'Junior doctor', 'Medical student', 'Medical graduate', 'SHO of internal medicine', 'J.H.O', 'Cardiologist', 'Internal medicine', 'MBChB']) {
+    assert.equal(suggestedSalutation(position), 'Dr.', position);
+  }
+  for (const position of ['Pharmacist', 'SHO clinical pharmacy', 'Assistant Pharmacist']) {
+    assert.equal(suggestedSalutation(position), 'Ph.', position);
+  }
+  for (const position of ['Denk Pharma Product Manager', 'Nurse', 'Medical representative', 'Medical Laboratory Technician']) {
+    assert.equal(suggestedSalutation(position), null, position);
+  }
+  assert.equal(displaySalutation('Cardiologist', 'Prof.'), 'Prof.');
+  assert.equal(displaySalutation('Denk Pharma Product Manager', 'Ms.'), 'Ms.');
+  assert.equal(displaySalutation('Denk Pharma Product Manager', null), null);
 });
 const record = (id, overrides={}) => ({id, full_name:'Example Person', email:`${id}@example.com`, phone_number:null, city:'Slemani', created_at:`2026-09-${id.padStart(2,'0')}T10:00:00Z`, is_test:false, registration_status:'registered', checked_in_at:null, badge_print_count:0, ...overrides});
 
