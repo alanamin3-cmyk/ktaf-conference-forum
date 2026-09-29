@@ -2214,15 +2214,16 @@ p {
   border-collapse: collapse;
 }
 
-.attendee-table th:nth-child(1) { width: 18%; }
-.attendee-table th:nth-child(2) { width: 12%; }
-.attendee-table th:nth-child(3) { width: 10%; }
-.attendee-table th:nth-child(4) { width: 7%; }
-.attendee-table th:nth-child(5) { width: 9%; }
-.attendee-table th:nth-child(6) { width: 10%; }
-.attendee-table th:nth-child(7) { width: 8%; }
+.attendee-table th:nth-child(1) { width: 6%; }
+.attendee-table th:nth-child(2) { width: 17%; }
+.attendee-table th:nth-child(3) { width: 11%; }
+.attendee-table th:nth-child(4) { width: 9%; }
+.attendee-table th:nth-child(5) { width: 7%; }
+.attendee-table th:nth-child(6) { width: 9%; }
+.attendee-table th:nth-child(7) { width: 10%; }
 .attendee-table th:nth-child(8) { width: 8%; }
-.attendee-table th:nth-child(9) { width: 18%; }
+.attendee-table th:nth-child(9) { width: 8%; }
+.attendee-table th:nth-child(10) { width: 15%; }
 
 .attendee-table th {
   background: #f8fafc;
@@ -2244,29 +2245,44 @@ p {
   overflow-wrap: anywhere;
 }
 
-.attendee-table td:first-child,
-.attendee-table td:nth-child(6) {
+.attendee-table td:nth-child(2),
+.attendee-table td:nth-child(7) {
   display: table-cell;
 }
 
-.attendee-table td:first-child strong,
-.attendee-table td:first-child a,
-.attendee-table td:nth-child(6) strong,
-.attendee-table td:nth-child(6) span {
+.attendee-table td:nth-child(2) strong,
+.attendee-table td:nth-child(2) a,
+.attendee-table td:nth-child(7) strong,
+.attendee-table td:nth-child(7) span {
   display: block;
 }
 
-.attendee-table td:first-child a,
-.attendee-table td:nth-child(6) span {
+.attendee-table td:nth-child(2) a,
+.attendee-table td:nth-child(7) span {
   margin-top: 3px;
   color: var(--text-muted);
   font-size: 0.7rem;
 }
 
-.attendee-table td:first-child a:hover,
-.attendee-table td:first-child a:focus-visible {
+.attendee-table td:nth-child(2) a:hover,
+.attendee-table td:nth-child(2) a:focus-visible {
   color: var(--blue);
 }
+
+.attendee-salutation-select {
+  width: 100%;
+  min-height: 36px;
+  border: 1px solid #cfd8e1;
+  border-radius: 9px;
+  background: var(--white);
+  color: var(--navy);
+  padding: 0 5px;
+  font: inherit;
+  font-size: 0.7rem;
+}
+.attendee-salutation-select:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.attendee-salutation-select:disabled { opacity: .6; cursor: progress; }
+.salutation-source { display: block; margin-top: 5px; color: var(--text-muted); font-size: .59rem; }
 
 .attendee-contact-missing {
   display: block;
@@ -2337,7 +2353,7 @@ p {
   color: #667684;
 }
 
-.attendee-row-cancelled td:first-child strong {
+.attendee-row-cancelled td:nth-child(2) strong {
   color: var(--text-muted);
 }
 
@@ -3513,8 +3529,8 @@ p {
     overflow: hidden;
   }
   .attendee-table td,
-  .attendee-table td:first-child,
-  .attendee-table td:nth-child(6) {
+  .attendee-table td:nth-child(2),
+  .attendee-table td:nth-child(7) {
     display: block;
     min-width: 0;
     border-top: 0;
@@ -3529,17 +3545,18 @@ p {
     letter-spacing: .08em;
     text-transform: uppercase;
   }
-  .attendee-table td:nth-child(1)::before { content: "Attendee"; }
-  .attendee-table td:nth-child(2)::before { content: "Position"; }
-  .attendee-table td:nth-child(3)::before { content: "Career stage"; }
-  .attendee-table td:nth-child(4)::before { content: "City"; }
-  .attendee-table td:nth-child(5)::before { content: "Check-in"; }
-  .attendee-table td:nth-child(6)::before { content: "Registration"; }
-  .attendee-table td:nth-child(7)::before { content: "Attendance status"; }
-  .attendee-table td:nth-child(8)::before { content: "Email status"; }
-  .attendee-table td:nth-child(9)::before { content: "Actions"; }
-  .attendee-table td:nth-child(1),
-  .attendee-table td:nth-child(9),
+  .attendee-table td:nth-child(1)::before { content: "Salutation"; }
+  .attendee-table td:nth-child(2)::before { content: "Attendee"; }
+  .attendee-table td:nth-child(3)::before { content: "Position"; }
+  .attendee-table td:nth-child(4)::before { content: "Career stage"; }
+  .attendee-table td:nth-child(5)::before { content: "City"; }
+  .attendee-table td:nth-child(6)::before { content: "Check-in"; }
+  .attendee-table td:nth-child(7)::before { content: "Registration"; }
+  .attendee-table td:nth-child(8)::before { content: "Attendance status"; }
+  .attendee-table td:nth-child(9)::before { content: "Email status"; }
+  .attendee-table td:nth-child(10)::before { content: "Actions"; }
+  .attendee-table td:nth-child(2),
+  .attendee-table td:nth-child(10),
   .attendee-table td[colspan] { grid-column: 1 / -1; }
 }
 
