@@ -36,7 +36,7 @@ test("restricted edit accepts only a normalized name and position", () => {
 });
 
 test("database API returns and updates only name and position", () => {
-  assert.match(migration, /returns table \(\s*id uuid,\s*full_name text,\s*position text\s*\)/s);
+  assert.match(migration, /returns table \(\s*id uuid,\s*full_name text,\s*"position" text\s*\)/s);
   assert.match(migration, /set full_name = clean_name,\s*position = clean_position/s);
   assert.match(migration, /registration_status = 'registered'/);
   assert.match(migration, /not r\.is_test/);

@@ -59,7 +59,7 @@ create or replace function public.get_ktaf_attendee_directory()
 returns table (
   id uuid,
   full_name text,
-  position text
+  "position" text
 )
 language plpgsql
 stable
@@ -93,7 +93,7 @@ create or replace function public.update_ktaf_attendee_directory_entry(
 returns table (
   id uuid,
   full_name text,
-  position text
+  "position" text
 )
 language plpgsql
 security definer
