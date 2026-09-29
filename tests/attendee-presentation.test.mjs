@@ -51,13 +51,13 @@ test('doctor check-in classification includes physicians while excluding student
 });
 
 test('salutation suggestions include medical trainees and pharmacists without guessing gender', () => {
-  for (const position of ['General practitioner', 'Junior doctor', 'Medical student', 'Medical graduate', 'SHO of internal medicine', 'J.H.O', 'Cardiologist', 'Internal medicine', 'MBChB']) {
+  for (const position of ['General practitioner', 'Junior doctor', 'Medical student', 'Medical graduate', 'SHO of internal medicine', 'J.H.O', 'Cardiologist', 'Internal medicine', 'MBChB', 'Pediatric hematooncologist', 'Cardio thoracic', 'Pulmonologist', 'Hematopathology', 'Cardiothoracic and vasculr suergery', 'General medicine', 'Anesthesia']) {
     assert.equal(suggestedSalutation(position), 'Dr.', position);
   }
   for (const position of ['Pharmacist', 'SHO clinical pharmacy', 'Assistant Pharmacist']) {
     assert.equal(suggestedSalutation(position), 'Ph.', position);
   }
-  for (const position of ['Denk Pharma Product Manager', 'Nurse', 'Medical representative', 'Medical Laboratory Technician']) {
+  for (const position of ['Denk Pharma Product Manager', 'Nurse', 'Medical representative', 'Medical Laboratory Technician', 'Anesthesia Assistant', 'Hyper Acute']) {
     assert.equal(suggestedSalutation(position), null, position);
   }
   assert.equal(displaySalutation('Cardiologist', 'Prof.'), 'Prof.');
