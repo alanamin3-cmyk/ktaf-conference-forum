@@ -68,6 +68,23 @@ export function isDoctorPosition(position: string): boolean {
   return /\b(doctor|physician|mbchb)\b/i.test(position);
 }
 
+export const SALUTATIONS = ["Dr.", "Ph.", "Prof.", "Mr.", "Ms.", "Mrs.", "Miss"] as const;
+export type Salutation = typeof SALUTATIONS[number];
+
+/** Suggested only: a submitted position does not verify someone's credentials. */
+export function suggestedSalutation(position: string): Salutation | null {
+  const stage = careerStage(position);
+  if (stage === "Pharmacist" || /\b(pharmacist|pharmacy|pharmaceutics|bsc\s*pharm|m\s*pharm|pharmd)\b/i.test(position)) return "Ph.";
+  if (stage === "Medical student" || doctorStages.has(stage)) return "Dr.";
+  if (stage === "Other healthcare professional" || stage === "Other profession") return null;
+  if (/\b(medical graduate|med(?:icine|ical)? doctor|doctor|physician|mbchb|mbbs|md|dctor|med(?:icine|ical)? student|hematolog(?:ist|y)|haematolog(?:ist|y)|oncolog(?:ist|y)|cardiolog(?:ist|y)|neurolog(?:ist|y)|orthoped(?:ic|ist)|orthopaed(?:ic|ist)|surgeon|surgery|pediatrician|paediatrician|internist|internal medicine)\b/i.test(position)) return "Dr.";
+  return null;
+}
+
+export function displaySalutation(position: string, saved: Salutation | null): Salutation | null {
+  return saved ?? suggestedSalutation(position);
+}
+
 /** This is a suggested tag from the supplied position, never a credential verification. */
 export function careerStage(position: string): CareerStage {
   const text = position.toLowerCase().replace(/\bj\s*\.\s*h\s*\.\s*o\b\.?/g, "jho")
