@@ -15,7 +15,7 @@ import {
 import { getSupabaseBrowserClient } from "../../lib/supabase-browser";
 import { withPortalTimeout } from "../../lib/portal-request";
 
-import { CAREER_STAGES, careerStage, countAttendeesByCity, findDuplicateGroups, formatAttendeeName, formatCity, isDoctorPosition } from "../../lib/attendee-presentation";
+import { CAREER_STAGES, SALUTATIONS, careerStage, countAttendeesByCity, displaySalutation, findDuplicateGroups, formatAttendeeName, formatCity, isDoctorPosition, type Salutation } from "../../lib/attendee-presentation";
 
 import { attendeeEditError, validateAttendeeEdit } from "../../lib/admin-registration-edit";
 
@@ -23,6 +23,7 @@ type Registration = {
   id: string;
   created_at: string;
   full_name: string;
+  salutation: Salutation | null;
   position: string;
   city: string;
   phone_number: string | null;
@@ -154,6 +155,7 @@ export default function AdminPortal() {
   const [dataError, setDataError] = useState("");
   const [dataMessage, setDataMessage] = useState("");
   const [sendingEmailId, setSendingEmailId] = useState<string | null>(null);
+  const [salutationBusyId, setSalutationBusyId] = useState<string | null>(null);
   const [emailFeedback, setEmailFeedback] = useState<Record<string, { message: string; error: boolean }>>({});
   const emailSendingRef = useRef(false);
   const emailCooldownRef = useRef<Record<string, number>>({});
@@ -239,7 +241,7 @@ export default function AdminPortal() {
       const { data, error } = await withPortalTimeout(client
         .from("registrations")
         .select(
-          "id,created_at,full_name,position,city,phone_number,email,registration_code,email_status,email_sent_at,registration_status,is_test,status_updated_at,cancellation_note,checked_in_at,checked_in_by,badge_printed_at,badge_print_count",
+          "id,created_at,full_name,salutation,position,city,phone_number,email,registration_code,email_status,email_sent_at,registration_status,is_test,status_updated_at,cancellation_note,checked_in_at,checked_in_by,badge_printed_at,badge_print_count",
         )
         .order("created_at", { ascending: false }));
       if (requestId !== attendeeRequestRef.current) return;
@@ -369,6 +371,7 @@ export default function AdminPortal() {
       return [
         registration.full_name,
         formatAttendeeName(registration.full_name),
+        displaySalutation(registration.position, registration.salutation) || "",
         careerStage(registration.position),
         registration.position,
         registration.city,
@@ -464,7 +467,7 @@ export default function AdminPortal() {
         .eq("registration_status", "registered")
         .is("checked_in_at", null)
         .select(
-          "id,created_at,full_name,position,city,phone_number,email,registration_code,email_status,email_sent_at,registration_status,is_test,status_updated_at,cancellation_note,checked_in_at,checked_in_by,badge_printed_at,badge_print_count",
+          "id,created_at,full_name,salutation,position,city,phone_number,email,registration_code,email_status,email_sent_at,registration_status,is_test,status_updated_at,cancellation_note,checked_in_at,checked_in_by,badge_printed_at,badge_print_count",
         )
         .maybeSingle();
 
@@ -621,6 +624,39 @@ export default function AdminPortal() {
     setRegistrationAction(null);
   }
 
+  async function saveSalutation(registration: Registration, value: string) {
+    const client = getSupabaseBrowserClient();
+    if (!client || portal.kind !== "ready" || salutationBusyId !== null) return;
+    const selected = value === "" ? null : SALUTATIONS.find(option => option === value);
+    if (selected === undefined || selected === registration.salutation) return;
+
+    setSalutationBusyId(registration.id);
+    setDataError("");
+    setDataMessage("");
+    try {
+      let request = client.from("registrations")
+        .update({ salutation: selected }).eq("id", registration.id);
+      request = registration.salutation === null
+        ? request.is("salutation", null)
+        : request.eq("salutation", registration.salutation);
+      const { data, error } = await withPortalTimeout(request.select(
+        "id,created_at,full_name,salutation,position,city,phone_number,email,registration_code,email_status,email_sent_at,registration_status,is_test,status_updated_at,cancellation_note,checked_in_at,checked_in_by,badge_printed_at,badge_print_count",
+      ).maybeSingle());
+      if (error) throw error;
+      if (!data) {
+        setDataError("This salutation changed on another team device. Refresh the attendee list before trying again.");
+        return;
+      }
+      const updated = data as Registration;
+      setRegistrations(current => current.map(row => row.id === updated.id ? updated : row));
+      setDataMessage(`Salutation saved for ${formatAttendeeName(updated.full_name)}.`);
+    } catch {
+      setDataError("The salutation could not be saved. Check your connection, then try again.");
+    } finally {
+      setSalutationBusyId(null);
+    }
+  }
+
   async function resendRegistrationEmail(registration: Registration) {
     const client = getSupabaseBrowserClient();
     if (!client || portal.kind !== "ready" || emailSendingRef.current || registration.registration_status !== "registered") return;
@@ -702,7 +738,7 @@ export default function AdminPortal() {
           request = previous === null ? request.is(field, null) : request.eq(field, previous);
         }
         const { data, error } = await withPortalTimeout(request.select(
-          "id,created_at,full_name,position,city,phone_number,email,registration_code,email_status,email_sent_at,registration_status,is_test,status_updated_at,cancellation_note,checked_in_at,checked_in_by,badge_printed_at,badge_print_count",
+          "id,created_at,full_name,salutation,position,city,phone_number,email,registration_code,email_status,email_sent_at,registration_status,is_test,status_updated_at,cancellation_note,checked_in_at,checked_in_by,badge_printed_at,badge_print_count",
         ).maybeSingle());
         if (error) {
           setActionError(attendeeEditError(error));
@@ -834,6 +870,7 @@ export default function AdminPortal() {
       };
       const header = [
         "Registration reference",
+        "Salutation",
         "Full name",
         "Position",
         "City",
@@ -855,6 +892,7 @@ export default function AdminPortal() {
       ].map((value) => ({ value, ...headerStyle }));
       const rows = filtered.map((registration) => [
         { value: registration.registration_code },
+        { value: displaySalutation(registration.position, registration.salutation) || "" },
         { value: formatAttendeeName(registration.full_name) },
         { value: registration.position },
         { value: formatCity(registration.city) },
@@ -896,6 +934,7 @@ export default function AdminPortal() {
       await writeXlsxFile([header, ...rows], {
         columns: [
           { width: 22 },
+          { width: 14 },
           { width: 28 },
           { width: 28 },
           { width: 18 },
@@ -1392,6 +1431,7 @@ export default function AdminPortal() {
               <table className="attendee-table">
                 <thead>
                   <tr>
+                    <th>Salutation</th>
                     <th>Attendee</th>
                     <th>Position</th>
                     <th>Career stage</th>
@@ -1413,6 +1453,21 @@ export default function AdminPortal() {
                           : undefined
                       }
                     >
+                      <td>
+                        <select
+                          className="attendee-salutation-select"
+                          aria-label={`Salutation for ${formatAttendeeName(registration.full_name)}`}
+                          value={displaySalutation(registration.position, registration.salutation) || ""}
+                          onChange={event => void saveSalutation(registration, event.target.value)}
+                          disabled={salutationBusyId !== null}
+                        >
+                          <option value="">Select</option>
+                          {SALUTATIONS.map(option => <option key={option} value={option}>{option}</option>)}
+                        </select>
+                        <span className="salutation-source">
+                          {salutationBusyId === registration.id ? "Saving…" : registration.salutation ? "Saved" : displaySalutation(registration.position, null) ? "Suggested" : "Review"}
+                        </span>
+                      </td>
                       <td>
                         <strong>{formatAttendeeName(registration.full_name)}</strong>
                         {duplicateIds.has(registration.id) ? <span className="duplicate-tag">Duplicate review</span> : null}
