@@ -55,6 +55,19 @@ export const CAREER_STAGES = [
 ] as const;
 export type CareerStage = typeof CAREER_STAGES[number];
 
+const doctorStages = new Set<CareerStage>([
+  "Junior house officer", "Senior house officer", "Junior doctor",
+  "Resident doctor", "General practitioner", "Specialist", "Consultant", "Senior doctor",
+]);
+
+/** Check-in reporting uses the stated position, not verified credentials. */
+export function isDoctorPosition(position: string): boolean {
+  const stage = careerStage(position);
+  if (doctorStages.has(stage)) return true;
+  if (stage !== "Needs review") return false;
+  return /\b(doctor|physician|mbchb)\b/i.test(position);
+}
+
 /** This is a suggested tag from the supplied position, never a credential verification. */
 export function careerStage(position: string): CareerStage {
   const text = position.toLowerCase().replace(/\bj\s*\.\s*h\s*\.\s*o\b\.?/g, "jho")
