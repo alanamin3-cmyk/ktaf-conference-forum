@@ -15,7 +15,7 @@ import {
 import { getSupabaseBrowserClient } from "../../lib/supabase-browser";
 import { withPortalTimeout } from "../../lib/portal-request";
 
-import { CAREER_STAGES, careerStage, countAttendeesByCity, findDuplicateGroups, formatAttendeeName, formatCity } from "../../lib/attendee-presentation";
+import { CAREER_STAGES, careerStage, countAttendeesByCity, findDuplicateGroups, formatAttendeeName, formatCity, isDoctorPosition } from "../../lib/attendee-presentation";
 
 import { attendeeEditError, validateAttendeeEdit } from "../../lib/admin-registration-edit";
 
@@ -320,6 +320,12 @@ export default function AdminPortal() {
   }, [portal.kind, refreshRegistrations]);
 
   useEffect(() => {
+    if (portal.kind !== "ready") return;
+    const timer = window.setInterval(() => void refreshRegistrations(), 20000);
+    return () => window.clearInterval(timer);
+  }, [portal.kind, refreshRegistrations]);
+
+  useEffect(() => {
     if (!registrationAction) return;
 
     const previousOverflow = document.body.style.overflow;
@@ -392,7 +398,10 @@ export default function AdminPortal() {
         !registration.is_test && isToday(registration.created_at),
       ).length,
       checkedIn: registrations.filter(
-        (registration) => !registration.is_test && registration.checked_in_at,
+        (registration) => !registration.is_test && registration.registration_status === "registered" && registration.checked_in_at,
+      ).length,
+      checkedInDoctors: registrations.filter(
+        (registration) => !registration.is_test && registration.registration_status === "registered" && registration.checked_in_at && isDoctorPosition(registration.position),
       ).length,
       cities: cityBreakdown.length,
     }),
@@ -438,30 +447,40 @@ export default function AdminPortal() {
         return;
       }
 
-      setScanBusy(true);
-      const printedAt = new Date().toISOString();
-      const update: Record<string, string | number> = {
-        badge_printed_at: printedAt,
-        badge_print_count: (registration.badge_print_count || 0) + 1,
-      };
-      if (!registration.checked_in_at) {
-        update.checked_in_at = printedAt;
-        update.checked_in_by = portal.session.user.id;
+      if (registration.checked_in_at) {
+        setScanMessage(`${formatAttendeeName(registration.full_name)} is already checked in.`);
+        setBadgeRegistration(registration);
+        setScanValue("");
+        scannerInputRef.current?.focus();
+        return;
       }
+
+      setScanBusy(true);
 
       const { data, error } = await client
         .from("registrations")
-        .update(update)
+        .update({ checked_in_at: new Date().toISOString(), checked_in_by: portal.session.user.id })
         .eq("id", registration.id)
+        .eq("registration_status", "registered")
+        .is("checked_in_at", null)
         .select(
           "id,created_at,full_name,position,city,phone_number,email,registration_code,email_status,email_sent_at,registration_status,is_test,status_updated_at,cancellation_note,checked_in_at,checked_in_by,badge_printed_at,badge_print_count",
         )
-        .single();
+        .maybeSingle();
 
-      if (error || !data) {
+      if (error) {
         setScanError(
-          "Check-in could not be saved, so printing was stopped. Please try again.",
+          "Check-in could not be saved. Please try again.",
         );
+        setScanBusy(false);
+        scannerInputRef.current?.focus();
+        return;
+      }
+
+      if (!data) {
+        await refreshRegistrations();
+        setScanMessage(`${formatAttendeeName(registration.full_name)} was already checked in at another station, or their status changed. Review the refreshed list.`);
+        setScanValue("");
         setScanBusy(false);
         scannerInputRef.current?.focus();
         return;
@@ -473,24 +492,10 @@ export default function AdminPortal() {
       );
       setBadgeRegistration(updated);
       setScanValue("");
-      setScanMessage(
-        `${updated.full_name} checked in. Badge print ${updated.badge_print_count} is starting.`,
-      );
+      setScanMessage(`${formatAttendeeName(updated.full_name)} checked in successfully.`);
       setScanBusy(false);
-
-      requestAnimationFrame(() => {
-        window.setTimeout(async () => {
-          // Both faces must have their brand assets loaded before kiosk printing.
-          await document.fonts.ready;
-          await Promise.all(
-            Array.from(document.querySelectorAll<HTMLImageElement>(".badge-print-sheet img"))
-              .map((image) => image.decode().catch(() => undefined)),
-          );
-          window.print();
-        }, 180);
-      });
     },
-    [portal, registrations, scanBusy],
+    [portal, registrations, scanBusy, refreshRegistrations],
   );
 
   useEffect(() => {
@@ -1162,6 +1167,11 @@ export default function AdminPortal() {
               <strong>{summary.checkedIn}</strong>
             </article>
             <article>
+              <span>Checked-in doctors</span>
+              <strong>{summary.checkedInDoctors}</strong>
+              <small>Based on registered position</small>
+            </article>
+            <article>
               <span>Cancelled by attendee</span>
               <strong>{summary.cancelled}</strong>
             </article>
@@ -1241,11 +1251,11 @@ export default function AdminPortal() {
           <section className="checkin-panel" aria-labelledby="checkin-title">
             <div className="checkin-workspace">
               <p className="form-kicker">Conference entrance</p>
-              <h2 id="checkin-title">QR check-in &amp; badge printing</h2>
+              <h2 id="checkin-title">QR check-in</h2>
               <p>
                 Keep the scanner field focused. Scan the attendee’s email QR
                 code, or enter the registration reference manually. A valid
-                active registration is checked in before its badge print starts.
+                active registration is checked in when its QR code is scanned.
               </p>
 
               <form
@@ -1272,7 +1282,7 @@ export default function AdminPortal() {
                     disabled={scanBusy}
                   />
                   <button type="submit" disabled={scanBusy || !scanValue.trim()}>
-                    {scanBusy ? "Checking…" : "Check in & print"}
+                    {scanBusy ? "Checking…" : "Check in"}
                   </button>
                 </div>
               </form>
@@ -1288,16 +1298,11 @@ export default function AdminPortal() {
                 </p>
               ) : null}
 
-              <p className="checkin-kiosk-note">
-                The portal opens the browser print command automatically. For
-                completely silent printing, the event laptop must be launched
-                once in Chrome kiosk-printing mode with the badge printer set as
-                its default printer.
-              </p>
+              <p className="checkin-kiosk-note">The totals above update after each check-in and refresh every 20 seconds across team devices.</p>
             </div>
 
             <div className="badge-preview-panel">
-              <span>55 × 90 mm folded badge preview</span>
+              <span>Attendee preview</span>
               {badgeRegistration ? (
                 <BadgeArtwork
                   registration={badgeRegistration}
@@ -1306,16 +1311,10 @@ export default function AdminPortal() {
               ) : (
                 <div className="badge-preview-empty">
                   <strong>Ready for first scan</strong>
-                  <p>The attendee badge preview appears here before printing.</p>
+                  <p>The attendee’s details appear here after a scan.</p>
                 </div>
               )}
-              <p className="badge-print-instructions">
-                Paper: 55 × 180 mm. Print on one side at 100% / Actual size,
-                with no margins or headers and footers. Fold halfway at 90 mm,
-                where the two sponsor footers meet, with the blank sides together.
-                The lower copy is upside down on paper so both faces are upright
-                after folding. Insert into a 55 × 90 mm holder.
-              </p>
+              <p className="badge-print-instructions">Badges are prepared in advance. Scanning records attendance without opening a print window.</p>
             </div>
           </section>
 
@@ -1520,8 +1519,8 @@ export default function AdminPortal() {
                             }
                           >
                             {registration.checked_in_at
-                              ? "Reprint badge"
-                              : "Check in + print"}
+                              ? "Already checked in"
+                              : "Check in"}
                           </button>
                           {registration.registration_status === "registered" ? (
                             <button
