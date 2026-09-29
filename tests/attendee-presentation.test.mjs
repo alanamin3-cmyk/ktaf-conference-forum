@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { formatAttendeeName, formatCity, careerStage, normalizedPhone, findDuplicateGroups } from '../lib/attendee-presentation.ts';
+import { formatAttendeeName, formatCity, careerStage, isDoctorPosition, normalizedPhone, findDuplicateGroups } from '../lib/attendee-presentation.ts';
 
 test('badge names handle lowercase, uppercase, hyphens, initials, accents and native script without respelling', () => {
   assert.equal(formatAttendeeName('  rekar   adl sabr '), 'Rekar Adl Sabr');
@@ -39,6 +39,15 @@ test('career stages prioritize profession and training over specialty words', ()
     'Medical representative':'Other profession', 'Medical Laboratory Technician':'Other healthcare professional',
   };
   for (const [position, stage] of Object.entries(cases)) assert.equal(careerStage(position),stage,position);
+});
+
+test('doctor check-in classification includes physicians while excluding students and pharmacists', () => {
+  for (const position of ['Clinical hematologist', 'Resident doctor', 'SHO of internal medicine', 'General practitioner', 'Medical doctor', 'MBChB']) {
+    assert.equal(isDoctorPosition(position), true, position);
+  }
+  for (const position of ['Medical student', 'Student Doctor', 'SHO clinical Pharmacist', 'Pharmacist', 'Medical representative', 'Internal medicine']) {
+    assert.equal(isDoctorPosition(position), false, position);
+  }
 });
 const record = (id, overrides={}) => ({id, full_name:'Example Person', email:`${id}@example.com`, phone_number:null, city:'Slemani', created_at:`2026-09-${id.padStart(2,'0')}T10:00:00Z`, is_test:false, registration_status:'registered', checked_in_at:null, badge_print_count:0, ...overrides});
 

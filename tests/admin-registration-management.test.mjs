@@ -32,12 +32,21 @@ test("uses professional cancellation wording and supports restoration", () => {
   assert.match(portalSource, /cancellation_note/);
 });
 
-test("adds phone visibility and a QR scanner check-in station", () => {
+test("adds phone visibility and a QR scanner check-in station without automatic printing", () => {
   assert.match(portalSource, /phone_number/);
-  assert.match(portalSource, /QR check-in &amp; badge printing/);
+  assert.match(portalSource, /QR check-in/);
   assert.match(portalSource, /registrationCodeFromScan/);
-  assert.match(portalSource, /window\.print\(\)/);
-  assert.match(portalSource, /Check in \+ print/);
+  assert.doesNotMatch(portalSource, /window\.print\(\)/);
+  assert.match(portalSource, /Checked-in doctors/);
+  assert.match(portalSource, /checkedInDoctors/);
+  assert.match(portalSource, /is\("checked_in_at", null\)/);
+});
+
+test("attendee table uses the available desktop width and stacks without sideways scrolling on smaller screens", () => {
+  assert.match(globalStyles, /\.portal-dashboard\s*\{\s*width: min\(1880px, calc\(100% - 32px\)\)/);
+  assert.match(globalStyles, /\.attendee-table\s*\{[^}]*width: 100%;[^}]*table-layout: fixed/s);
+  assert.doesNotMatch(globalStyles, /\.attendee-table\s*\{[^}]*min-width:/s);
+  assert.match(globalStyles, /@media \(max-width: 1120px\)\s*\{\s*\.attendee-table-wrap \{ overflow-x: visible; \}/);
 });
 
 test("prints two 55 by 90 mm faces on one 55 by 180 mm bottom-fold sheet", () => {
@@ -52,8 +61,8 @@ test("prints two 55 by 90 mm faces on one 55 by 180 mm bottom-fold sheet", () =>
   assert.match(printMarkup, /className="badge-reverse-face"/);
   assert.match(portalSource, /Exclusive sponsor/);
   assert.match(portalSource, /sponsors\/denk-pharma-logo\.png/);
-  assert.match(portalSource, /55 × 90 mm folded badge preview/);
-  assert.match(portalSource, /Paper: 55 × 180 mm/);
+  assert.match(portalSource, /Attendee preview/);
+  assert.doesNotMatch(portalSource, /Paper: 55 × 180 mm/);
   assert.doesNotMatch(globalStyles, /size: 90mm 120mm/);
   assert.match(globalStyles, /\.badge-print-sheet/);
   assert.match(globalStyles, /\.badge-name-long/);
