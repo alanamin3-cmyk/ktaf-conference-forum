@@ -77,7 +77,7 @@ export function suggestedSalutation(position: string): Salutation | null {
   if (stage === "Pharmacist" || /\b(pharmacist|pharmacy|pharmaceutics|bsc\s*pharm|m\s*pharm|pharmd)\b/i.test(position)) return "Ph.";
   if (stage === "Medical student" || doctorStages.has(stage)) return "Dr.";
   if (stage === "Other healthcare professional" || stage === "Other profession") return null;
-  if (/\b(medical graduate|med(?:icine|ical)? doctor|doctor|physician|mbchb|mbbs|md|dctor|med(?:icine|ical)? student|hematolog(?:ist|y)|haematolog(?:ist|y)|oncolog(?:ist|y)|cardiolog(?:ist|y)|neurolog(?:ist|y)|orthoped(?:ic|ist)|orthopaed(?:ic|ist)|surgeon|surgery|pediatrician|paediatrician|internist|internal medicine)\b/i.test(position)) return "Dr.";
+  if (/\b(medical graduate|med(?:icine|ical)? doctor|doctor|physician|mbchb|mbbs|md|dctor|med(?:icine|ical)? student|hematolog(?:ist|y)|haematolog(?:ist|y)|hematopatholog(?:ist|y)|haematopatholog(?:ist|y)|hematooncologist|oncolog(?:ist|y)|cardiolog(?:ist|y)|cardio\s*thoracic|cardiothoracic|pulmonologist|neurolog(?:ist|y)|orthoped(?:ic|ist)|orthopaed(?:ic|ist)|surgeon|surgery|suergery|pediatrician|paediatrician|internist|internal medicine|general medicine|anesthesia|anaesthesia)\b/i.test(position)) return "Dr.";
   return null;
 }
 
