@@ -4,6 +4,7 @@
 import type { Session } from "@supabase/supabase-js";
 import Link from "next/link";
 import CityBreakdown from "./CityBreakdown";
+import RestrictedAttendeeEditor from "./RestrictedAttendeeEditor";
 import {
   FormEvent,
   useCallback,
@@ -18,6 +19,7 @@ import { withPortalTimeout } from "../../lib/portal-request";
 import { CAREER_STAGES, SALUTATIONS, careerStage, countAttendeesByCity, displaySalutation, findDuplicateGroups, formatAttendeeName, formatCity, isDoctorPosition, type Salutation } from "../../lib/attendee-presentation";
 
 import { attendeeEditError, validateAttendeeEdit } from "../../lib/admin-registration-edit";
+import { resolvePortalLogin } from "../../lib/portal-login";
 
 type Registration = {
   id: string;
@@ -53,7 +55,12 @@ type PortalState =
   | { kind: "signed-out" }
   | { kind: "set-password"; session: Session }
   | { kind: "unauthorized"; email: string }
-  | { kind: "ready"; session: Session };
+  | {
+      kind: "ready";
+      session: Session;
+      role: "admin" | "attendee_editor";
+      displayName: string;
+    };
 
 function formatDate(value: string) {
   return new Intl.DateTimeFormat("en-GB", {
@@ -181,7 +188,7 @@ export default function AdminPortal() {
 
   useEffect(() => {
     const client = getSupabaseBrowserClient();
-    if (!client || portal.kind !== "ready") return;
+    if (!client || portal.kind !== "ready" || portal.role !== "admin") return;
     let active = true;
     void withPortalTimeout(client.functions.invoke("resend-registration", { body: { action: "check" } }))
       .then(({ data, error }) => { if (active) setEmailServiceReady(!error && data?.ready === true); })
@@ -214,13 +221,34 @@ export default function AdminPortal() {
       if (membershipError) throw membershipError;
 
       if (!membership) {
-        ++attendeeRequestRef.current;
-        setPortal({ kind: "unauthorized", email: session.user.email || "this account" });
-        setRegistrations([]);
-        setDataBusy(false);
+        const { data: editorMembership, error: editorMembershipError } = await withPortalTimeout(
+          client.from("attendee_editor_users").select("username")
+            .eq("user_id", session.user.id).maybeSingle(),
+        );
+        if (requestId !== accessRequestRef.current) return;
+        if (editorMembershipError) throw editorMembershipError;
+
+        if (!editorMembership) {
+          ++attendeeRequestRef.current;
+          setPortal({ kind: "unauthorized", email: session.user.email || "this account" });
+          setRegistrations([]);
+          setDataBusy(false);
+          return;
+        }
+        setPortal({
+          kind: "ready",
+          session,
+          role: "attendee_editor",
+          displayName: editorMembership.username,
+        });
         return;
       }
-      setPortal({ kind: "ready", session });
+      setPortal({
+        kind: "ready",
+        session,
+        role: "admin",
+        displayName: membership.email || session.user.email || "KTAF administrator",
+      });
     } catch {
       if (requestId !== accessRequestRef.current) return;
       ++attendeeRequestRef.current;
@@ -232,7 +260,7 @@ export default function AdminPortal() {
 
   const refreshRegistrations = useCallback(async () => {
     const client = getSupabaseBrowserClient();
-    if (!client) return;
+    if (!client || portal.kind !== "ready" || portal.role !== "admin") return;
 
     const requestId = ++attendeeRequestRef.current;
     setDataBusy(true);
@@ -254,7 +282,7 @@ export default function AdminPortal() {
     } finally {
       if (requestId === attendeeRequestRef.current) setDataBusy(false);
     }
-  }, []);
+  }, [portal]);
 
   useEffect(() => {
     const client = getSupabaseBrowserClient();
@@ -316,16 +344,16 @@ export default function AdminPortal() {
   }, [loadPortal]);
 
   useEffect(() => {
-    if (portal.kind === "ready") {
+    if (portal.kind === "ready" && portal.role === "admin") {
       queueMicrotask(() => void refreshRegistrations());
     }
-  }, [portal.kind, refreshRegistrations]);
+  }, [portal, refreshRegistrations]);
 
   useEffect(() => {
-    if (portal.kind !== "ready") return;
+    if (portal.kind !== "ready" || portal.role !== "admin") return;
     const timer = window.setInterval(() => void refreshRegistrations(), 20000);
     return () => window.clearInterval(timer);
-  }, [portal.kind, refreshRegistrations]);
+  }, [portal, refreshRegistrations]);
 
   useEffect(() => {
     if (!registrationAction) return;
@@ -531,11 +559,11 @@ export default function AdminPortal() {
 
     try {
       const { error } = await withPortalTimeout(client.auth.signInWithPassword({
-        email: String(formData.get("email") ?? "").trim(),
+        email: resolvePortalLogin(String(formData.get("login") ?? "")),
         password: String(formData.get("password") ?? ""),
       }));
       if (error?.code === "invalid_credentials") {
-        setLoginError("The email address or password is incorrect.");
+        setLoginError("The username/email or password is incorrect.");
       } else if (error) {
         throw error;
       }
@@ -1093,12 +1121,12 @@ export default function AdminPortal() {
             </h2>
             <form onSubmit={showPasswordReset ? requestPasswordReset : signIn}>
               <label>
-                <span>Email address</span>
+                <span>{showPasswordReset ? "Email address" : "Username or email"}</span>
                 <input
-                  name="email"
-                  type="email"
+                  name={showPasswordReset ? "email" : "login"}
+                  type={showPasswordReset ? "email" : "text"}
                   autoComplete="username"
-                  placeholder="name@company.com"
+                  placeholder={showPasswordReset ? "name@company.com" : "KTAF Team"}
                   required
                 />
               </label>
@@ -1177,13 +1205,19 @@ export default function AdminPortal() {
       ) : null}
 
       {portal.kind === "ready" ? (
+        portal.role === "attendee_editor" ? (
+        <RestrictedAttendeeEditor
+          username={portal.displayName}
+          onSignOut={signOut}
+        />
+      ) : (
         <main className="portal-dashboard">
           <div className="portal-title-row">
             <div>
               <p className="section-label">Registration dashboard</p>
               <h1>Attendee overview</h1>
               <p>
-                Signed in as {portal.session.user.email || "KTAF team member"}
+                Signed in as {portal.displayName}
               </p>
             </div>
             <div className="portal-title-actions">
@@ -1628,6 +1662,7 @@ export default function AdminPortal() {
             </div>
           </section>
         </main>
+      )
       ) : null}
 
       {registrationAction ? (

@@ -3460,6 +3460,151 @@ p {
 }
 .attendee-email-feedback-error { color: #a03535; }
 
+/* Least-privilege directory: names and positions only, with no export surface. */
+.restricted-directory {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.restricted-directory input {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.restricted-directory-notice {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 16px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(30, 99, 182, 0.2);
+  border-radius: 18px;
+  background: #f1f7fc;
+  padding: 20px 24px;
+  color: var(--navy);
+}
+
+.restricted-directory-notice strong {
+  border-radius: 999px;
+  background: var(--navy);
+  padding: 7px 12px;
+  color: var(--white);
+  font-size: 0.67rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.restricted-directory-notice p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.65;
+}
+
+.restricted-directory-panel {
+  overflow: hidden;
+  border: 1px solid var(--gray);
+  border-radius: 24px;
+  background: var(--white);
+  box-shadow: var(--shadow-soft);
+}
+
+.restricted-directory-toolbar {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 28px;
+  border-bottom: 1px solid var(--gray);
+  padding: 28px 30px;
+}
+
+.restricted-directory-toolbar h2 {
+  margin: 0 0 3px;
+  color: var(--navy);
+  font-size: 1.7rem;
+}
+
+.restricted-directory-toolbar p:last-child {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+}
+
+.restricted-directory-message {
+  margin: 20px 30px 0;
+}
+
+.restricted-directory-table-wrap {
+  overflow-x: auto;
+}
+
+.restricted-directory-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.restricted-directory-table th:nth-child(1) { width: 34%; }
+.restricted-directory-table th:nth-child(2) { width: 46%; }
+.restricted-directory-table th:nth-child(3) { width: 20%; }
+
+.restricted-directory-table th {
+  background: #f8fafc;
+  padding: 14px 18px;
+  color: var(--text-muted);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.restricted-directory-table td {
+  border-top: 1px solid var(--gray);
+  padding: 17px 18px;
+  color: var(--navy);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.restricted-directory-edit {
+  min-height: 38px;
+  cursor: pointer;
+  border: 1px solid #b8cce3;
+  border-radius: 999px;
+  background: #eaf2fb;
+  padding: 0 15px;
+  color: var(--blue);
+  font: inherit;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.restricted-directory-edit:hover,
+.restricted-directory-edit:focus-visible {
+  border-color: var(--blue);
+  background: #dceafa;
+}
+
+@media (max-width: 720px) {
+  .restricted-directory-notice,
+  .restricted-directory-toolbar {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .restricted-directory-notice strong { justify-self: start; }
+  .restricted-directory-toolbar .attendee-search { width: 100%; }
+  .restricted-directory-table th:nth-child(1) { width: 36%; }
+  .restricted-directory-table th:nth-child(2) { width: 41%; }
+  .restricted-directory-table th:nth-child(3) { width: 23%; }
+  .restricted-directory-table th,
+  .restricted-directory-table td { padding-inline: 10px; }
+  .restricted-directory-edit { white-space: normal; }
+}
+
 /* The city total opens the same active-registration breakdown as its headline. */
 .portal-stats .portal-city-stat { padding: 0; }
 .portal-city-stat-button {
