@@ -3,6 +3,7 @@ import test from "node:test";
 import { readFile } from "node:fs/promises";
 import { attendeeDirectoryEditError, validateAttendeeDirectoryEdit } from "../lib/attendee-directory-edit.ts";
 import { resolvePortalLogin } from "../lib/portal-login.ts";
+import { registrationCodeFromRestrictedScan, restrictedCheckInError } from "../lib/restricted-checkin.ts";
 
 const migration = await readFile(
   new URL("../supabase/migrations/20260929123000_add_restricted_attendee_editor.sql", import.meta.url),
@@ -10,6 +11,10 @@ const migration = await readFile(
 );
 const component = await readFile(
   new URL("../app/admin/RestrictedAttendeeEditor.tsx", import.meta.url),
+  "utf8",
+);
+const checkinMigration = await readFile(
+  new URL("../supabase/migrations/20260930190000_add_restricted_attendee_checkin.sql", import.meta.url),
   "utf8",
 );
 
@@ -47,9 +52,31 @@ test("database API returns and updates only name and position", () => {
 });
 
 test("restricted screen has no private contact fields or export controls", () => {
-  assert.match(component, /get_ktaf_attendee_directory/);
+  assert.match(component, /get_ktaf_attendee_checkin_directory/);
   assert.match(component, /update_ktaf_attendee_directory_entry/);
   assert.match(component, /onCopy=\{stopRestrictedTransfer\}/);
   assert.match(component, /onPaste=\{stopRestrictedTransfer\}/);
-  assert.doesNotMatch(component, /phone_number|registration_code|write-excel-file|Download Excel|mailto:|tel:/);
+  assert.doesNotMatch(component, /phone_number|email:\s*string|write-excel-file|Download Excel|mailto:|tel:/i);
+  assert.doesNotMatch(component, /from\(["']registrations["']\)|\.select\(/);
+});
+
+test("restricted QR scanner accepts a pass URL or reference", () => {
+  assert.equal(
+    registrationCodeFromRestrictedScan("https://ktaf.krd/admin.html?checkin=ktaf-2026-123456"),
+    "KTAF-2026-123456",
+  );
+  assert.equal(registrationCodeFromRestrictedScan("scan KTAF-2026-654321 now"), "KTAF-2026-654321");
+  assert.equal(registrationCodeFromRestrictedScan("not a KTAF code"), "");
+  assert.match(restrictedCheckInError({ code: "P0002" }), /No active attendee/);
+});
+
+test("restricted check-in API exposes attendance only and records the editor", () => {
+  assert.match(checkinMigration, /get_ktaf_attendee_checkin_directory/);
+  assert.match(checkinMigration, /returns table \(\s*id uuid,\s*full_name text,\s*"position" text,\s*checked_in_at timestamptz\s*\)/s);
+  assert.match(checkinMigration, /check_in_ktaf_attendee\(p_registration_code text\)/);
+  assert.match(checkinMigration, /set checked_in_at = now\(\),\s*checked_in_by = auth\.uid\(\)/s);
+  assert.match(checkinMigration, /registration_status = 'registered'/);
+  assert.match(checkinMigration, /not r\.is_test/);
+  assert.match(checkinMigration, /grant execute on function public\.check_in_ktaf_attendee\(text\) to authenticated/);
+  assert.doesNotMatch(checkinMigration, /returns table \([^)]*(?:email|phone_number|city|registration_code)/i);
 });
