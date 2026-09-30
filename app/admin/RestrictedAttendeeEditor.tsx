@@ -11,6 +11,7 @@ type DirectoryAttendee = {
   id: string;
   full_name: string;
   position: string;
+  phone_number: string | null;
   checked_in_at: string | null;
 };
 
@@ -97,7 +98,7 @@ export default function RestrictedAttendeeEditor({
       if (attendanceFilter === "checked-in" && !attendee.checked_in_at) return false;
       if (attendanceFilter === "waiting" && attendee.checked_in_at) return false;
       if (!normalized) return true;
-      return [attendee.full_name, formatAttendeeName(attendee.full_name), attendee.position]
+      return [attendee.full_name, formatAttendeeName(attendee.full_name), attendee.position, attendee.phone_number || ""]
         .some((value) => value.toLowerCase().includes(normalized));
     });
   }, [attendanceFilter, attendees, query]);
@@ -132,6 +133,7 @@ export default function RestrictedAttendeeEditor({
         id: result.id,
         full_name: result.full_name,
         position: result.position,
+        phone_number: result.phone_number,
         checked_in_at: result.checked_in_at,
       };
       setAttendees((current) => {
@@ -250,9 +252,9 @@ export default function RestrictedAttendeeEditor({
       <section className="restricted-directory-notice" aria-label="Account restrictions">
         <strong>Restricted account</strong>
         <p>
-          This account receives only attendee names, positions and check-in times.
+          This account receives only attendee names, positions, phone numbers and check-in times.
           QR references are processed one at a time and are not included in the attendee list.
-          Email addresses, phone numbers, city, backups and Excel export remain unavailable.
+          Email addresses, city, backups and Excel export remain unavailable.
         </p>
       </section>
 
@@ -325,12 +327,12 @@ export default function RestrictedAttendeeEditor({
               <button type="button" aria-pressed={attendanceFilter === "waiting"} onClick={() => setAttendanceFilter("waiting")}>Waiting</button>
             </div>
             <label className="attendee-search">
-              <span className="sr-only">Search by name or position</span>
+              <span className="sr-only">Search by name, position or phone number</span>
               <input
                 type="search"
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search name or position…"
+                placeholder="Search name, position or phone…"
                 autoComplete="off"
               />
             </label>
@@ -346,6 +348,7 @@ export default function RestrictedAttendeeEditor({
               <tr>
                 <th>Name</th>
                 <th>Position</th>
+                <th>Phone number</th>
                 <th>Check-in</th>
                 <th>Action</th>
               </tr>
@@ -355,6 +358,7 @@ export default function RestrictedAttendeeEditor({
                 <tr key={attendee.id}>
                   <td><strong>{formatAttendeeName(attendee.full_name)}</strong></td>
                   <td>{attendee.position}</td>
+                  <td>{attendee.phone_number || "Not provided"}</td>
                   <td>
                     <span className={`restricted-checkin-state ${attendee.checked_in_at ? "restricted-checkin-complete" : "restricted-checkin-waiting"}`}>
                       {attendee.checked_in_at ? "Checked in" : "Waiting"}
@@ -377,7 +381,7 @@ export default function RestrictedAttendeeEditor({
                 </tr>
               ))}
               {!busy && !filtered.length ? (
-                <tr><td className="attendee-empty" colSpan={4}>No attendees match your search or attendance filter.</td></tr>
+                <tr><td className="attendee-empty" colSpan={5}>No attendees match your search or attendance filter.</td></tr>
               ) : null}
             </tbody>
           </table>

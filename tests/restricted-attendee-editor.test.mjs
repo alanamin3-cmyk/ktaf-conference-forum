@@ -51,12 +51,14 @@ test("database API returns and updates only name and position", () => {
   assert.doesNotMatch(migration, /grant select on public\.registrations.*attendee_editor/i);
 });
 
-test("restricted screen has no private contact fields or export controls", () => {
+test("restricted screen exposes phone but no email, direct table access or export controls", () => {
   assert.match(component, /get_ktaf_attendee_checkin_directory/);
   assert.match(component, /update_ktaf_attendee_directory_entry/);
+  assert.match(component, /phone_number: string \| null/);
+  assert.match(component, /Phone number/);
   assert.match(component, /onCopy=\{stopRestrictedTransfer\}/);
   assert.match(component, /onPaste=\{stopRestrictedTransfer\}/);
-  assert.doesNotMatch(component, /phone_number|email:\s*string|write-excel-file|Download Excel|mailto:|tel:/i);
+  assert.doesNotMatch(component, /email:\s*string|write-excel-file|Download Excel|mailto:|tel:/i);
   assert.doesNotMatch(component, /from\(["']registrations["']\)|\.select\(/);
 });
 
@@ -70,13 +72,13 @@ test("restricted QR scanner accepts a pass URL or reference", () => {
   assert.match(restrictedCheckInError({ code: "P0002" }), /No active attendee/);
 });
 
-test("restricted check-in API exposes attendance only and records the editor", () => {
+test("restricted check-in API exposes attendance and phone only, and records the editor", () => {
   assert.match(checkinMigration, /get_ktaf_attendee_checkin_directory/);
-  assert.match(checkinMigration, /returns table \(\s*id uuid,\s*full_name text,\s*"position" text,\s*checked_in_at timestamptz\s*\)/s);
+  assert.match(checkinMigration, /returns table \(\s*id uuid,\s*full_name text,\s*"position" text,\s*phone_number text,\s*checked_in_at timestamptz\s*\)/s);
   assert.match(checkinMigration, /check_in_ktaf_attendee\(p_registration_code text\)/);
   assert.match(checkinMigration, /set checked_in_at = now\(\),\s*checked_in_by = auth\.uid\(\)/s);
   assert.match(checkinMigration, /registration_status = 'registered'/);
   assert.match(checkinMigration, /not r\.is_test/);
   assert.match(checkinMigration, /grant execute on function public\.check_in_ktaf_attendee\(text\) to authenticated/);
-  assert.doesNotMatch(checkinMigration, /returns table \([^)]*(?:email|phone_number|city|registration_code)/i);
+  assert.doesNotMatch(checkinMigration, /returns table \([^)]*(?:email|city|registration_code)/i);
 });

@@ -1,6 +1,6 @@
 -- Extend the existing attendee-editor role with least-privilege attendance
--- visibility and one-at-a-time QR check-in. Contact details and registration
--- references are never returned to the restricted browser.
+-- visibility, read-only phone numbers, and one-at-a-time QR check-in. Email,
+-- city and registration references are never returned to the restricted browser.
 begin;
 
 create or replace function public.get_ktaf_attendee_checkin_directory()
@@ -8,6 +8,7 @@ returns table (
   id uuid,
   full_name text,
   "position" text,
+  phone_number text,
   checked_in_at timestamptz
 )
 language plpgsql
@@ -21,7 +22,7 @@ begin
   end if;
 
   return query
-  select r.id, r.full_name, r.position, r.checked_in_at
+  select r.id, r.full_name, r.position, r.phone_number, r.checked_in_at
   from public.registrations as r
   where r.registration_status = 'registered'
     and not r.is_test
@@ -37,6 +38,7 @@ returns table (
   id uuid,
   full_name text,
   "position" text,
+  phone_number text,
   checked_in_at timestamptz,
   already_checked_in boolean
 )
@@ -49,6 +51,7 @@ declare
   attendee_id uuid;
   attendee_name text;
   attendee_position text;
+  attendee_phone_number text;
   attendee_checked_in_at timestamptz;
   was_already_checked_in boolean;
 begin
@@ -60,8 +63,8 @@ begin
     raise exception using errcode = '22023', message = 'KTAF_INVALID_REGISTRATION_CODE';
   end if;
 
-  select r.id, r.full_name, r.position, r.checked_in_at
-  into attendee_id, attendee_name, attendee_position, attendee_checked_in_at
+  select r.id, r.full_name, r.position, r.phone_number, r.checked_in_at
+  into attendee_id, attendee_name, attendee_position, attendee_phone_number, attendee_checked_in_at
   from public.registrations as r
   where upper(r.registration_code) = clean_code
     and r.registration_status = 'registered'
@@ -87,6 +90,7 @@ begin
     attendee_id,
     attendee_name,
     attendee_position,
+    attendee_phone_number,
     attendee_checked_in_at,
     was_already_checked_in;
 end;
@@ -96,8 +100,8 @@ revoke all on function public.check_in_ktaf_attendee(text) from public;
 grant execute on function public.check_in_ktaf_attendee(text) to authenticated;
 
 comment on function public.get_ktaf_attendee_checkin_directory() is
-  'Returns only attendee id, name, position and check-in time to approved restricted editors.';
+  'Returns only attendee id, name, position, phone number and check-in time to approved restricted editors.';
 comment on function public.check_in_ktaf_attendee(text) is
-  'Checks in one active attendee by QR reference without exposing the reference or contact fields.';
+  'Checks in one active attendee by QR reference without exposing the reference, email or city.';
 
 commit;
