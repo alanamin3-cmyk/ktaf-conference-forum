@@ -22,7 +22,7 @@ function valueFromForm(formData: FormData, field: string) {
 }
 
 const registrationFullMessage =
-  "Registration is now full. All 225 attendee places have been reserved. For enquiries, please contact registration@ktaf.krd.";
+  "Registration is currently full. For enquiries, please contact registration@ktaf.krd.";
 
 async function registrationIsFull(): Promise<boolean | null> {
   const config = getKtafRuntimeConfig();
@@ -42,6 +42,7 @@ async function registrationIsFull(): Promise<boolean | null> {
     );
     if (!response.ok) return null;
     const capacity = await response.json();
+    if (capacity?.unlimited === true) return false;
     return typeof capacity?.remaining === "number"
       ? capacity.remaining === 0
       : null;
@@ -182,7 +183,7 @@ export default function RegistrationSection() {
             Complete the form to register your interest in attending the
             Kurdistan Thrombosis &amp; Anticoagulation Forum — KTAF.
           </p>
-          <p className="form-assurance">Registration is limited to 225 attendees.</p>
+          <p className="form-assurance">Registration is open. Complete the form to receive your confirmation and QR pass.</p>
 
           <ol className="registration-steps" aria-label="Registration process">
             <li>

@@ -850,7 +850,7 @@ export default function AdminPortal() {
     if (error) {
       setActionError(
         error.message.includes("KTAF_CAPACITY_FULL")
-          ? "All 225 attendee places are reserved. A place must become available before restoring this registration."
+          ? "Registration is currently full. A place must become available before restoring this registration."
           : "The attendance status could not be updated. Please try again.",
       );
       setActionBusy(false);
@@ -1233,7 +1233,7 @@ export default function AdminPortal() {
           <section className="portal-stats" aria-label="Registration summary">
             <article>
               <span>Registered attendees</span>
-              <strong>{summary.registered} / 225</strong>
+              <strong>{summary.registered}</strong>
             </article>
             <article>
               <span>Checked in</span>
@@ -1266,8 +1266,8 @@ export default function AdminPortal() {
           {cityChartOpen ? <CityBreakdown cities={cityBreakdown} onClose={() => setCityChartOpen(false)} /> : null}
 
           <p className="form-assurance">
-            Maximum attendance: 225. Test records are labelled below and excluded
-            from all attendance totals. Cancelled registrations release a place.
+            Registration is open with no attendee limit. Test records are labelled below
+            and excluded from all attendance totals.
           </p>
 
           <section className="attendee-insights" aria-labelledby="career-stage-title">

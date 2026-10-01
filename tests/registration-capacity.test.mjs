@@ -49,20 +49,21 @@ test("test records default off and capacity changes cannot be made by visitors",
 
 test("shows a full-registration message and checks availability after a rejected submission", () => {
   assert.match(form, /get_registration_capacity/);
-  assert.match(form, /All 225 attendee places have been reserved/);
+  assert.match(form, /Registration is currently full/);
+  assert.match(form, /capacity\?\.unlimited === true\) return false/);
   assert.match(form, /disabled=\{status.state === "submitting" \|\| isFull\}/);
   assert.match(form, /if \(await registrationIsFull\(\)\)/);
 });
 
 test("admin totals exclude tests and exported rows identify them", () => {
   assert.match(portal, /!registration.is_test && registration.registration_status === "registered"/);
-  assert.match(portal, /summary.registered\} \/ 225/);
+  assert.match(portal, /<strong>\{summary.registered\}<\/strong>/);
   assert.match(portal, /Test — excluded from capacity/);
   assert.match(portal, /"Record type"/);
 });
 
-test("published page states the 225-attendee limit", async () => {
+test("published page offers open registration without an outdated numeric cap", async () => {
   const html = await readFile(new URL("../dist/client/index.html", import.meta.url), "utf8");
-  assert.match(html, /Registration is limited to 225 attendees/);
-  assert.doesNotMatch(html, /Registration is limited to (100|200|220) attendees/);
+  assert.match(html, /Registration is open/);
+  assert.doesNotMatch(html, /Registration is limited to \d+ attendees/);
 });
