@@ -7,11 +7,18 @@ function setup(options={}) {
   let current=options.missing?null:{...row,...options.row};
   const writes=[],sends=[];
   const client={auth:{getUser:async token=>({data:{user:token==='valid'?{id:'admin'}:null}})},from(table){
-    let patch,filters=[];
-    const query={select(){return query;},eq(key,value){filters.push([key,value]);return query;},is(key,value){filters.push([key,value]);return query;},update(value){patch=value;return query;},
+    let patch,insert,filters=[];
+    const query={select(){return query;},eq(key,value){filters.push([key,value]);return query;},is(key,value){filters.push([key,value]);return query;},update(value){patch=value;return query;},insert(value){insert=value;return query;},single(){return query.maybeSingle();},
       async maybeSingle(){
-        if(table==='admin_users')return {data:options.unapproved?null:{user_id:'admin'}};
-        if(!patch)return {data:current?{...current}:null};
+        if(table==='admin_users')return {data:options.unapproved||options.editor?null:{user_id:'admin'}};
+        if(table==='attendee_editor_users')return {data:options.editor?{user_id:'admin'}:null};
+        if(insert){
+          if(options.capacityFull)return {error:{code:'P0001',message:'KTAF_CAPACITY_FULL'}};
+          if(options.insertConflict)return {error:{code:'23505'}};
+          current={...row,...insert,registration_status:'registered',email_status:'pending',is_test:false};
+          writes.push(insert);return {data:{id}};
+        }
+        if(!patch)return {data:current&&!filters.some(([key,value])=>current[key]!==value)?{...current}:null};
         if(options.claimConflict && patch.email_resend_requested_at)return {data:null};
         if(options.saveFailure && patch.email_status)return {data:null,error:{message:'database failure'}};
         if(!current||filters.some(([key,value])=>current[key]!==value))return {data:null};
@@ -68,4 +75,40 @@ test('allows a deliberate later resend after the two-minute pause',async()=>{
 test('readiness check verifies admin access without sending or changing registrations',async()=>{
  const s=setup();const r=await s.call({action:'check'});assert.equal(r.status,200);assert.equal(r.body.ready,true);assert.equal(s.sends.length,0);assert.equal(s.writes.length,0);
  assert.equal((await setup({unapproved:true}).call({action:'check'})).status,403);
+});
+
+const newAttendee={fullName:'New Attendee',position:'Doctor',city:'Erbil',phoneNumber:'+9647501234567',email:'new@example.com',acceptedPrivacy:true,formStartedAt:Date.parse('2026-09-21T11:59:50Z')};
+test('restricted editor sends to stored recipient without receiving email, city, phone, or QR reference',async()=>{
+  const s=setup({editor:true});const r=await s.call({registrationId:id,email:'wrong@example.com'});
+  assert.equal(r.status,200);assert.equal(r.body.emailSent,true);assert.equal(s.sends[0][0].email,row.email);
+  for(const field of ['email','city','phone_number','registrationCode'])assert.equal(r.body[field],undefined);
+});
+test('restricted editor cannot send for a test or cancelled attendee',async()=>{
+  for(const change of [{is_test:true},{registration_status:'cancelled'}]){
+    const s=setup({editor:true,row:change});assert.notEqual((await s.call()).status,200);assert.equal(s.sends.length,0);
+  }
+});
+test('manual registration validates staff membership and consent before creating or sending',async()=>{
+  const denied=setup({unapproved:true});assert.equal((await denied.call({action:'register',attendee:newAttendee})).status,403);assert.equal(denied.writes.length,0);
+  const s=setup({editor:true});assert.equal((await s.call({action:'register',attendee:{...newAttendee,acceptedPrivacy:false}})).status,400);assert.equal(s.writes.length,0);assert.equal(s.sends.length,0);
+});
+test('manual registration creates one attendee, records staff member and sends confirmation',async()=>{
+  const s=setup({editor:true});const r=await s.call({action:'register',attendee:{...newAttendee,is_test:true,registration_status:'cancelled',created_by:'someone-else'}});
+  assert.equal(r.status,200);assert.equal(r.body.registrationSaved,true);assert.equal(r.body.registrationId,id);assert.equal(r.body.email,undefined);
+  assert.equal(s.getRow().created_by,'admin');assert.equal(s.getRow().is_test,false);assert.equal(s.getRow().registration_status,'registered');
+  assert.equal(s.sends.length,1);assert.equal(s.sends[0][0].email,newAttendee.email);assert.match(s.getRow().registration_code,/^KTAF-2026-\d{6}$/);
+  const second=await s.call({action:'register',attendee:newAttendee});assert.equal(second.status,409);assert.equal(s.sends.length,1);
+});
+test('duplicate email never changes the existing attendee or sends automatically',async()=>{
+  const s=setup({editor:true});const r=await s.call({action:'register',attendee:{...newAttendee,email:row.email}});
+  assert.equal(r.status,409);assert.equal(s.writes.length,0);assert.equal(s.sends.length,0);assert.equal(s.getRow().full_name,row.full_name);
+});
+test('capacity and concurrent insert conflicts never create or send',async()=>{
+  for(const option of [{capacityFull:true},{insertConflict:true}]){
+    const s=setup({editor:true,...option});const r=await s.call({action:'register',attendee:newAttendee});assert.equal(r.status,409);assert.equal(s.writes.length,0);assert.equal(s.sends.length,0);
+  }
+});
+test('email failure after registration reports saved attendee so staff do not register twice',async()=>{
+  const s=setup({editor:true,sendFailure:true});const r=await s.call({action:'register',attendee:newAttendee});
+  assert.equal(r.status,502);assert.equal(r.body.registrationSaved,true);assert.equal(r.body.registrationId,id);assert.equal(s.getRow().email,newAttendee.email);assert.equal(r.body.email,undefined);
 });

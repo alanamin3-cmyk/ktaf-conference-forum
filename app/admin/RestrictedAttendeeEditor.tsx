@@ -6,6 +6,7 @@ import { formatAttendeeName } from "../../lib/attendee-presentation";
 import { withPortalTimeout } from "../../lib/portal-request";
 import { registrationCodeFromRestrictedScan, restrictedCheckInError } from "../../lib/restricted-checkin";
 import { getSupabaseBrowserClient } from "../../lib/supabase-browser";
+import RestrictedRegistrationForm from "./RestrictedRegistrationForm";
 
 type DirectoryAttendee = {
   id: string;
@@ -52,6 +53,11 @@ export default function RestrictedAttendeeEditor({
   const [scanBusy, setScanBusy] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [registering, setRegistering] = useState(false);
+  const [sendingEmailId, setSendingEmailId] = useState<string | null>(null);
+  const [emailFeedback, setEmailFeedback] = useState<Record<string, string>>({});
+  const emailSendingRef = useRef(false);
+  const emailCooldownRef = useRef<Record<string, number>>({});
   const scannerInputRef = useRef<HTMLInputElement>(null);
   const handledUrlCodeRef = useRef("");
 
@@ -221,6 +227,34 @@ export default function RestrictedAttendeeEditor({
     }
   }
 
+  const sendRegistrationEmail = useCallback(async (attendee: DirectoryAttendee) => {
+    const client = getSupabaseBrowserClient();
+    if (!client || emailSendingRef.current) return;
+    const feedback = (text: string) => setEmailFeedback(current => ({ ...current, [attendee.id]: text }));
+    if ((emailCooldownRef.current[attendee.id] || 0) > Date.now()) {
+      feedback("Please wait two minutes between email requests.");
+      return;
+    }
+    emailSendingRef.current = true;
+    setSendingEmailId(attendee.id);
+    emailCooldownRef.current[attendee.id] = Date.now() + 120_000;
+    feedback("Sending registration email…");
+    try {
+      const { data, error: requestError } = await withPortalTimeout(client.functions.invoke("resend-registration", {
+        body: { registrationId: attendee.id },
+      }), 35_000);
+      const result = requestError?.context instanceof Response
+        ? await requestError.context.json().catch(() => null) : data;
+      if (typeof result?.retryAfter === "number") emailCooldownRef.current[attendee.id] = Date.now() + result.retryAfter * 1000;
+      feedback(result?.message || "Email sending could not be confirmed. Wait two minutes before retrying.");
+    } catch {
+      feedback("Email sending could not be confirmed. Wait two minutes before retrying.");
+    } finally {
+      emailSendingRef.current = false;
+      setSendingEmailId(null);
+    }
+  }, []);
+
   return (
     <main
       className="portal-dashboard restricted-directory"
@@ -242,6 +276,7 @@ export default function RestrictedAttendeeEditor({
           <p>Signed in as {username}</p>
         </div>
         <div className="portal-title-actions">
+          <button type="button" onClick={() => setRegistering(true)}>Register attendee</button>
           <button type="button" onClick={refresh} disabled={busy || saving}>
             {busy ? "Refreshing…" : "Refresh"}
           </button>
@@ -254,7 +289,8 @@ export default function RestrictedAttendeeEditor({
         <p>
           This account receives only attendee names, positions, phone numbers and check-in times.
           QR references are processed one at a time and are not included in the attendee list.
-          Email addresses, city, backups and Excel export remain unavailable.
+          Existing email addresses and cities stay hidden. You can register new attendees
+          and send confirmation emails. Backups and Excel export remain unavailable.
         </p>
       </section>
 
@@ -377,6 +413,12 @@ export default function RestrictedAttendeeEditor({
                     >
                       Edit name and position
                     </button>
+                    <button className="restricted-directory-edit" type="button"
+                      disabled={sendingEmailId !== null}
+                      onClick={() => void sendRegistrationEmail(attendee)}>
+                      {sendingEmailId === attendee.id ? "Sending…" : "Send registration email"}
+                    </button>
+                    {emailFeedback[attendee.id] ? <small role="status">{emailFeedback[attendee.id]}</small> : null}
                   </td>
                 </tr>
               ))}
@@ -387,6 +429,15 @@ export default function RestrictedAttendeeEditor({
           </table>
         </div>
       </section>
+
+      {registering ? <RestrictedRegistrationForm
+        onClose={() => setRegistering(false)}
+        onRegistered={(result) => {
+          setRegistering(false);
+          setMessage(result);
+          void refresh();
+        }}
+      /> : null}
 
       {editing ? (
         <div className="portal-dialog-backdrop" role="presentation">

@@ -3653,6 +3653,10 @@ p {
   table-layout: fixed;
 }
 
+.restricted-directory-table td:last-child button + button { margin-top: 8px; }
+.team-registration-consent { display: flex !important; align-items: flex-start; gap: 10px; }
+.team-registration-consent input { width: 18px !important; min-height: 18px; margin-top: 3px; flex: 0 0 auto; }
+
 .restricted-directory-table th:nth-child(1) { width: 23%; }
 .restricted-directory-table th:nth-child(2) { width: 27%; }
 .restricted-directory-table th:nth-child(3) { width: 18%; }

@@ -4,6 +4,7 @@ import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {dirname,resolve} from 'node:path';
 import ts from 'typescript';
 const sources = [
+  'supabase/functions/_shared/registration-validation.mjs',
   'supabase/functions/_shared/ktaf-registration-email.ts',
   'supabase/functions/_shared/send-registration-confirmation.ts',
   'supabase/functions/resend-registration/handler.mjs',
