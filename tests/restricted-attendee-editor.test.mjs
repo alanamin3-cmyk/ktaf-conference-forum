@@ -20,8 +20,28 @@ const checkinMigration = await readFile(
 
 test("username login accepts KTAF Team without exposing an email field", () => {
   assert.equal(resolvePortalLogin(" KTAF   Team "), "ktaf-team@accounts.ktaf.krd");
+  for (const username of ["KTF Team", "KTAFTeam", "ktaf-team", "ktf_team"]) {
+    assert.equal(resolvePortalLogin(username), "ktaf-team@accounts.ktaf.krd");
+  }
   assert.equal(resolvePortalLogin("ADMIN@EXAMPLE.COM"), "admin@example.com");
   assert.match(resolvePortalLogin("unknown"), /unknown-portal-user/);
+});
+
+test("team code visibility is read-only and remains membership-protected", async () => {
+  const codesMigration = await readFile(new URL("../supabase/migrations/20261002223000_add_team_registration_codes.sql", import.meta.url), "utf8");
+  assert.match(codesMigration, /if not public\.is_ktaf_attendee_editor\(\)/);
+  assert.match(codesMigration, /registration_code text/);
+  assert.match(codesMigration, /r\.registration_status = 'registered' and not r\.is_test/);
+  assert.match(codesMigration, /revoke all .* from public, anon/);
+  assert.doesNotMatch(codesMigration, /returns table \([^)]*(?:email|city)/s);
+  assert.doesNotMatch(codesMigration, /grant select on .*registrations/i);
+  assert.match(component, /get_ktaf_attendee_checkin_directory_v2/);
+  assert.match(component, /<th>Registration code<\/th>/);
+  assert.match(component, /registration_code: code/);
+  assert.match(component, /setScanValue\(attendee.registration_code\)/);
+  assert.match(component, /Use for check-in/);
+  assert.match(component, /colSpan=\{6\}/);
+  assert.doesNotMatch(component, /name="registration_code"/);
 });
 
 test("restricted edit accepts only a normalized name and position", () => {

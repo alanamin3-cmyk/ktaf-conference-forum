@@ -7,7 +7,7 @@ export function resolvePortalLogin(value: string) {
   const normalized = normalizeUsername(value);
 
   if (normalized.includes("@")) return normalized;
-  if (normalized === "ktaf team") return RESTRICTED_USERNAME_LOGIN;
+  if (/^kta?f[\s_-]*team$/.test(normalized)) return RESTRICTED_USERNAME_LOGIN;
 
   // Use a non-existent address so unknown usernames receive the same generic
   // sign-in error without revealing which portal usernames are valid.

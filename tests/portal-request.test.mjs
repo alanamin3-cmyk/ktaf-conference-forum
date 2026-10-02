@@ -37,3 +37,11 @@ test("portal provides retry without weakening membership checks or clearing cred
   assert.match(source, /window\.location\.reload\(\)/);
   assert.doesNotMatch(source, /localStorage\.clear\(/);
 });
+
+test("sign-in allows slower connections and explicitly loads access after authentication", async () => {
+  const source = await readFile(new URL("../app/admin/AdminPortal.tsx", import.meta.url), "utf8");
+  assert.match(source, /signInWithPassword\([\s\S]*?30_000/);
+  assert.match(source, /await loadPortal\(data.session\)/);
+  assert.match(source, /error\?\.status === 429/);
+  assert.match(source, /mobile hotspot/);
+});

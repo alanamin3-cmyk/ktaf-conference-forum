@@ -18,9 +18,16 @@ async function request(path, body) {
   const r = await fetch(`${base}${path}`, { headers, ...(body === undefined ? {} : { method: 'POST', body: JSON.stringify(body) }) });
   return { status: r.status, data: await r.json() };
 }
-const directory = await request('/rest/v1/rpc/get_ktaf_attendee_checkin_directory', {});
+const directory = await request('/rest/v1/rpc/get_ktaf_attendee_checkin_directory_v2', {});
 assert.equal(directory.status, 200);
-for (const row of directory.data) assert.deepEqual(Object.keys(row).sort(), ['checked_in_at', 'full_name', 'id', 'phone_number', 'position']);
+for (const row of directory.data) {
+  assert.deepEqual(Object.keys(row).sort(), ['checked_in_at', 'full_name', 'id', 'phone_number', 'position', 'registration_code']);
+  assert.match(row.registration_code, /^KTAF-\d{4}-\d{6}$/);
+}
+const anonymousDirectory = await fetch(`${base}/rest/v1/rpc/get_ktaf_attendee_checkin_directory_v2`, {
+  method: 'POST', headers: { apikey: key, 'Content-Type': 'application/json' }, body: '{}',
+});
+assert.ok([401, 403].includes(anonymousDirectory.status));
 const direct = await request('/rest/v1/registrations?select=id,email&limit=1');
 assert.ok(direct.status === 403 || (direct.status === 200 && direct.data.length === 0));
 const ready = await request('/functions/v1/resend-registration', { action: 'check' });

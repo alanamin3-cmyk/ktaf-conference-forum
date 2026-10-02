@@ -549,6 +549,7 @@ export default function AdminPortal() {
 
   async function signIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (loginBusy) return;
     const client = getSupabaseBrowserClient();
     if (!client) return;
 
@@ -558,17 +559,21 @@ export default function AdminPortal() {
     setLoginMessage("");
 
     try {
-      const { error } = await withPortalTimeout(client.auth.signInWithPassword({
+      const { data, error } = await withPortalTimeout(client.auth.signInWithPassword({
         email: resolvePortalLogin(String(formData.get("login") ?? "")),
         password: String(formData.get("password") ?? ""),
-      }));
+      }), 30_000);
       if (error?.code === "invalid_credentials") {
         setLoginError("The username/email or password is incorrect.");
+      } else if (error?.status === 429) {
+        setLoginError("Too many sign-in attempts. Please wait a few minutes, then try once more.");
       } else if (error) {
         throw error;
+      } else if (data.session) {
+        await loadPortal(data.session);
       }
     } catch {
-      setLoginError("The sign-in service is not responding. Please try again shortly; you do not need to reset your password.");
+      setLoginError("This browser could not complete sign-in. Refresh the page and try again. If it continues, try a private browser window or a mobile hotspot to check whether the browser or network is blocking the connection. You do not need to reset your password.");
     } finally {
       setLoginBusy(false);
     }

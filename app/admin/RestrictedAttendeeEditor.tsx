@@ -14,9 +14,10 @@ type DirectoryAttendee = {
   position: string;
   phone_number: string | null;
   checked_in_at: string | null;
+  registration_code: string;
 };
 
-type CheckInResult = DirectoryAttendee & {
+type CheckInResult = Omit<DirectoryAttendee, "registration_code"> & {
   already_checked_in: boolean;
 };
 
@@ -69,7 +70,7 @@ export default function RestrictedAttendeeEditor({
     setError("");
     try {
       const { data, error: requestError } = await withPortalTimeout(
-        client.rpc("get_ktaf_attendee_checkin_directory"),
+        client.rpc("get_ktaf_attendee_checkin_directory_v2"),
       );
       if (requestError) throw requestError;
       setAttendees((data as DirectoryAttendee[] | null) || []);
@@ -104,7 +105,7 @@ export default function RestrictedAttendeeEditor({
       if (attendanceFilter === "checked-in" && !attendee.checked_in_at) return false;
       if (attendanceFilter === "waiting" && attendee.checked_in_at) return false;
       if (!normalized) return true;
-      return [attendee.full_name, formatAttendeeName(attendee.full_name), attendee.position, attendee.phone_number || ""]
+      return [attendee.full_name, formatAttendeeName(attendee.full_name), attendee.position, attendee.phone_number || "", attendee.registration_code]
         .some((value) => value.toLowerCase().includes(normalized));
     });
   }, [attendanceFilter, attendees, query]);
@@ -141,6 +142,7 @@ export default function RestrictedAttendeeEditor({
         position: result.position,
         phone_number: result.phone_number,
         checked_in_at: result.checked_in_at,
+        registration_code: code,
       };
       setAttendees((current) => {
         const present = current.some((attendee) => attendee.id === updated.id);
@@ -287,8 +289,8 @@ export default function RestrictedAttendeeEditor({
       <section className="restricted-directory-notice" aria-label="Account restrictions">
         <strong>Restricted account</strong>
         <p>
-          This account receives only attendee names, positions, phone numbers and check-in times.
-          QR references are processed one at a time and are not included in the attendee list.
+          This account receives attendee names, positions, phone numbers, registration codes and check-in times.
+          Registration codes are read-only and can be used for manual check-in.
           Existing email addresses and cities stay hidden. You can register new attendees
           and send confirmation emails. Backups and Excel export remain unavailable.
         </p>
@@ -346,6 +348,8 @@ export default function RestrictedAttendeeEditor({
         </form>
         <p className="checkin-kiosk-note">
           Totals and attendee status refresh every 20 seconds across team devices.
+          For attendance recorded on paper, find the person below, choose Use for check-in,
+          then press Check in. The saved time will be the time you complete this action.
         </p>
       </section>
 
@@ -363,12 +367,12 @@ export default function RestrictedAttendeeEditor({
               <button type="button" aria-pressed={attendanceFilter === "waiting"} onClick={() => setAttendanceFilter("waiting")}>Waiting</button>
             </div>
             <label className="attendee-search">
-              <span className="sr-only">Search by name, position or phone number</span>
+              <span className="sr-only">Search by name, position, phone number or registration code</span>
               <input
                 type="search"
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search name, position or phone…"
+                placeholder="Search name, position, phone or code…"
                 autoComplete="off"
               />
             </label>
@@ -385,6 +389,7 @@ export default function RestrictedAttendeeEditor({
                 <th>Name</th>
                 <th>Position</th>
                 <th>Phone number</th>
+                <th>Registration code</th>
                 <th>Check-in</th>
                 <th>Action</th>
               </tr>
@@ -395,6 +400,21 @@ export default function RestrictedAttendeeEditor({
                   <td><strong>{formatAttendeeName(attendee.full_name)}</strong></td>
                   <td>{attendee.position}</td>
                   <td>{attendee.phone_number || "Not provided"}</td>
+                  <td>
+                    <code className="restricted-registration-code">{attendee.registration_code}</code>
+                    {!attendee.checked_in_at ? (
+                      <button className="restricted-directory-edit" type="button" disabled={scanBusy}
+                        onClick={() => {
+                          setScanValue(attendee.registration_code);
+                          setError("");
+                          setMessage(`Ready to check in ${formatAttendeeName(attendee.full_name)}. Confirm using the Check in button.`);
+                          scannerInputRef.current?.focus();
+                          scannerInputRef.current?.scrollIntoView({ block: "center", behavior: "smooth" });
+                        }}>
+                        Use for check-in
+                      </button>
+                    ) : null}
+                  </td>
                   <td>
                     <span className={`restricted-checkin-state ${attendee.checked_in_at ? "restricted-checkin-complete" : "restricted-checkin-waiting"}`}>
                       {attendee.checked_in_at ? "Checked in" : "Waiting"}
@@ -423,7 +443,7 @@ export default function RestrictedAttendeeEditor({
                 </tr>
               ))}
               {!busy && !filtered.length ? (
-                <tr><td className="attendee-empty" colSpan={5}>No attendees match your search or attendance filter.</td></tr>
+                <tr><td className="attendee-empty" colSpan={6}>No attendees match your search or attendance filter.</td></tr>
               ) : null}
             </tbody>
           </table>
